@@ -1,14 +1,12 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Plus_Jakarta_Sans, Geist } from "next/font/google";
 import "./globals.css";
+import { cn } from "@/lib/utils";
+import Navbar from "@/Components/Shared/Navbar";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
+const geist = Geist({ subsets: ['latin'], variable: '--font-sans' });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const plusSans = Plus_Jakarta_Sans({
   subsets: ["latin"],
 });
 
@@ -23,11 +21,18 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
+    
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={cn("h-full", "antialiased", "dark", plusSans.className, "font-sans", geist.variable)}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+     
+      <body className="min-h-full flex flex-col bg-zinc-950 text-zinc-50 select-none">
+        <Navbar />
+        <main className="grow">
+          {children}
+        </main>
+      </body>
     </html>
   );
 }
