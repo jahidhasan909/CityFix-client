@@ -17,3 +17,15 @@ export interface Upazila {
   bn_name: string;
   url: string;
 }
+
+export interface UserData {
+  _id: string;       
+  userId: string;    
+  name: string;
+  email: string;
+  image: string;
+  district: string;
+  upazila: string;
+  role: 'citizen' | 'officer' | 'admin'; 
+  status: 'active'| 'blocked'; 
+}

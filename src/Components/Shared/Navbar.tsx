@@ -1,13 +1,13 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
-import {ArrowRight, Menu, X } from 'lucide-react';
+import { ArrowRight, Menu, X } from 'lucide-react';
 
-// import { authClient } from '@/lib/auth-client';
+import { authClient } from '@/lib/auth-client';
 
 
 import { Button } from "@/Components/ui/button";
@@ -19,7 +19,9 @@ import {
     DropdownMenuLabel,
     DropdownMenuSeparator,
     DropdownMenuTrigger,
+    DropdownMenuGroup,
 } from "@/Components/ui/dropdown-menu";
+import { UserData } from '@/types/geo';
 
 interface User {
     id: string;
@@ -30,27 +32,27 @@ interface User {
 }
 
 const Navbar: React.FC = () => {
-    // const { data, isPending } = authClient.useSession();
+    const baseurl = process.env.NEXT_PUBLIC_BASE_URL
+    const { data, isPending } = authClient.useSession();
     const pathname = usePathname();
     const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
+    const [userData, setUserData] = useState<UserData | null>(null);
 
-    // if (isPending) {
-    //     return (
-    //         <div className="flex h-16 items-center justify-center">
-    //             <Loader />
-    //         </div>
-    //     );
-    // }
+    const user = data?.user as User | undefined;
+    useEffect(() => {
+        fetch(`${baseurl}/api/own/usercollaction?email=${user?.email}`).then(res => res.json()).then(userEmail => setUserData(userEmail))
+    })
+    if (isPending) {
+        return (
+            <div className="flex h-16 items-center justify-center">
+                loadin...
+            </div>
+        );
+    }
 
-    const mockUser = {
-    id: "user_123",
-    name: "Jahid Hasan",
-    email: "jahid@example.com",
-    image: "https://github.com/shadcn.png", 
-    role: "citizen" 
-};
 
-    const user = mockUser as User | undefined;
+
+
 
     if (pathname.includes('dashboard') || pathname.includes('login') || pathname.includes('registration')) {
         return null;
@@ -68,11 +70,11 @@ const Navbar: React.FC = () => {
 
                     {/* Logo */}
                     <Link href="/" className="flex items-center flex-shrink-0 gap-1">
-                        <Image 
-                            width={34} 
-                            height={33} 
-                            alt='logo' 
-                            className='object-cover h-[35px] md:h-[45px] w-auto' 
+                        <Image
+                            width={34}
+                            height={33}
+                            alt='logo'
+                            className='object-cover h-[35px] md:h-[45px] w-auto'
                             src='https://i.ibb.co.com/nN9v8hMX/Chat-GPT-Image-Jul-11-2026-at-04-15-12-AM-removebg-preview.png'
                         />
                         <span className="text-sm mt-1 lg:text-xl font-bold text-slate-900 dark:text-white tracking-tight">
@@ -90,7 +92,7 @@ const Navbar: React.FC = () => {
 
                     {/* Desktop Actions */}
                     <div className="hidden lg:flex items-center gap-4">
-                        
+
 
                         {!user ? (
                             <Link href='/login' className="group relative inline-flex overflow-hidden rounded-md p-[2px]">
@@ -104,36 +106,54 @@ const Navbar: React.FC = () => {
                                 </Button>
                             </Link>
                         ) : (
-                            <DropdownMenu>
-                                <DropdownMenuTrigger className="focus:outline-none cursor-pointer">
-                                    <Avatar className="h-9 w-9 border border-gray-200 dark:border-zinc-700">
-                                        <AvatarImage alt={user.name} src={user.image} />
-                                        <AvatarFallback className="bg-rose-100 text-[#31b66f] dark:bg-zinc-800 dark:text-green-400 font-semibold">
-                                            {user.name?.slice(0, 2).toUpperCase()}
-                                        </AvatarFallback>
-                                    </Avatar>
+                            <DropdownMenu modal={false}>
+
+                                <DropdownMenuTrigger >
+                                    <button className="focus:outline-none cursor-pointer rounded-full transition-transform active:scale-95">
+                                        <Avatar className="h-9 w-9 border border-gray-200 dark:border-zinc-700">
+                                            <AvatarImage alt={user?.name} src={user?.image} />
+                                            <AvatarFallback className="bg-rose-100 text-[#31b66f] dark:bg-zinc-800 dark:text-green-400 font-semibold">
+                                                {user?.name?.slice(0, 2).toUpperCase() || "CF"}
+                                            </AvatarFallback>
+                                        </Avatar>
+                                    </button>
                                 </DropdownMenuTrigger>
-                                <DropdownMenuContent align="end" className="w-56 mt-2 dark:bg-zinc-950 dark:border-zinc-800">
-                                    <DropdownMenuLabel className="font-normal">
-                                        <div className="flex flex-col space-y-1">
-                                            <p className="text-sm font-medium text-slate-900 dark:text-white">{user.name}</p>
-                                            <p className="text-xs text-slate-500 dark:text-zinc-400">{user.email}</p>
-                                        </div>
-                                    </DropdownMenuLabel>
+
+                                <DropdownMenuContent align="end" className="w-56 mt-2 bg-white dark:bg-zinc-950 dark:border-zinc-800 z-[100]">
+                                    <DropdownMenuGroup>
+                                        <DropdownMenuLabel className="font-normal">
+                                            <div className="flex flex-col space-y-1">
+                                                <p className="text-sm font-medium text-slate-900 dark:text-white truncate">{userData?.name || user?.name}</p>
+                                                <p className="text-xs text-slate-500 dark:text-zinc-400 truncate">{userData?.email || user?.email}</p>
+                                            </div>
+                                        </DropdownMenuLabel>
+                                    </DropdownMenuGroup>
+
                                     <DropdownMenuSeparator />
-                                    <DropdownMenuItem  className="cursor-pointer">
-                                        <Link href={`/dashboard/${user.role}`} className="w-full">
-                                            Dashboard
-                                        </Link>
-                                    </DropdownMenuItem>
+
+                                    <DropdownMenuGroup>
+                                        <DropdownMenuItem className="cursor-pointer">
+                                            <Link href={`/dashboard/${userData?.role || user?.role || 'citizen'}`} className="w-full block">
+                                                Dashboard
+                                            </Link>
+                                        </DropdownMenuItem>
+                                    </DropdownMenuGroup>
+
                                     <DropdownMenuSeparator />
-                                    <DropdownMenuItem 
-                                        // onClick={() => authClient.signOut()} 
-                                        className="text-green-600 dark:text-green-400 cursor-pointer flex justify-between items-center"
-                                    >
-                                        <span>Log Out</span>
-                                        <ArrowRight className="size-4" />
-                                    </DropdownMenuItem>
+
+                                    <DropdownMenuGroup>
+                                        <DropdownMenuItem
+                                            onClick={async () => {
+                                                await authClient.signOut();
+                                                window.location.href = '/';
+                                            }}
+                                            className="text-red-600 dark:text-red-400 cursor-pointer flex justify-between items-center focus:bg-red-50 dark:focus:bg-red-950/20"
+                                        >
+                                            <span>Log Out</span>
+                                            <ArrowRight className="size-4" />
+                                        </DropdownMenuItem>
+                                    </DropdownMenuGroup>
+
                                 </DropdownMenuContent>
                             </DropdownMenu>
                         )}
@@ -141,37 +161,57 @@ const Navbar: React.FC = () => {
 
                     {/* Mobile Navigation */}
                     <div className="lg:hidden flex items-center gap-2">
-                      
+
 
                         {user && (
-                            <DropdownMenu>
-                                <DropdownMenuTrigger className="focus:outline-none cursor-pointer">
-                                    <Avatar className="h-8 w-8">
-                                        <AvatarImage alt={user.name} src={user.image} />
-                                        <AvatarFallback className="bg-green-100 text-[#31b66f] font-semibold">
-                                            {user.name?.slice(0, 2).toUpperCase()}
-                                        </AvatarFallback>
-                                    </Avatar>
+                              <DropdownMenu modal={false}>
+
+                                <DropdownMenuTrigger >
+                                    <button className="focus:outline-none cursor-pointer rounded-full transition-transform active:scale-95">
+                                        <Avatar className="h-9 w-9 border border-gray-200 dark:border-zinc-700">
+                                            <AvatarImage alt={user?.name} src={user?.image} />
+                                            <AvatarFallback className="bg-rose-100 text-[#31b66f] dark:bg-zinc-800 dark:text-green-400 font-semibold">
+                                                {user?.name?.slice(0, 2).toUpperCase() || "CF"}
+                                            </AvatarFallback>
+                                        </Avatar>
+                                    </button>
                                 </DropdownMenuTrigger>
-                                <DropdownMenuContent align="end" className="w-52 mt-2 dark:bg-zinc-950 dark:border-zinc-800">
-                                    <DropdownMenuLabel>
-                                        <div className="flex flex-col space-y-0.5">
-                                            <p className="text-xs font-medium text-slate-900 dark:text-white truncate">{user.name}</p>
-                                            <p className="text-[10px] text-slate-500 dark:text-zinc-400 truncate">{user.email}</p>
-                                        </div>
-                                    </DropdownMenuLabel>
+
+                                <DropdownMenuContent align="end" className="w-56 mt-2 bg-white dark:bg-zinc-950 dark:border-zinc-800 z-[100]">
+                                    <DropdownMenuGroup>
+                                        <DropdownMenuLabel className="font-normal">
+                                            <div className="flex flex-col space-y-1">
+                                                <p className="text-sm font-medium text-slate-900 dark:text-white truncate">{userData?.name || user?.name}</p>
+                                                <p className="text-xs text-slate-500 dark:text-zinc-400 truncate">{userData?.email || user?.email}</p>
+                                            </div>
+                                        </DropdownMenuLabel>
+                                    </DropdownMenuGroup>
+
                                     <DropdownMenuSeparator />
-                                    <DropdownMenuItem >
-                                        <Link href={`/dashboard/${user.role}`}>Dashboard</Link>
-                                    </DropdownMenuItem>
+
+                                    <DropdownMenuGroup>
+                                        <DropdownMenuItem className="cursor-pointer">
+                                            <Link href={`/dashboard/${userData?.role || user?.role || 'citizen'}`} className="w-full block">
+                                                Dashboard
+                                            </Link>
+                                        </DropdownMenuItem>
+                                    </DropdownMenuGroup>
+
                                     <DropdownMenuSeparator />
-                                    <DropdownMenuItem 
-                                        // onClick={() => authClient.signOut()} 
-                                        className="text-green-600 dark:text-green-400 flex justify-between items-center"
-                                    >
-                                        <span>Log Out</span>
-                                        <ArrowRight className="size-3.5" />
-                                    </DropdownMenuItem>
+
+                                    <DropdownMenuGroup>
+                                        <DropdownMenuItem
+                                            onClick={async () => {
+                                                await authClient.signOut();
+                                                window.location.href = '/';
+                                            }}
+                                            className="text-red-600 dark:text-red-400 cursor-pointer flex justify-between items-center focus:bg-red-50 dark:focus:bg-red-950/20"
+                                        >
+                                            <span>Log Out</span>
+                                            <ArrowRight className="size-4" />
+                                        </DropdownMenuItem>
+                                    </DropdownMenuGroup>
+
                                 </DropdownMenuContent>
                             </DropdownMenu>
                         )}
