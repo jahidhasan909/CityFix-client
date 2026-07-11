@@ -99,7 +99,7 @@ const Navbar: React.FC = () => {
                                     transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
                                     className="absolute inset-[-1000%] bg-[conic-gradient(from_90deg_at_50%_50%,#E2E8F0_0%,#E11D48_50%,#E2E8F0_100%)]"
                                 />
-                                <Button className="relative z-10 rounded-md bg-[#db0000] px-6 font-bold text-white shadow-sm transition-all hover:bg-[#b00000]">
+                                <Button className="relative z-10 rounded-md bg-[#31b66f] px-6 font-bold text-white shadow-sm transition-all hover:bg-[#31b66f]">
                                     Login
                                 </Button>
                             </Link>
@@ -108,7 +108,7 @@ const Navbar: React.FC = () => {
                                 <DropdownMenuTrigger className="focus:outline-none cursor-pointer">
                                     <Avatar className="h-9 w-9 border border-gray-200 dark:border-zinc-700">
                                         <AvatarImage alt={user.name} src={user.image} />
-                                        <AvatarFallback className="bg-rose-100 text-[#db0000] dark:bg-zinc-800 dark:text-rose-400 font-semibold">
+                                        <AvatarFallback className="bg-rose-100 text-[#31b66f] dark:bg-zinc-800 dark:text-green-400 font-semibold">
                                             {user.name?.slice(0, 2).toUpperCase()}
                                         </AvatarFallback>
                                     </Avatar>
@@ -129,7 +129,7 @@ const Navbar: React.FC = () => {
                                     <DropdownMenuSeparator />
                                     <DropdownMenuItem 
                                         // onClick={() => authClient.signOut()} 
-                                        className="text-red-600 dark:text-red-400 cursor-pointer flex justify-between items-center"
+                                        className="text-green-600 dark:text-green-400 cursor-pointer flex justify-between items-center"
                                     >
                                         <span>Log Out</span>
                                         <ArrowRight className="size-4" />
@@ -148,7 +148,7 @@ const Navbar: React.FC = () => {
                                 <DropdownMenuTrigger className="focus:outline-none cursor-pointer">
                                     <Avatar className="h-8 w-8">
                                         <AvatarImage alt={user.name} src={user.image} />
-                                        <AvatarFallback className="bg-rose-100 text-[#db0000] font-semibold">
+                                        <AvatarFallback className="bg-green-100 text-[#31b66f] font-semibold">
                                             {user.name?.slice(0, 2).toUpperCase()}
                                         </AvatarFallback>
                                     </Avatar>
@@ -167,7 +167,7 @@ const Navbar: React.FC = () => {
                                     <DropdownMenuSeparator />
                                     <DropdownMenuItem 
                                         // onClick={() => authClient.signOut()} 
-                                        className="text-red-600 dark:text-red-400 flex justify-between items-center"
+                                        className="text-green-600 dark:text-green-400 flex justify-between items-center"
                                     >
                                         <span>Log Out</span>
                                         <ArrowRight className="size-3.5" />
