@@ -14,10 +14,13 @@ import {
     FileText,
     PlusCircle,
     Users,
-    Droplet,
     Menu,
     LogOut,
-    LucideIcon
+    LucideIcon,
+    Info,
+    SquareUser,
+    Tent,
+    Form 
 } from "lucide-react";
 
 
@@ -73,25 +76,26 @@ export default function DashboardSidebar() {
 
     const dashboardItems: Record<UserRole, NavItem[]> = {
         citizen: [
-            { icon: Home, label: "Dashboard", link: "/dashboard/citizen" },
+            { icon: Home, label: "My Reports", link: "/dashboard/citizen" },
+            { icon: FileText, label: "Create Report", link: "/dashboard/citizen/createreport" },
             { icon: User, label: "Profile", link: "/dashboard/citizen/profile" },
-            { icon: FileText, label: "My Requests", link: "/dashboard/citizen/my-donation-requests" },
-            { icon: PlusCircle, label: "Create Request", link: "/dashboard/citizen/create-donation-request" },
+            { icon: Info, label: "Notice", link: "/dashboard/citizen/notice" },
         ],
         officer: [
             { icon: Home, label: "Dashboard", link: "/dashboard/officer" },
+            { icon: Form, label: "Public Reports", link: "/dashboard/officer/publicreports" },
+            { icon: Tent , label: "Manage Campaign", link: "/dashboard/officer/campaignmanagement" },
             { icon: User, label: "Profile", link: "/dashboard/officer/profile" },
-            { icon: FileText, label: "My Requests", link: "/dashboard/officer/my-donation-requests" },
-            { icon: PlusCircle, label: "Create Request", link: "/dashboard/officer/create-donation-request" },
-            { icon: Droplet, label: "Public Requests", link: "/dashboard/officer/all-blood-donation-request" },
+            
         ],
         admin: [
             { icon: Home, label: "Dashboard", link: "/dashboard/admin" },
+            { icon: Users, label: "Manage Users", link: "/dashboard/admin/manageusers" },
+            { icon: SquareUser, label: "Manage Officers", link: "/dashboard/admin/manageofficers" },
+            { icon: Tent, label: "Manage Campaign", link: "/dashboard/admin/campaignmanagement" },
+            { icon: Form , label: "Public Reports", link: "/dashboard/admin/publicreports" },
             { icon: User, label: "Profile", link: "/dashboard/admin/profile" },
-            { icon: FileText, label: "My Requests", link: "/dashboard/admin/my-donation-requests" },
-            { icon: PlusCircle, label: "Create Request", link: "/dashboard/admin/create-donation-request" },
-            { icon: Users, label: "All Users", link: "/dashboard/admin/all-users" },
-            { icon: Droplet, label: "Public Requests", link: "/dashboard/admin/all-blood-donation-request" },
+            { icon: PlusCircle, label: "Add Notice", link: "/dashboard/admin/addnotice" },
         ],
     };
 

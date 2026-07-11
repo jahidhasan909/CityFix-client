@@ -136,7 +136,7 @@ const Navbar: React.FC = () => {
                                     </DropdownMenuGroup>
                                     <DropdownMenuSeparator className="bg-slate-100 dark:bg-zinc-800" />
                                     <DropdownMenuGroup>
-                                        <DropdownMenuItem className="cursor-pointer">
+                                        <DropdownMenuItem className="cursor-pointer hover:bg-gray-200">
                                             <Link href={`/dashboard/${userData?.role || user?.role || 'citizen'}`} className="w-full block">
                                                 Dashboard
                                             </Link>
@@ -188,7 +188,7 @@ const Navbar: React.FC = () => {
                                     </DropdownMenuGroup>
                                     <DropdownMenuSeparator className="bg-slate-100 dark:bg-zinc-800" />
                                     <DropdownMenuGroup>
-                                        <DropdownMenuItem className="cursor-pointer">
+                                        <DropdownMenuItem className="cursor-pointer hover:bg-gray-200">
                                             <Link href={`/dashboard/${userData?.role || user?.role || 'citizen'}`} className="w-full block">
                                                 Dashboard
                                             </Link>

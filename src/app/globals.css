@@ -2,10 +2,5 @@
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 
-/*
- * Tailwind v4 dark mode — class strategy
- * ───────────────────────────────────────
- * next-themes adds/removes the `dark` class on <html>.
- * This tells Tailwind v4 to activate dark: variants when .dark is present.
- */
+
 @variant dark (&:where(.dark, .dark *));
