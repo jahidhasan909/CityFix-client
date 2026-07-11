@@ -6,9 +6,9 @@ import { usePathname } from 'next/navigation';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { ArrowRight, Menu, X } from 'lucide-react';
+import { ThemeToggle } from '@/Components/providers/ThemeToggle';
 
 import { authClient } from '@/lib/auth-client';
-
 
 import { Button } from "@/Components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/Components/ui/avatar";
@@ -32,40 +32,47 @@ interface User {
 }
 
 const Navbar: React.FC = () => {
-    const baseurl = process.env.NEXT_PUBLIC_BASE_URL
+    const baseurl = process.env.NEXT_PUBLIC_BASE_URL;
     const { data, isPending } = authClient.useSession();
     const pathname = usePathname();
     const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
     const [userData, setUserData] = useState<UserData | null>(null);
 
     const user = data?.user as User | undefined;
+
+    // ১. FIXED: Infinite Loop বাগ দূর করতে Dependency Array [user?.email, baseurl] যোগ করা হয়েছে
     useEffect(() => {
-        fetch(`${baseurl}/api/own/usercollaction?email=${user?.email}`).then(res => res.json()).then(userEmail => setUserData(userEmail))
-    })
+        if (user?.email) {
+            fetch(`${baseurl}/api/own/usercollaction?email=${user?.email}`)
+                .then(res => res.json())
+                .then(userEmail => setUserData(userEmail))
+                .catch(err => console.error("Error fetching user:", err));
+        }
+    }, [user?.email, baseurl]);
+
     if (isPending) {
         return (
-            <div className="flex h-16 items-center justify-center">
-                loadin...
+            <div className="flex h-16 items-center justify-center text-slate-500 font-medium">
+                Loading...
             </div>
         );
     }
-
-
-
-
 
     if (pathname.includes('dashboard') || pathname.includes('login') || pathname.includes('registration')) {
         return null;
     }
 
+    
     const linkClass = (path: string): string =>
         pathname === path
-            ? "text-[#31b66f] font-bold transition-colors"
-            : "text-slate-700 hover:text-[#31b66f] dark:text-white/85 font-medium transition-colors";
+            ? "text-[#f05a28] font-bold transition-colors"
+            : "text-slate-700 hover:text-[#f05a28] dark:text-slate-200 dark:hover:text-[#f05a28] font-medium transition-colors";
 
     return (
         <nav className="fixed top-0 z-50 w-full">
-            <div className="px-4 container border border-gray-100 my-4 bg-white/40 dark:bg-white/3 dark:border-white/6 shadow-md rounded-2xl backdrop-blur-md mx-auto sm:px-6 lg:px-8">
+           
+          
+            <div className="px-4 container border border-slate-200/80 my-4 bg-white/80  shadow-md rounded-2xl backdrop-blur-md mx-auto sm:px-6 lg:px-8">
                 <div className="flex justify-between h-16 items-center">
 
                     {/* Logo */}
@@ -78,7 +85,7 @@ const Navbar: React.FC = () => {
                             src='https://i.ibb.co.com/nN9v8hMX/Chat-GPT-Image-Jul-11-2026-at-04-15-12-AM-removebg-preview.png'
                         />
                         <span className="text-sm mt-1 lg:text-xl font-bold text-slate-900 dark:text-white tracking-tight">
-                            City<span className='text-[#31b66f]'>Fix</span>
+                            City<span className='text-[#f05a28]'>Fix</span>
                         </span>
                     </Link>
 
@@ -92,8 +99,8 @@ const Navbar: React.FC = () => {
 
                     {/* Desktop Actions */}
                     <div className="hidden lg:flex items-center gap-4">
-
-
+                        {/* Theme toggle  */}
+                        <ThemeToggle />
                         {!user ? (
                             <Link href='/login' className="group relative inline-flex overflow-hidden rounded-md p-[2px]">
                                 <motion.span
@@ -101,16 +108,15 @@ const Navbar: React.FC = () => {
                                     transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
                                     className="absolute inset-[-1000%] bg-[conic-gradient(from_90deg_at_50%_50%,#E2E8F0_0%,#E11D48_50%,#E2E8F0_100%)]"
                                 />
-                                <Button className="relative z-10 rounded-md bg-[#31b66f] px-6 font-bold text-white shadow-sm transition-all hover:bg-[#31b66f]">
+                                <Button className="relative z-10 rounded-md bg-[#f05a28] px-6 font-bold text-white shadow-sm transition-all hover:bg-[#e04f20] cursor-pointer">
                                     Login
                                 </Button>
                             </Link>
                         ) : (
                             <DropdownMenu modal={false}>
-
                                 <DropdownMenuTrigger >
                                     <button className="focus:outline-none cursor-pointer rounded-full transition-transform active:scale-95">
-                                        <Avatar className="h-9 w-9 border border-gray-200 dark:border-zinc-700">
+                                        <Avatar className="h-9 w-9 border border-slate-200 dark:border-zinc-700">
                                             <AvatarImage alt={user?.name} src={user?.image} />
                                             <AvatarFallback className="bg-rose-100 text-[#31b66f] dark:bg-zinc-800 dark:text-green-400 font-semibold">
                                                 {user?.name?.slice(0, 2).toUpperCase() || "CF"}
@@ -128,9 +134,7 @@ const Navbar: React.FC = () => {
                                             </div>
                                         </DropdownMenuLabel>
                                     </DropdownMenuGroup>
-
-                                    <DropdownMenuSeparator />
-
+                                    <DropdownMenuSeparator className="bg-slate-100 dark:bg-zinc-800" />
                                     <DropdownMenuGroup>
                                         <DropdownMenuItem className="cursor-pointer">
                                             <Link href={`/dashboard/${userData?.role || user?.role || 'citizen'}`} className="w-full block">
@@ -138,9 +142,7 @@ const Navbar: React.FC = () => {
                                             </Link>
                                         </DropdownMenuItem>
                                     </DropdownMenuGroup>
-
-                                    <DropdownMenuSeparator />
-
+                                    <DropdownMenuSeparator className="bg-slate-100 dark:bg-zinc-800" />
                                     <DropdownMenuGroup>
                                         <DropdownMenuItem
                                             onClick={async () => {
@@ -153,7 +155,6 @@ const Navbar: React.FC = () => {
                                             <ArrowRight className="size-4" />
                                         </DropdownMenuItem>
                                     </DropdownMenuGroup>
-
                                 </DropdownMenuContent>
                             </DropdownMenu>
                         )}
@@ -161,16 +162,15 @@ const Navbar: React.FC = () => {
 
                     {/* Mobile Navigation */}
                     <div className="lg:hidden flex items-center gap-2">
-
-
+                        {/* Theme toggle */}
+                        <ThemeToggle />
                         {user && (
-                              <DropdownMenu modal={false}>
-
+                            <DropdownMenu modal={false}>
                                 <DropdownMenuTrigger >
                                     <button className="focus:outline-none cursor-pointer rounded-full transition-transform active:scale-95">
-                                        <Avatar className="h-9 w-9 border border-gray-200 dark:border-zinc-700">
+                                        <Avatar className="h-9 w-9 border border-slate-200 dark:border-zinc-700">
                                             <AvatarImage alt={user?.name} src={user?.image} />
-                                            <AvatarFallback className="bg-rose-100 text-[#31b66f] dark:bg-zinc-800 dark:text-green-400 font-semibold">
+                                            <AvatarFallback className="bg-orange-200 text-[#f05a28] dark:bg-zinc-800 dark:text-orange-400 font-semibold">
                                                 {user?.name?.slice(0, 2).toUpperCase() || "CF"}
                                             </AvatarFallback>
                                         </Avatar>
@@ -186,9 +186,7 @@ const Navbar: React.FC = () => {
                                             </div>
                                         </DropdownMenuLabel>
                                     </DropdownMenuGroup>
-
-                                    <DropdownMenuSeparator />
-
+                                    <DropdownMenuSeparator className="bg-slate-100 dark:bg-zinc-800" />
                                     <DropdownMenuGroup>
                                         <DropdownMenuItem className="cursor-pointer">
                                             <Link href={`/dashboard/${userData?.role || user?.role || 'citizen'}`} className="w-full block">
@@ -196,9 +194,7 @@ const Navbar: React.FC = () => {
                                             </Link>
                                         </DropdownMenuItem>
                                     </DropdownMenuGroup>
-
-                                    <DropdownMenuSeparator />
-
+                                    <DropdownMenuSeparator className="bg-slate-100 dark:bg-zinc-800" />
                                     <DropdownMenuGroup>
                                         <DropdownMenuItem
                                             onClick={async () => {
@@ -211,7 +207,6 @@ const Navbar: React.FC = () => {
                                             <ArrowRight className="size-4" />
                                         </DropdownMenuItem>
                                     </DropdownMenuGroup>
-
                                 </DropdownMenuContent>
                             </DropdownMenu>
                         )}
@@ -223,7 +218,7 @@ const Navbar: React.FC = () => {
                                     transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
                                     className="absolute inset-[-1000%] bg-[conic-gradient(from_90deg_at_50%_50%,#E2E8F0_0%,#E11D48_50%,#E2E8F0_100%)]"
                                 />
-                                <Button className="relative z-10 h-8 rounded-md bg-[#31b66f] px-4 text-xs font-bold text-white shadow-sm hover:bg-[#31b66f]">
+                                <Button className="relative z-10 h-8 rounded-md bg-[#f05a28] px-4 text-xs font-bold text-white shadow-sm hover:bg-[#e04f20] cursor-pointer">
                                     Login
                                 </Button>
                             </Link>
@@ -233,7 +228,7 @@ const Navbar: React.FC = () => {
                             variant="ghost"
                             size="icon"
                             onClick={() => setIsMenuOpen(!isMenuOpen)}
-                            className="text-slate-700 dark:text-white hover:text-[#31b66f]"
+                            className="text-slate-700 dark:text-slate-200 hover:text-[#f05a28] cursor-pointer"
                         >
                             {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
                         </Button>
@@ -248,21 +243,21 @@ const Navbar: React.FC = () => {
                     <Link
                         href="/"
                         onClick={() => setIsMenuOpen(false)}
-                        className={`block px-3 py-2.5 rounded-xl ${pathname === '/' ? 'bg-green-50 dark:bg-zinc-900 text-[#31b66f] font-semibold' : 'text-slate-700 dark:text-white/80 hover:bg-slate-50'}`}
+                        className={`block px-3 py-2.5 rounded-xl ${pathname === '/' ? 'bg-orange-50 dark:bg-zinc-900 text-[#f05a28] font-semibold' : 'text-slate-700 dark:text-slate-200 hover:bg-slate-50'}`}
                     >
                         Home
                     </Link>
                     <Link
                         href="/reports"
                         onClick={() => setIsMenuOpen(false)}
-                        className={`block px-3 py-2.5 rounded-xl ${pathname === '/reports' ? 'bg-green-50 dark:bg-zinc-900 text-[#31b66f] font-semibold' : 'text-slate-700 dark:text-white/80 hover:bg-slate-50'}`}
+                        className={`block px-3 py-2.5 rounded-xl ${pathname === '/reports' ? 'bg-orange-50 dark:bg-zinc-900 text-[#f05a28] font-semibold' : 'text-slate-700 dark:text-slate-200 hover:bg-slate-50'}`}
                     >
                         Reports
                     </Link>
                     <Link
                         href="/campaign"
                         onClick={() => setIsMenuOpen(false)}
-                        className={`block px-3 py-2.5 rounded-xl ${pathname === '/campaign' ? 'bg-green-50 dark:bg-zinc-900 text-[#31b66f] font-semibold' : 'text-slate-700 dark:text-white/80 hover:bg-slate-50'}`}
+                        className={`block px-3 py-2.5 rounded-xl ${pathname === '/campaign' ? 'bg-orange-50 dark:bg-zinc-900 text-[#f05a28] font-semibold' : 'text-slate-700 dark:text-slate-200 hover:bg-slate-50'}`}
                     >
                         Campaign
                     </Link>
@@ -270,7 +265,7 @@ const Navbar: React.FC = () => {
                         <Link
                             href="/funding"
                             onClick={() => setIsMenuOpen(false)}
-                            className={`block px-3 py-2.5 rounded-xl ${pathname === '/funding' ? 'bg-rose-50 dark:bg-zinc-900 text-[#31b66f] font-semibold' : 'text-slate-700 dark:text-white/80 hover:bg-slate-50'}`}
+                            className={`block px-3 py-2.5 rounded-xl ${pathname === '/funding' ? 'bg-orange-50 dark:bg-zinc-900 text-[#f05a28] font-semibold' : 'text-slate-700 dark:text-slate-200 hover:bg-slate-50'}`}
                         >
                             Funding
                         </Link>
