@@ -267,11 +267,11 @@ const HeroBanner: React.FC = () => {
         </h2>
       </div>
 
-      {/*  Main Content */}
-      {/* Centered Main Content Area */}
+      
+      {/*  Content  */}
       <div className="relative z-20 max-w-4xl mx-auto text-center px-6 flex flex-col items-center pt-20 sm:pt-28 md:pt-36 pb-40 sm:pb-52 lg:pb-60">
         <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-[#0f172a] tracking-tight leading-tight dark:text-white  max-w-3xl font-sans drop-shadow-sm">
-          Together, Let's Build a Better <span className='text-[#f05a28]'>Bangladesh</span>.
+          {"Together, Let's Build a Better "}<span className='text-[#f05a28]'>Bangladesh</span>.
         </h1>
 
         <p className="text-[#475569] text-sm sm:text-base md:text-lg max-w-2xl mt-6 leading-relaxed">

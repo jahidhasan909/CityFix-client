@@ -81,10 +81,10 @@ const Navbar: React.FC = () => {
                             width={34}
                             height={33}
                             alt='logo'
-                            className='object-cover h-[35px] md:h-[45px] w-auto'
-                            src='https://i.ibb.co.com/nN9v8hMX/Chat-GPT-Image-Jul-11-2026-at-04-15-12-AM-removebg-preview.png'
+                            className='object-cover h-[30px] md:h-[35px] w-auto'
+                            src='https://i.ibb.co.com/Q54kMTN/Chat-GPT-Image-Jul-12-2026-at-04-36-38-AM-removebg-preview.png'
                         />
-                        <span className="text-sm mt-1 lg:text-xl font-bold text-slate-900 dark:text-white tracking-tight">
+                        <span className="text-sm  lg:text-xl font-bold text-slate-900 dark:text-white tracking-tight">
                             City<span className='text-[#f05a28]'>Fix</span>
                         </span>
                     </Link>
