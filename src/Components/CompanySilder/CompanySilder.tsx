@@ -12,11 +12,11 @@ const companies: CompanyProps[] = [
     { name: "CityWorks", logo: "https://i.ibb.co.com/wZtvxj9D/images-3.jpg" },
     { name: "UrbanCare", logo: "https://i.ibb.co.com/ZRhnSJdw/images-4.jpg" },
     { name: "GreenLife", logo: "https://i.ibb.co.com/Qv0k9yhz/images-5.jpg" },
-    { name: "EcoVision", logo: "https://i.ibb.co.com/kgL2h9h3/images-6.jpg" },
+    { name: "RoadWorks", logo: "https://i.ibb.co.com/kgL2h9h3/images-6.jpg" },
     { name: "CleanCity", logo: "https://i.ibb.co.com/p6WRkH4F/images-9.jpg" }, 
-    { name: "SmartGov", logo: "https://i.ibb.co.com/ZRhnSJdw/images-4.jpg" },
-    { name: "CityHard", logo: "https://i.ibb.co.com/jkMLRf36/images-8.jpg" },
-    { name: "BDGov", logo: "https://i.ibb.co.com/Ds78GCt/images-7.jpg" },
+    { name: "CleanCity", logo: "https://i.ibb.co.com/ZRhnSJdw/images-4.jpg" },
+    { name: "CivicShield", logo: "https://i.ibb.co.com/jkMLRf36/images-8.jpg" },
+    { name: "SmartGov", logo: "https://i.ibb.co.com/Ds78GCt/images-7.jpg" },
 ];
 
 
