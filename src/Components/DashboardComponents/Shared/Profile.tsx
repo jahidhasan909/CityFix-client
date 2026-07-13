@@ -155,7 +155,7 @@ export default function Profile({ userData }: ProfileComponentProps) {
         };
 
         try {
-            const res = await fetch(`${baseurl}/api/own/edit/users?email=${userData?.email}`, {
+            const res = await fetch(`${baseurl}/api/own/usercollaction?email=${userData?.email}`, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',
@@ -319,47 +319,7 @@ export default function Profile({ userData }: ProfileComponentProps) {
                     </div>
                 </div>
 
-                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                    <div className="grid gap-2">
-                        <Label className="text-xs font-bold text-slate-700 dark:text-slate-300">Blood Group</Label>
-                        <select
-                            disabled={!isEditable}
-                            {...register("bloodGroup", { required: "Blood group is required" })}
-                            className="w-full h-10 border border-slate-200 dark:border-slate-800 rounded-xl px-3 text-sm bg-white dark:bg-slate-950 focus-visible:outline-hidden"
-                        >
-                            <option value="">Select Blood Group</option>
-                            {bloodGroups.map((group) => (
-                                <option key={group} value={group}>
-                                    {group}
-                                </option>
-                            ))}
-                        </select>
-                        {errors.bloodGroup && <span className="text-xs text-red-500">{errors.bloodGroup.message}</span>}
-                    </div>
-
-                    <div className="grid gap-2">
-                        <Label className="text-xs font-bold text-slate-700 dark:text-slate-300">Gender</Label>
-                        <Controller
-                            name="gender"
-                            control={control}
-                            render={({ field }) => (
-                                <select
-                                    {...field}
-                                    disabled={!isEditable}
-                                    className="w-full h-10 border border-slate-200 dark:border-slate-800 rounded-xl px-3 text-sm bg-white dark:bg-slate-950 focus-visible:outline-hidden"
-                                >
-                                    <option value="">Select gender</option>
-                                    {genders.map((gender) => (
-                                        <option key={gender} value={gender}>
-                                            {gender}
-                                        </option>
-                                    ))}
-                                </select>
-                            )}
-                        />
-                    </div>
-                </div>
-
+             
                 {isEditable && (
                     <div className="flex gap-2 mt-2 pt-4 border-t border-slate-100 dark:border-slate-800">
                         <Button
