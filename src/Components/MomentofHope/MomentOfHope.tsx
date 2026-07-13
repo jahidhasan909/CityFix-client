@@ -37,9 +37,7 @@ export default function Momentsofhope() {
         >
        
           <div className="text-center mb-12">
-            <span className="inline-block px-4 py-1.5 rounded-full bg-emerald-100 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-400 text-xs font-bold uppercase tracking-wider border border-emerald-200/40 dark:border-emerald-900/30">
-              Moments of Hope
-            </span>
+            
 
             <h2 className="text-2xl lg:text-4xl font-extrabold mt-4 text-slate-900 dark:text-white tracking-tight">
               Community Gallery

@@ -40,7 +40,6 @@ const Navbar: React.FC = () => {
 
     const user = data?.user as User | undefined;
 
-    // ১. FIXED: Infinite Loop বাগ দূর করতে Dependency Array [user?.email, baseurl] যোগ করা হয়েছে
     useEffect(() => {
         if (user?.email) {
             fetch(`${baseurl}/api/own/usercollaction?email=${user?.email}`)

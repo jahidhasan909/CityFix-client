@@ -6,6 +6,7 @@ import Navbar from "@/Components/Shared/Navbar";
 import { ThemeProvider } from "@/Components/providers/ThemeProvider";
 import { cn } from "@/lib/utils";
 import { Toaster } from "react-hot-toast";
+import Footer from "@/Components/Shared/Footer";
 
 const plusSans = Plus_Jakarta_Sans({
   subsets: ["latin"],
@@ -37,7 +38,9 @@ export default function RootLayout({
             {children}
           </main>
           <Toaster />
+          <Footer></Footer>
         </ThemeProvider>
+
       </body>
     </html>
   );
