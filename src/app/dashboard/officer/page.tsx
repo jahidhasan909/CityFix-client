@@ -1,9 +1,10 @@
+import HomeDashboardOfficer from '@/Components/DashboardComponents/OfficersComponents/Dashboard';
 import React from 'react';
 
 const OfficerHomepage = () => {
     return (
         <div>
-            OfficerHomepage
+           <HomeDashboardOfficer></HomeDashboardOfficer>
         </div>
     );
 };

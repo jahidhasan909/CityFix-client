@@ -1,10 +1,16 @@
+import AdminHomeClient from '@/Components/DashboardComponents/AdminComponents/Dashboard';
 import React from 'react';
 
-const AdminHomepage = () => {
+
+const AdminHomepage = async () => {
+    
+    // const totalCitizens = await db.citizens.count();
+    
     return (
-        <div>
-            adminhome
-        </div>
+        <>
+           
+            <AdminHomeClient />
+        </>
     );
 };
 
