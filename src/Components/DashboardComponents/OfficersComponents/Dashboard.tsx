@@ -4,7 +4,7 @@ import React from 'react';
 import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer, Tooltip, PieChart, Pie, Cell } from 'recharts';
 import { Users, CheckCircle, DollarSign, ArrowUpRight } from 'lucide-react';
 
-// ফান্ডিং বার চার্ট ডাটা
+
 const fundingData = [
   { name: 'S', amount: 4000 },
   { name: 'M', amount: 5000 },
@@ -15,14 +15,14 @@ const fundingData = [
   { name: 'S', amount: 3000 },
 ];
 
-// সিটিজেন গোল (ডোনাট) চার্ট ডাটা
+
 const citizenPieData = [
-  { name: 'Active Citizens', value: 22180, color: '#1b4332' }, // গাঢ় সবুজ
-  { name: 'Blocked Citizens', value: 2400, color: '#ef4444' }, // লাল (Blocked বুঝাতে)
+  { name: 'Active Citizens', value: 22180, color: '#1b4332' }, 
+  { name: 'Blocked Citizens', value: 2400, color: '#ef4444' }, 
 ];
 
 const HomeDashboardOfficer = () => {
-  // টোটাল কাউন্ট ক্যালকুলেট করার জন্য
+  
   const totalCitizens = citizenPieData.reduce((acc, curr) => acc + curr.value, 0);
 
   return (
@@ -87,10 +87,10 @@ const HomeDashboardOfficer = () => {
 
       </div>
 
-      {/* LOWER GRID: BOTH CHARTS SIDE BY SIDE */}
+      {/* BOTH CHARTS SIDE BY SIDE */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         
-        {/* Left/Middle Column: Funding Analytics Bar Chart */}
+        {/* Funding Analytics Bar Chart */}
         <div className="lg:col-span-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-5 rounded-2xl shadow-xs flex flex-col justify-between">
           <div>
             <h3 className="font-bold text-slate-900 dark:text-white text-base">Funding Analytics</h3>
@@ -117,7 +117,7 @@ const HomeDashboardOfficer = () => {
           </div>
         </div>
 
-        {/* Right Column: Citizen Status Donut Chart */}
+        {/* Citizen Status Donut Chart */}
         <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-5 rounded-2xl shadow-xs flex flex-col justify-between">
           <div>
             <h3 className="font-bold text-slate-900 dark:text-white text-base">Citizen Status</h3>
@@ -147,7 +147,7 @@ const HomeDashboardOfficer = () => {
               </PieChart>
             </ResponsiveContainer>
             
-            {/* ডোনাট চার্টের মাঝখানের পার্সেন্টেজ টেক্সট (ড্রিবল স্টাইল) */}
+            
             <div className="absolute text-center flex flex-col">
               <span className="text-2xl font-bold text-slate-950 dark:text-white">
                 {Math.round((citizenPieData[0].value / totalCitizens) * 100)}%
@@ -156,13 +156,13 @@ const HomeDashboardOfficer = () => {
             </div>
           </div>
 
-          {/* custom লেবেল/লিজেন্ড ইন্ডিকেটর নিচে সুন্দর করে সাজানোর জন্য */}
+          
           <div className="flex items-center justify-around border-t border-slate-100 dark:border-slate-800 pt-4 mt-2">
             {citizenPieData.map((item, index) => (
               <div key={index} className="flex flex-col items-center space-y-0.5">
                 <div className="flex items-center gap-1.5 text-xs font-semibold text-slate-700 dark:text-slate-300">
                   <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: item.color }} />
-                  {item.name.split(' ')[0]} {/* শুধু Active বা Blocked দেখানোর জন্য */}
+                  {item.name.split(' ')[0]} {/* Active  Blocked  */}
                 </div>
                 <span className="text-xs font-bold text-slate-900 dark:text-white pl-4">
                   {item.value.toLocaleString()}

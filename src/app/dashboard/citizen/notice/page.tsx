@@ -1,9 +1,36 @@
+import NoticeView from '@/Components/DashboardComponents/CitizenComponents/NoticeView';
 import React from 'react';
 
-const Noticepage = () => {
+
+
+async function fetchNotices() {
+    const baseurl = process.env.NEXT_PUBLIC_BASE_URL || '';
+    
+    try {
+        const res = await fetch(`${baseurl}/api/notice`, {
+            cache: 'no-store' 
+        });
+
+        if (!res.ok) {
+            console.error("Failed to fetch notices response status:", res.status);
+            return [];
+        }
+
+        return await res.json();
+    } catch (error) {
+        console.error("Error standard notice data fetching:", error);
+        return [];
+    }
+}
+
+const Noticepage = async () => {
+  
+    const noticesData = await fetchNotices();
+
     return (
-        <div>
-            
+        <div className="dark:bg-slate-950 min-h-screen">
+           
+            <NoticeView notices={noticesData} />
         </div>
     );
 };
