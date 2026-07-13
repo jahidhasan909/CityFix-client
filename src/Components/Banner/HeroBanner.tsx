@@ -174,7 +174,7 @@ const HeroBanner: React.FC = () => {
   };
 
   return (
-    <div className="relative min-h-screen w-full flex flex-col justify-between overflow-hidden bg-gradient-to-b from-[#eef7ea] via-[#ffffff] to-[#fef3ec] dark:bg-gradient-to-b dark:from-black dark:via-black dark:to-black pb-0">
+    <div className="relative min-h-[90vh] w-full flex flex-col justify-between overflow-hidden bg-gradient-to-b from-[#eef7ea] via-[#ffffff] to-[#fef3ec] dark:bg-gradient-to-b dark:from-black dark:via-black dark:to-black pb-0">
 
       {/* Animations */}
       <style dangerouslySetInnerHTML={{
