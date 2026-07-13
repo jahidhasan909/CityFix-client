@@ -23,7 +23,7 @@ const PublicReportspage = async({ searchParams }: PageProps) => {
         const baseurl = process.env.NEXT_PUBLIC_BASE_URL || '';
         
         
-        const res = await fetch(`${baseurl}/api/adminofficer/owncitizen/pegination/reports?page=${page}`, {
+        const res = await fetch(`${baseurl}/api/adminofficer/pegination/reports?page=${page}`, {
             cache: 'no-store' 
         });
    const reports = await res.json();
