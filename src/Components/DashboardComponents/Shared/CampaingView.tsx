@@ -5,7 +5,7 @@ import toast from 'react-hot-toast';
 import { PlusCircle, Calendar, Clock, FileText, ChevronLeft, ChevronRight, Users, Trash2 } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
 
-// Shadcn UI Components
+
 import { Button } from "@/Components/ui/button";
 import {
     Dialog,
@@ -18,13 +18,14 @@ import {
 import { Input } from "@/Components/ui/input";
 import { Textarea } from "@/Components/ui/textarea";
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
 } from "@/Components/ui/table";
+import Link from 'next/link';
 
 interface CampaignProps {
     _id?: string;
@@ -47,10 +48,10 @@ const CampaignClientView: React.FC<CampaignClientViewProps> = ({ campaignsData }
     const router = useRouter();
     const searchParams = useSearchParams();
     const baseurl = process.env.NEXT_PUBLIC_BASE_URL || '';
-    
+
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [loading, setLoading] = useState(false);
-    
+
     // Form States
     const [title, setTitle] = useState('');
     const [image, setImage] = useState('');
@@ -93,14 +94,14 @@ const CampaignClientView: React.FC<CampaignClientViewProps> = ({ campaignsData }
             if (res.ok) {
                 toast.success('Campaign added successfully!');
                 setIsModalOpen(false);
-                
+
                 // Form Reset
                 setTitle('');
                 setImage('');
                 setDescription('');
                 setDate('');
                 setTime('');
-                
+
                 router.refresh();
             } else {
                 toast.error('Failed to add campaign');
@@ -112,21 +113,37 @@ const CampaignClientView: React.FC<CampaignClientViewProps> = ({ campaignsData }
         }
     };
 
-    // Action Button Placeholders
+
     const handleViewAttendees = (id: string) => {
         toast.success(`Opening Attendees list for Campaign ID: ${id}`);
-        // এখানে পরবর্তীতে রাউটিং করতে পারেন: router.push(`/dashboard/campaigns/attendees/${id}`);
+
     };
 
-    const handleDeleteCampaign = (id: string) => {
-        toast.error(`Delete functionality pending for ID: ${id}`);
-        // এখানে পরবর্তীতে DELETE API কল করবেন
+    const handleDeleteCampaign = async (id: string) => {
+
+        if (!window.confirm("Are you sure you want to delete this campaign?")) return;
+
+        try {
+            const res = await fetch(`${baseurl}/api/campaing/${id}`, {
+                method: 'DELETE',
+            });
+
+            if (res.ok) {
+                toast.success('Campaign deleted successfully!');
+                router.refresh();
+            } else {
+                toast.error('Failed to delete campaign');
+            }
+        } catch (error) {
+            console.error("Delete error:", error);
+            toast.error('Something went wrong while deleting!');
+        }
     };
 
     return (
         <div className="max-w-7xl mx-auto p-4 md:p-8 space-y-6 min-h-screen">
-            
-            {/* TOP BAR WITH ADD CAMPAIGN MODAL */}
+
+
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs">
                 <div>
                     <h1 className="text-xl md:text-2xl font-bold text-slate-900 dark:text-white">Campaign Management</h1>
@@ -147,12 +164,12 @@ const CampaignClientView: React.FC<CampaignClientViewProps> = ({ campaignsData }
                                 Fill up the form to publish a new active campaign.
                             </DialogDescription>
                         </DialogHeader>
-                        
+
                         <form onSubmit={handleSubmit} className="space-y-4 pt-2">
                             <div className="space-y-1">
                                 <label className="text-xs font-bold text-slate-700 dark:text-slate-300">Campaign Title *</label>
-                                <Input 
-                                    placeholder="Enter campaign title" 
+                                <Input
+                                    placeholder="Enter campaign title"
                                     value={title}
                                     onChange={(e) => setTitle(e.target.value)}
                                     className="rounded-xl"
@@ -161,8 +178,8 @@ const CampaignClientView: React.FC<CampaignClientViewProps> = ({ campaignsData }
 
                             <div className="space-y-1">
                                 <label className="text-xs font-bold text-slate-700 dark:text-slate-300">Image URL *</label>
-                                <Input 
-                                    placeholder="https://example.com/banner.png" 
+                                <Input
+                                    placeholder="https://example.com/banner.png"
                                     value={image}
                                     onChange={(e) => setImage(e.target.value)}
                                     className="rounded-xl"
@@ -171,8 +188,8 @@ const CampaignClientView: React.FC<CampaignClientViewProps> = ({ campaignsData }
 
                             <div className="space-y-1">
                                 <label className="text-xs font-bold text-slate-700 dark:text-slate-300">Description *</label>
-                                <Textarea 
-                                    placeholder="Write details about this campaign..." 
+                                <Textarea
+                                    placeholder="Write details about this campaign..."
                                     value={description}
                                     onChange={(e) => setDescription(e.target.value)}
                                     className="rounded-xl min-h-[100px] resize-none"
@@ -182,8 +199,8 @@ const CampaignClientView: React.FC<CampaignClientViewProps> = ({ campaignsData }
                             <div className="grid grid-cols-2 gap-3">
                                 <div className="space-y-1">
                                     <label className="text-xs font-bold text-slate-700 dark:text-slate-300">Target Date *</label>
-                                    <Input 
-                                        type="date" 
+                                    <Input
+                                        type="date"
                                         value={date}
                                         onChange={(e) => setDate(e.target.value)}
                                         className="rounded-xl cursor-pointer"
@@ -191,8 +208,8 @@ const CampaignClientView: React.FC<CampaignClientViewProps> = ({ campaignsData }
                                 </div>
                                 <div className="space-y-1">
                                     <label className="text-xs font-bold text-slate-700 dark:text-slate-300">Target Time *</label>
-                                    <Input 
-                                        type="time" 
+                                    <Input
+                                        type="time"
                                         value={time}
                                         onChange={(e) => setTime(e.target.value)}
                                         className="rounded-xl cursor-pointer"
@@ -233,9 +250,9 @@ const CampaignClientView: React.FC<CampaignClientViewProps> = ({ campaignsData }
                                             <TableCell>
                                                 <div className="w-12 h-12 rounded-lg overflow-hidden bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
                                                     {/* eslint-disable-next-line @next/next/no-img-element */}
-                                                    <img 
-                                                        src={campaign.image} 
-                                                        alt={campaign.title} 
+                                                    <img
+                                                        src={campaign.image}
+                                                        alt={campaign.title}
                                                         className="w-full h-full object-cover"
                                                         onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
                                                     />
@@ -262,18 +279,20 @@ const CampaignClientView: React.FC<CampaignClientViewProps> = ({ campaignsData }
                                             <TableCell>
                                                 {/* Action Buttons */}
                                                 <div className="flex items-center justify-center gap-2">
-                                                    <Button 
-                                                        variant="outline" 
-                                                        size="sm" 
-                                                        className="h-8 text-xs font-semibold rounded-lg flex items-center gap-1 border-slate-200 dark:border-slate-700"
-                                                        onClick={() => campaign._id && handleViewAttendees(campaign._id)}
-                                                    >
-                                                        <Users className="w-3.5 h-3.5 text-blue-600" />
-                                                        Attendees
-                                                    </Button>
-                                                    <Button 
-                                                        variant="outline" 
-                                                        size="sm" 
+                                                    <Link href={`/dashboard/admin/${campaign._id}`}>
+                                                        <Button
+                                                            variant="outline"
+                                                            size="sm"
+                                                            className="h-8 text-xs font-semibold rounded-lg flex items-center gap-1 border-slate-200 dark:border-slate-700"
+                                                        >
+                                                            <Users className="w-3.5 h-3.5 text-blue-600" />
+                                                            Attendees
+                                                        </Button>
+                                                    </Link>
+
+                                                    <Button
+                                                        variant="outline"
+                                                        size="sm"
                                                         className="h-8 text-xs font-semibold rounded-lg flex items-center gap-1 border-red-100 dark:border-red-950/40 text-destructive hover:bg-red-50 dark:hover:bg-red-950/20"
                                                         onClick={() => campaign._id && handleDeleteCampaign(campaign._id)}
                                                     >
@@ -304,7 +323,7 @@ const CampaignClientView: React.FC<CampaignClientViewProps> = ({ campaignsData }
                                     >
                                         <ChevronLeft className="h-4 w-4" />
                                     </Button>
-                                    
+
                                     {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNumber) => (
                                         <Button
                                             key={pageNumber}

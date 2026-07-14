@@ -1,15 +1,13 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { MoreVertical } from "lucide-react";
 import toast from 'react-hot-toast';
 
-
 import { Button } from "@/Components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/Components/ui/table";
 import { Avatar, AvatarFallback, AvatarImage } from "@/Components/ui/avatar";
-
 
 import {
     DropdownMenu,
@@ -42,7 +40,6 @@ const OfficerManagementPage: React.FC<OfficerManagementPageProps> = ({ Users }) 
     const router = useRouter();
     const baseurl = process.env.NEXT_PUBLIC_BASE_URL || '';
 
-    
     const getOfficerUsers = (rawUsers: UserProps[] | UsersFetchData): UserProps[] => {
         const arr = Array.isArray(rawUsers) ? rawUsers : (rawUsers?.data || rawUsers?.users || []);
         return arr.filter((user: UserProps) => user.role === 'officer');
@@ -50,8 +47,6 @@ const OfficerManagementPage: React.FC<OfficerManagementPageProps> = ({ Users }) 
 
     const [officersList, setOfficersList] = useState<UserProps[]>(getOfficerUsers(Users));
     const [statusFilter, setStatusFilter] = useState<string>('all');
-
-    
     const [prevUsers, setPrevUsers] = useState<UserProps[] | UsersFetchData>(Users);
 
     if (Users !== prevUsers) {
@@ -64,13 +59,13 @@ const OfficerManagementPage: React.FC<OfficerManagementPageProps> = ({ Users }) 
     const totalPages = (Users as UsersFetchData)?.totalPage || 1;
     const pages = Array.from({ length: totalPages }, (_, i) => i + 1);
 
-    //  (Suspend / Unsuspend)
-    const handleStatusUpdate = async (userId: string, newStatus: string) => {
+    // (Suspend / Unsuspend)
+    const handleStatusUpdate = async (userId: string, newStatus: 'active' | 'suspended') => {
         const targetUser = officersList.find(user => user._id === userId);
         if (!targetUser) return;
 
-        
-        const endpoint = newStatus === 'suspended' ? 'makeblock' : 'unblocked'; 
+        // ফিক্সড: ব্যাকএন্ডের সঠিক রাউট এন্ডপয়েন্ট সেট করা হলো
+        const endpoint = newStatus === 'suspended' ? 'suspend' : 'unsuspend'; 
         const successMessage = newStatus === 'suspended' ? 'Officer suspended successfully!' : 'Officer unsuspended successfully!';
 
         try {
@@ -86,7 +81,7 @@ const OfficerManagementPage: React.FC<OfficerManagementPageProps> = ({ Users }) 
             if (response.ok) {
                 toast.success(successMessage);
                 setOfficersList(prev =>
-                    prev.map(user => user._id === userId ? { ...user, status: newStatus === 'suspended' ? 'suspended' : 'active' } : user)
+                    prev.map(user => user._id === userId ? { ...user, status: newStatus } : user)
                 );
             } else {
                 toast.error(`Failed: ${data.error || 'Unknown error'}`);
@@ -98,7 +93,6 @@ const OfficerManagementPage: React.FC<OfficerManagementPageProps> = ({ Users }) 
 
     const filteredOfficers = officersList.filter(user => {
         if (statusFilter === 'all') return true;
-        if (statusFilter === 'suspended') return user.status === 'suspended' || user.status === 'blocked';
         return user.status === statusFilter;
     });
 
@@ -133,7 +127,7 @@ const OfficerManagementPage: React.FC<OfficerManagementPageProps> = ({ Users }) 
                             onClick={() => setStatusFilter('suspended')}
                             className={`px-3 py-1.5 text-xs font-semibold rounded-lg transition-all ${statusFilter === 'suspended' ? 'bg-amber-600 text-white' : 'text-slate-600 dark:text-slate-400'}`}
                         >
-                            Suspended ({officersList.filter(u => u.status === 'suspended' || u.status === 'blocked').length})
+                            Suspended ({officersList.filter(u => u.status === 'suspended').length})
                         </button>
                     </div>
                 </header>
@@ -174,12 +168,13 @@ const OfficerManagementPage: React.FC<OfficerManagementPageProps> = ({ Users }) 
                                             </TableCell>
                                             <TableCell>
                                                 <span className={`text-xs capitalize px-2.5 py-0.5 rounded-full border font-semibold ${user.status === 'active' ? 'bg-emerald-50 border-emerald-200 text-emerald-700 dark:bg-emerald-950/30 dark:text-emerald-400 dark:border-emerald-900' : 'bg-amber-50 border-amber-200 text-amber-700 dark:bg-amber-950/30 dark:text-amber-400 dark:border-amber-900'}`}>
-                                                    {user.status === 'blocked' ? 'suspended' : user.status}
+                                                    {user.status}
                                                 </span>
                                             </TableCell>
                                             <TableCell className="text-center">
                                                 <DropdownMenu>
-                                                    <DropdownMenuTrigger >
+                                                    {/*  asChild */}
+                                                    <DropdownMenuTrigger > 
                                                         <Button size="icon" variant="ghost" className="rounded-full">
                                                             <MoreVertical className="w-4 h-4" />
                                                         </Button>
@@ -248,7 +243,7 @@ const OfficerManagementPage: React.FC<OfficerManagementPageProps> = ({ Users }) 
                                         <div>
                                             <span className="text-slate-400 block mb-0.5">Status</span>
                                             <span className={`capitalize font-bold ${user.status === 'active' ? 'text-emerald-600' : 'text-amber-600'}`}>
-                                                {user.status === 'blocked' ? 'suspended' : user.status}
+                                                {user.status}
                                             </span>
                                         </div>
                                     </div>
