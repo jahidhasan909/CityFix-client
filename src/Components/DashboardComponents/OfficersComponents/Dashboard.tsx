@@ -46,7 +46,7 @@ const HomeDashboardOfficer = () => {
           })
         ]);
 
-        // ১. ফান্ডিং ডাটা প্রসেসিং (টোটাল হিসাব করা)
+     
         let totalSum = 0;
         let mappedChartData = [];
 
@@ -67,7 +67,7 @@ const HomeDashboardOfficer = () => {
           trend: fundingRes.trend ?? 8.2
         });
 
-        // ২. রিপোর্টস ডাটা প্রসেসিং (শুধুমাত্র 'resolved' স্ট্যাটাস কাউন্ট করা)
+      
         let solvedCount = 0;
         let efficiencyRate = 0;
 
@@ -85,12 +85,12 @@ const HomeDashboardOfficer = () => {
           efficiency: efficiencyRate
         });
 
-        // ৩. সিটিজেনস ডাটা প্রসেসিং (শুধুমাত্র 'citizen' রোলের active এবং blocked হিসাব করা)
+        
         let activeCount = 0;
         let blockedCount = 0;
 
         if (Array.isArray(userRes)) {
-          // ব্যাকএন্ড যদি ডিরেক্ট এরে দেয়, তাহলে ফ্রন্টএন্ড থেকেই ফিল্টারিং হ্যান্ডেল করবে
+          
           const citizenOnly = userRes.filter(user => user.role === 'citizen');
           activeCount = citizenOnly.filter(user => user.status === 'active').length;
           blockedCount = citizenOnly.filter(user => user.status === 'blocked' || user.status === 'suspended').length;

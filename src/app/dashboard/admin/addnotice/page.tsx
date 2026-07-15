@@ -2,7 +2,7 @@ import NoticeClientView from '@/Components/DashboardComponents/AdminComponents/N
 import React from 'react';
 
 
-// নোটিসের টাইপ ডিফাইন
+
 interface NoticeProps {
     _id?: string;
     title: string;

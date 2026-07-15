@@ -20,16 +20,16 @@ const FaqItem: React.FC<FaqItemProps> = ({ question, answer, isOpen, toggleOpen 
             >
                 <div className="flex gap-3 items-start">
                     <HelpCircle className={`w-4 h-4 mt-1 shrink-0 transition-colors duration-300 ${
-                        isOpen ? 'text-emerald-500' : 'text-slate-400 dark:text-slate-500 group-hover:text-slate-600 dark:group-hover:text-slate-300'
+                        isOpen ? 'text-[#f05a28]' : 'text-slate-400 dark:text-slate-500 group-hover:text-slate-600 dark:group-hover:text-slate-300'
                     }`} />
                     <span className={`text-sm md:text-base font-bold tracking-wide transition-colors duration-300 ${
-                        isOpen ? 'text-emerald-600 dark:text-emerald-400' : 'text-slate-800 dark:text-slate-200 group-hover:text-slate-950 dark:group-hover:text-white'
+                        isOpen ? 'text-[#f05a28] dark:text-emerald-400' : 'text-slate-800 dark:text-slate-200 group-hover:text-slate-950 dark:group-hover:text-white'
                     }`}>
                         {question}
                     </span>
                 </div>
                 <div className={`p-1.5 rounded-lg bg-slate-50 dark:bg-slate-900 border border-slate-200/40 dark:border-slate-800/60 shrink-0 transition-transform duration-300 ${
-                    isOpen ? 'rotate-180 text-emerald-500 border-emerald-500/20' : 'text-slate-400'
+                    isOpen ? 'rotate-180 text-[#f05a28] border-emerald-500/20' : 'text-slate-400'
                 }`}>
                     <ChevronDown className="w-4 h-4" />
                 </div>
@@ -88,11 +88,9 @@ const FaqSection = () => {
         <section className="w-full py-24 bg-white dark:bg-slate-950 transition-colors duration-300">
             <div className="max-w-4xl mx-auto px-4 sm:px-6">
                 
-                {/* SECTION TITLE */}
+                
                 <div className="text-center space-y-3 mb-16">
-                    <span className="text-[10px] font-bold uppercase tracking-widest text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/40 px-3 py-1 rounded-md border border-emerald-200/40 dark:border-emerald-900/30">
-                        Support Center
-                    </span>
+                    
                     <h2 className="text-2xl md:text-4xl font-extrabold text-slate-950 dark:text-white tracking-tight">
                         Frequently Asked Questions
                     </h2>

@@ -17,6 +17,8 @@ const companies: CompanyProps[] = [
     { name: "CleanCity", logo: "https://i.ibb.co.com/ZRhnSJdw/images-4.jpg" },
     { name: "CivicShield", logo: "https://i.ibb.co.com/jkMLRf36/images-8.jpg" },
     { name: "SmartGov", logo: "https://i.ibb.co.com/Ds78GCt/images-7.jpg" },
+    { name: "PublicGov", logo: "https://i.ibb.co.com/YBvh7Hjs/bangladesh-logo-map-icon-vector-7657504.avif" },
+    { name: "RokomBD", logo: "https://i.ibb.co.com/Swj1FjKh/images-10.jpg" },
 ];
 
 
@@ -24,7 +26,7 @@ const companies: CompanyProps[] = [
 
 const MarqueeSlider = () => {
     return (
-        <div className="w-full bg-slate-50/50 dark:bg-slate-950/40 py-8 border-y border-slate-200/60 dark:border-slate-800/50 backdrop-blur-md overflow-hidden">
+        <div className="w-full  dark:bg-slate-950/40 py-5 border-y border-slate-200/60 dark:border-slate-800/50 backdrop-blur-md overflow-hidden grayscale hover:grayscale-0">
             
 
             
@@ -38,7 +40,7 @@ const MarqueeSlider = () => {
                 {companies.map((company, index) => (
                     <div 
                         key={index} 
-                        className="flex items-center gap-3 mx-8 px-5 py-2.5 rounded-2xl bg-white/70 dark:bg-slate-900/60 border border-slate-200/80 dark:border-slate-800/70 shadow-xs hover:border-emerald-500/30 dark:hover:border-emerald-500/30 transition-all duration-300 group cursor-pointer"
+                        className="flex items-center gap-2  mx-2 px-5 py-2.5 rounded-2xl bg-white/70 dark:bg-slate-900/60 border border-slate-200/80 dark:border-slate-800/70 shadow-xs hover:border-[#f05a28] dark:hover:border-orange-500/30 transition-all duration-300 group cursor-pointer"
                     >
                         
                         <div className="w-9 h-9 rounded-xl overflow-hidden bg-slate-100 dark:bg-slate-800 border border-slate-200/60 dark:border-slate-700/60 p-0.5 group-hover:scale-105 transition-transform duration-300">
@@ -51,7 +53,7 @@ const MarqueeSlider = () => {
                         </div>
 
                        
-                        <span className="text-sm md:text-base font-bold text-slate-800 dark:text-slate-200 tracking-wide group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors duration-300">
+                        <span className="text-sm md:text-base font-bold text-slate-800 dark:text-slate-200 tracking-wide group-hover:text-[#f05a28] dark:group-hover:text-orange-400 transition-colors duration-300">
                             {company.name}
                         </span>
                     </div>

@@ -16,21 +16,20 @@ const FeaturesSection = () => {
     <section className="w-full py-20 bg-[#f8fafc] dark:bg-slate-950 text-slate-900 dark:text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
         
-        {/* SECTION TITLE & DESCRIPTION */}
-        <div className="max-w-3xl space-y-3">
+       
+        <div className="space-y-3 text-center">
           <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight text-slate-950 dark:text-white">
-            Powerful Features for a Better City
+            Why Choose CityFix
           </h2>
-          <p className="text-sm md:text-base text-slate-500 dark:text-slate-400 leading-relaxed max-w-2xl">
-            Discover the essential features that make CityFix a reliable platform for reporting civic issues, 
-            engaging with the community, and improving city services through transparency and collaboration.
+          <p className="text-sm md:text-base text-slate-500 dark:text-slate-400 leading-relaxed ">
+           Discover the features that make CityFix the trusted platform for reporting issues, <br /> finding skilled professionals, and strengthening communities across Bangladesh.
           </p>
         </div>
 
-        {/* BENTO GRID LAYOUT (As per your uploaded screenshot) */}
+        
         <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-stretch">
           
-          {/* FEATURE 1: Report Civic Issues (Top Left Large Card) */}
+          
           <div className="md:col-span-6 bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800/80 rounded-[32px] p-8 flex flex-col justify-between min-h-[260px] relative overflow-hidden group shadow-xs">
             <div className="space-y-4 max-w-md">
               <div className="w-10 h-10 rounded-xl bg-slate-50 dark:bg-slate-800 flex items-center justify-center border border-slate-100 dark:border-slate-700/50">
@@ -41,7 +40,7 @@ const FeaturesSection = () => {
                 Easily report problems such as damaged roads, broken streetlights, drainage issues, waste management concerns, and other public service requests with detailed information and images.
               </p>
             </div>
-            {/* Custom Bottom Right Rounded Button Panel from Image */}
+  
             <div className="absolute bottom-0 right-0 bg-[#f8fafc] dark:bg-slate-950 pl-4 pt-4 rounded-tl-[24px]">
               <button className="flex items-center gap-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-5 py-2.5 rounded-xl text-xs font-bold shadow-xs hover:border-emerald-500 transition-colors">
                 File Report <ArrowRight className="w-3.5 h-3.5" />
@@ -49,7 +48,7 @@ const FeaturesSection = () => {
             </div>
           </div>
 
-          {/* FEATURE 2: Community Discussions (Top Middle Box) */}
+          
           <div className="md:col-span-3 bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800/80 rounded-[32px] p-7 flex flex-col justify-between min-h-[260px] shadow-xs">
             <div className="space-y-3">
               <div className="w-10 h-10 rounded-xl bg-rose-50 dark:bg-rose-950/20 flex items-center justify-center border border-rose-100/40 dark:border-rose-900/30">
@@ -60,14 +59,14 @@ const FeaturesSection = () => {
                 Join the conversation by commenting on public reports, sharing suggestions, and helping improve your community.
               </p>
             </div>
-            {/* Active status indicator item mimicking image */}
+            
             <div className="flex items-center gap-1.5 text-[11px] font-bold text-slate-600 dark:text-slate-400 mt-4">
               <span className="w-2 h-2 rounded-full bg-rose-500 animate-pulse" />
               Active Threads: <span className="text-slate-900 dark:text-white font-extrabold">42 open</span>
             </div>
           </div>
 
-          {/* FEATURE 3: Public Notices (Top Right Box) */}
+          
           <div className="md:col-span-3 bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800/80 rounded-[32px] p-7 flex flex-col justify-between min-h-[260px] shadow-xs">
             <div className="space-y-4">
               <div className="w-10 h-10 rounded-xl bg-slate-50 dark:bg-slate-800 flex items-center justify-center border border-slate-100 dark:border-slate-700/50">
@@ -78,7 +77,7 @@ const FeaturesSection = () => {
                 Stay informed with official announcements, important updates, and service notices published by administrators.
               </p>
             </div>
-            {/* Grid tags from image */}
+            
             <div className="flex flex-wrap gap-1.5 mt-2">
               {['URGENT', 'UPDATES', 'CIVIC'].map((tag) => (
                 <span key={tag} className="text-[9px] font-bold tracking-wider px-2 py-1 bg-slate-50 dark:bg-slate-800 border border-slate-200/60 dark:border-slate-700/60 rounded-md text-slate-500 dark:text-slate-400">
@@ -88,7 +87,7 @@ const FeaturesSection = () => {
             </div>
           </div>
 
-          {/* FEATURE 4: Community Campaigns (Bottom Left Stats Card) */}
+          
           <div className="md:col-span-3 bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800/80 rounded-[32px] p-6 flex flex-col justify-between shadow-xs">
             <div className="grid grid-cols-2 gap-3">
               <div className="bg-slate-50/50 dark:bg-slate-800/30 border border-slate-100 dark:border-slate-800 p-3 rounded-xl">
@@ -116,10 +115,10 @@ const FeaturesSection = () => {
             </div>
           </div>
 
-          {/* FEATURE 5: Track Report Progress (Bottom Middle Large Card) */}
+         
           <div className="md:col-span-6 bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800/80 rounded-[32px] p-8 flex flex-col justify-between relative overflow-hidden group shadow-xs">
             <div className="flex flex-col md:flex-row items-start md:items-center gap-6 flex-1">
-              {/* Circular Status Accent Visual from screenshot */}
+             
               <div className="w-24 h-24 rounded-full border-4 border-dashed border-emerald-500/20 flex items-center justify-center p-2 relative shrink-0">
                 <div className="w-full h-full rounded-full bg-emerald-50 dark:bg-emerald-950/20 flex items-center justify-center">
                   <Activity className="w-6 h-6 text-emerald-600 dark:text-emerald-400 animate-pulse" />
@@ -142,7 +141,7 @@ const FeaturesSection = () => {
             </div>
           </div>
 
-          {/* FEATURE 6: Efficient Issue Management (Bottom Right Box) */}
+          
           <div className="md:col-span-3 bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800/80 rounded-[32px] p-7 flex flex-col justify-between shadow-xs">
             <div className="space-y-4">
               <div className="w-10 h-10 rounded-xl bg-slate-50 dark:bg-slate-800 flex items-center justify-center border border-slate-100 dark:border-slate-700/50">

@@ -27,7 +27,7 @@ const images = [
 export default function Momentsofhope() {
   return (
     <section className="py-20 bg-slate-50 dark:bg-slate-950 transition-colors duration-300">
-      <div className="max-w-[85%] mx-auto px-4">
+      <div className="max-w-[70%] mx-auto px-4">
         
         <motion.div
           initial={{ opacity: 0, y: 40 }}
@@ -44,7 +44,7 @@ export default function Momentsofhope() {
             </h2>
 
             <p className="text-slate-500 text-xs lg:text-sm mt-3 dark:text-slate-400 max-w-xl mx-auto leading-relaxed">
-              Explore inspiring snapshots and impactful stories captured from our civic engagement activities and local development campaigns.
+             Real stories of community impact. Explore snapshots from our citizen-led activities and local campaigns.
             </p>
           </div>
 

@@ -16,6 +16,7 @@ import {
 } from "@/Components/ui/dialog";
 import { Input } from "@/Components/ui/input";
 import { Textarea } from "@/Components/ui/textarea";
+import { authClient } from '@/lib/auth-client';
 
 interface NoticeProps {
     _id?: string;
@@ -53,6 +54,7 @@ const NoticeClientView: React.FC<NoticeClientViewProps> = ({ initialNotices }) =
         }
 
         setLoading(true);
+        const { data: tokenData } = await authClient.token()
         const newNotice = { title, description, date, time, image };
 
         try {
@@ -60,6 +62,7 @@ const NoticeClientView: React.FC<NoticeClientViewProps> = ({ initialNotices }) =
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    authorization: `Bearer ${tokenData?.token}`,
                 },
                 body: JSON.stringify(newNotice),
             });
