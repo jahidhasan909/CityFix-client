@@ -71,7 +71,7 @@ const Navbar: React.FC = () => {
             <div className="px-4 container border border-slate-200/80 my-4 bg-white/60  shadow-md rounded-4xl backdrop-blur-md mx-auto sm:px-6 lg:px-8">
                 <div className="flex justify-between h-16 items-center">
 
-                    {/* Logo */}
+                    
                     <Link href="/" className="flex items-center flex-shrink-0 gap-1">
                         <Image
                             width={34}
@@ -85,7 +85,7 @@ const Navbar: React.FC = () => {
                         </span>
                     </Link>
 
-                    {/* Desktop Navigation */}
+                    
                     <div className="hidden lg:flex items-center gap-8">
                         <Link href="/" className={linkClass('/')}>Home</Link>
                         <Link href="/reports" className={linkClass('/reports')}>Reports</Link>
@@ -93,9 +93,9 @@ const Navbar: React.FC = () => {
                         {user && <Link href="/funding" className={linkClass('/funding')}>Funding</Link>}
                     </div>
 
-                    {/* Desktop Actions */}
+                   
                     <div className="hidden lg:flex items-center gap-4">
-                        {/* Theme toggle  */}
+                  
                         <ThemeToggle />
                         {!user ? (
                             <Link href='/login' className="group relative inline-flex overflow-hidden rounded-2xl  p-[2px]">
@@ -114,7 +114,7 @@ const Navbar: React.FC = () => {
                                     <button className="focus:outline-none cursor-pointer rounded-full transition-transform active:scale-95">
                                         <Avatar className="h-9 w-9 border border-slate-200 dark:border-zinc-700">
                                             <AvatarImage alt={user?.name} src={user?.image} />
-                                            <AvatarFallback className="bg-rose-100 text-[#31b66f] dark:bg-zinc-800 dark:text-green-400 font-semibold">
+                                            <AvatarFallback className="bg-rose-100 text-[#f05a28] dark:bg-zinc-800 dark:text-green-400 font-semibold">
                                                 {user?.name?.slice(0, 2).toUpperCase() || "CF"}
                                             </AvatarFallback>
                                         </Avatar>
@@ -158,7 +158,7 @@ const Navbar: React.FC = () => {
 
                     {/* Mobile Navigation */}
                     <div className="lg:hidden flex items-center gap-2">
-                        {/* Theme toggle */}
+                        
                         <ThemeToggle />
                         {user && (
                             <DropdownMenu modal={false}>

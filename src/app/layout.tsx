@@ -7,6 +7,7 @@ import { ThemeProvider } from "@/Components/providers/ThemeProvider";
 import { cn } from "@/lib/utils";
 import { Toaster } from "react-hot-toast";
 import Footer from "@/Components/Shared/Footer";
+import SmoothScroll from "@/Components/Lanis/SomthScroll";
 
 const plusSans = Plus_Jakarta_Sans({
   subsets: ["latin"],
@@ -34,6 +35,7 @@ export default function RootLayout({
        
         <ThemeProvider>
           <Navbar />
+          <SmoothScroll />
           <main className="grow">
             {children}
           </main>
