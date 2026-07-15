@@ -43,12 +43,12 @@ const Reportspage = async () => {
         <main className="min-h-screen bg-[#f1f5f9] dark:bg-slate-950 py-16 px-4 sm:px-6 lg:px-8 transition-colors duration-300 ">
             <div className="max-w-[1400px] mx-auto space-y-10 mt-10">
               
-                <div className="text-center md:text-left space-y-2">
+                <div className="text-center  space-y-2">
                     <h1 className="text-3xl md:text-4xl font-black text-slate-900 dark:text-white tracking-tight">
-                        Pending <span className="text-amber-500">Reports</span>
+                        Public Reports
                     </h1>
                     <p className="text-sm font-medium text-slate-500 dark:text-slate-400">
-                        Reviewing newly submitted citizen reports awaiting approval.
+                        Explore all public reports submitted by citizens. View issue details, locations, <br /> and the latest status updates.
                     </p>
                 </div>
 
