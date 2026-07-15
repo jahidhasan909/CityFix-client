@@ -13,6 +13,7 @@ import { Input } from "@/Components/ui/input";
 import { Label } from "@/Components/ui/label";
 import { Avatar, AvatarFallback, AvatarImage } from "@/Components/ui/avatar";
 import { UploadImagebb } from "@/lib/action/UploadImgbb";
+import Loading from "@/app/loading";
 
 interface LocationItem {
     id: string | number;
@@ -166,11 +167,7 @@ export default function Profile({ userData }: ProfileComponentProps) {
     };
 
     if (loading) {
-        return (
-            <div className="min-h-[400px] flex items-center justify-center">
-                <Loader2 className="w-8 h-8 animate-spin text-[#f05a28]" />
-            </div>
-        );
+        return <Loading></Loading>
     }
 
     return (
@@ -181,7 +178,7 @@ export default function Profile({ userData }: ProfileComponentProps) {
                 </div>
             )}
             
-            {/* Header Section */}
+          
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-slate-100 dark:border-slate-800/60 pb-6 mb-8">
                 <div className="flex items-center gap-4">
                     <Avatar className="w-16 h-16 ring-4 ring-[#f05a28]/10 dark:ring-slate-800">
@@ -235,9 +232,9 @@ export default function Profile({ userData }: ProfileComponentProps) {
                 </div>
             </div>
 
-            {/* Form Section */}
+          
             <form className="space-y-6" onSubmit={handleSubmit(onFormSubmit)}>
-                {/* Full Name */}
+         
                 <div className="grid gap-2">
                     <Label className="text-[11px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider pl-1">Full Name</Label>
                     <Input
@@ -249,7 +246,7 @@ export default function Profile({ userData }: ProfileComponentProps) {
                     {errors.name && <span className="text-xs text-red-500 font-medium pl-1">{errors.name.message}</span>}
                 </div>
 
-                {/* Email Address */}
+              
                 <div className="grid gap-2">
                     <Label className="text-[11px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider pl-1">Email Address (Locked)</Label>
                     <Input
@@ -260,7 +257,7 @@ export default function Profile({ userData }: ProfileComponentProps) {
                     />
                 </div>
 
-                {/* Image Upload */}
+              
                 <div className="grid gap-2">
                     <Label className="text-[11px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider pl-1">Profile Image (Optional)</Label>
                     <Input
@@ -272,7 +269,7 @@ export default function Profile({ userData }: ProfileComponentProps) {
                     />
                 </div>
 
-                {/* District & Upazila */}
+              
                 <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
                     <div className="grid gap-2">
                         <Label className="text-[11px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider pl-1">District</Label>
@@ -314,7 +311,7 @@ export default function Profile({ userData }: ProfileComponentProps) {
                     </div>
                 </div>
 
-                {/* Save Button */}
+          
                 {isEditable && (
                     <div className="flex gap-2 mt-4 pt-6 border-t border-slate-100 dark:border-slate-800/60">
                         <Button

@@ -285,7 +285,7 @@ const MyReportsPagination: React.FC<MyReportsPaginationProps> = ({ Reports: repo
                             })}
                         </div>
 
-                        {/* Pagination Controls */}
+                   
                         {totalPages > 1 && (
                             <div className="flex items-center justify-between border-t border-slate-200 dark:border-slate-800 pt-4 px-2">
                                 <div className="text-xs md:text-sm text-slate-500 dark:text-slate-400">
@@ -333,7 +333,7 @@ const MyReportsPagination: React.FC<MyReportsPaginationProps> = ({ Reports: repo
                     </div>
                 )}
 
-                {/* Delete Confirmation Modal */}
+              
                 {isModalOpen && (
                     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-xs p-4 animate-in fade-in duration-200">
                         <div className="bg-white dark:bg-slate-900 rounded-xl max-w-sm w-full p-6 border border-slate-200 dark:border-slate-800 shadow-xl space-y-4 transform transition-all scale-100">

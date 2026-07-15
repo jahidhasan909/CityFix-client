@@ -1,5 +1,6 @@
 import NoticeView from '@/Components/DashboardComponents/CitizenComponents/NoticeView';
 import React from 'react';
+import toast from 'react-hot-toast';
 
 
 
@@ -18,7 +19,7 @@ async function fetchNotices() {
 
         return await res.json();
     } catch (error) {
-        console.error("Error standard notice data fetching:", error);
+        toast.error("Error standard notice data fetching:");
         return [];
     }
 }

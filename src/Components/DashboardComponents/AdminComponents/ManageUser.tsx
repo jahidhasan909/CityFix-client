@@ -54,12 +54,12 @@ const AllUsersManagementPage: React.FC<AllUsersManagementPageProps> = ({ Users }
         setUsersList(getCitizenUsers(Users));
     }
 
-    // Pagination
+    
     const page = (Users as UsersFetchData)?.page || 1;
     const totalPages = (Users as UsersFetchData)?.totalPage || 1;
     const pages = Array.from({ length: totalPages }, (_, i) => i + 1);
 
-    // Status Update (Block / Unblock)
+    
     const handleStatusUpdate = async (userId: string, newStatus: string) => {
         const targetUser = usersList.find(user => user._id === userId);
         if (!targetUser) return;
@@ -90,7 +90,7 @@ const AllUsersManagementPage: React.FC<AllUsersManagementPageProps> = ({ Users }
         }
     };
 
-    // Role Update (Make Officer / Make Admin)
+    
     const handleRoleUpdate = async (userId: string, newRole: string) => {
         const targetUser = usersList.find(user => user._id === userId);
         if (!targetUser) return;

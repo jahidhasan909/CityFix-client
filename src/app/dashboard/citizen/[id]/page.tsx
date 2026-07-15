@@ -1,6 +1,7 @@
 import DetailsClient from '@/Components/DetailsPage/DetailsPage';
 import React from 'react';
 import DetailsClientown from './DetailsClientown';
+import toast from 'react-hot-toast';
 
 
 export interface Report {
@@ -52,7 +53,7 @@ const Detailspage = async ({ params }: PageProps) => {
             commentsData = allComments.filter(comment => comment.reportId === id);
         }
     } catch (error) {
-        console.error("Error fetching data in server component:", error);
+        toast.error("Error fetching data in server component:");
     }
 
     if (!reportData) {

@@ -126,7 +126,7 @@ const NoticeClientView: React.FC<NoticeClientViewProps> = ({ initialNotices }) =
     return (
         <div className="max-w-6xl mx-auto p-4 md:p-8 space-y-8 min-h-screen">
             
-            {/* TOP BAR WITH MODAL BUTTON */}
+            
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 p-6 rounded-2xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs">
                 <div>
                     <h1 className="text-xl md:text-2xl font-bold text-slate-900 dark:text-white">Notice Board Management</h1>

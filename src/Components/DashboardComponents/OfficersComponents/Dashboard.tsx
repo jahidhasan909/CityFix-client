@@ -3,8 +3,9 @@
 import React, { useState, useEffect } from 'react';
 import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer, Tooltip, PieChart, Pie, Cell } from 'recharts';
 import { Users, CheckCircle, DollarSign, ArrowUpRight, Loader2 } from 'lucide-react';
+import Loading from '@/app/loading';
 
-// Default Fallbacks
+
 const DEFAULT_FUNDING_DATA = [
   { name: 'S', amount: 4000 },
   { name: 'M', amount: 5000 },
@@ -16,7 +17,7 @@ const DEFAULT_FUNDING_DATA = [
 ];
 
 const HomeDashboardOfficer = () => {
-  // 1. STATE MANAGEMENT
+  
   const [funding, setFunding] = useState({ total: 0, chartData: DEFAULT_FUNDING_DATA, trend: 0 });
   const [reports, setReports] = useState({ solved: 0, efficiency: 0 });
   const [citizens, setCitizens] = useState({ active: 0, blocked: 0 });
@@ -24,13 +25,13 @@ const HomeDashboardOfficer = () => {
   const [error, setError] = useState(null);
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || '';
 
-  // 2. DATA FETCHING
+ 
   useEffect(() => {
     const fetchDashboardData = async () => {
       try {
         setLoading(true);
         
-        // Fetch all three endpoints concurrently
+        
         const [fundingRes, reportsRes, userRes] = await Promise.all([
           fetch(`${baseUrl}/api/funding`).then(res => {
             if (!res.ok) throw new Error('Failed to fetch funding data');
@@ -116,7 +117,7 @@ const HomeDashboardOfficer = () => {
     fetchDashboardData();
   }, [baseUrl]);
 
-  // Compute values dynamically
+
   const totalCitizens = citizens.active + citizens.blocked;
   const citizenPieData = [
     { name: 'Active Citizens', value: citizens.active, color: '#1b4332' },
@@ -124,33 +125,28 @@ const HomeDashboardOfficer = () => {
   ];
 
   if (loading) {
-    return (
-      <div className="flex flex-col items-center justify-center min-h-screen bg-slate-50 dark:bg-slate-950">
-        <Loader2 className="w-8 h-8 text-emerald-600 animate-spin" />
-        <p className="text-sm text-slate-500 mt-2 font-medium">Loading Dashboard Data...</p>
-      </div>
-    );
+    return <Loading></Loading>
   }
 
   return (
     <div className="space-y-6 p-4 md:p-6 bg-slate-50 dark:bg-slate-950 min-h-screen">
       
-      {/* ERROR NOTICE */}
+      
       {error && (
         <div className="p-3 text-xs bg-amber-50 dark:bg-amber-950/20 text-amber-600 dark:text-amber-400 border border-amber-200 dark:border-amber-900/50 rounded-xl">
           {error}
         </div>
       )}
 
-      {/* HEADER SECTION */}
+      
       <div>
         <h1 className="text-2xl font-bold text-slate-900 dark:text-white">Dashboard</h1>
         <p className="text-xs text-slate-500 mt-0.5">Plan, prioritize, and accomplish your tasks with ease.</p>
       </div>
 
-      {/* THREE STATS CARDS */}
+     
       <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-        {/* Total Citizen Card */}
+        
         <div className="bg-[#1b4332] text-white p-5 rounded-2xl shadow-xs relative overflow-hidden flex flex-col justify-between min-h-[140px]">
           <div className="flex justify-between items-start">
             <span className="text-sm font-medium opacity-80">Total Citizens</span>
@@ -166,7 +162,7 @@ const HomeDashboardOfficer = () => {
           </div>
         </div>
 
-        {/* Solved Reports Card */}
+     
         <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-5 rounded-2xl shadow-xs flex flex-col justify-between min-h-[140px]">
           <div className="flex justify-between items-start">
             <span className="text-sm font-medium text-slate-500 dark:text-slate-400">Total Solved Reports</span>
@@ -184,7 +180,7 @@ const HomeDashboardOfficer = () => {
           </div>
         </div>
 
-        {/* Total Funding Card */}
+        
         <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-5 rounded-2xl shadow-xs flex flex-col justify-between min-h-[140px]">
           <div className="flex justify-between items-start">
             <span className="text-sm font-medium text-slate-500 dark:text-slate-400">Total Funding</span>
@@ -203,9 +199,9 @@ const HomeDashboardOfficer = () => {
         </div>
       </div>
 
-      {/* BOTH CHARTS SIDE BY SIDE */}
+      
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Funding Analytics Bar Chart */}
+       
         <div className="lg:col-span-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-5 rounded-2xl shadow-xs flex flex-col justify-between">
           <div>
             <h3 className="font-bold text-slate-900 dark:text-white text-base">Funding Analytics</h3>
@@ -231,14 +227,14 @@ const HomeDashboardOfficer = () => {
           </div>
         </div>
 
-        {/* Citizen Status Donut Chart */}
+       
         <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-5 rounded-2xl shadow-xs flex flex-col justify-between">
           <div>
             <h3 className="font-bold text-slate-900 dark:text-white text-base">Citizen Status</h3>
             <p className="text-xs text-slate-400 mt-0.5">Ratio between active and blocked profiles.</p>
           </div>
 
-          {/* Chart Wrapper with Center Text Layer */}
+        
           <div className="w-full h-52 relative mt-2 flex items-center justify-center">
             {totalCitizens > 0 ? (
               <>
@@ -293,7 +289,7 @@ const HomeDashboardOfficer = () => {
   );
 };
 
-// Pure routing Wrapper Component
+
 const OfficerHomepage = () => {
   return (
     <div>

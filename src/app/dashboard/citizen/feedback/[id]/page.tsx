@@ -21,7 +21,7 @@ export default async function FeedbackPage({ params }: FeedbackPageProps) {
     let comments: CommentItem[] = [];
     let errorOccurred = false;
 
-    // ব্যাকএন্ড থেকে নির্দিষ্ট reportId এর কমেন্টগুলো ফেচ করা হচ্ছে
+   
     try {
         const res = await fetch(`${baseurl}/api/publiccomments?reportId=${reportId}`, {
             cache: 'no-store'
@@ -38,7 +38,7 @@ export default async function FeedbackPage({ params }: FeedbackPageProps) {
         <div className="min-h-screen bg-slate-50 dark:bg-slate-950/20 py-12 px-4 lg:py-16">
             <div className="max-w-3xl mx-auto space-y-6">
                 
-                {/* Back Button & Header */}
+                
                 <div className="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-5">
                     <div className="flex items-center gap-3">
                         <Link 
@@ -63,7 +63,7 @@ export default async function FeedbackPage({ params }: FeedbackPageProps) {
                     </span>
                 </div>
 
-                {/* Comments List Area */}
+               
                 {errorOccurred ? (
                     <div className="text-center py-12 bg-white dark:bg-slate-900 border rounded-2xl p-6 shadow-xs">
                         <p className="text-sm text-red-500 font-medium">Failed to load comments. Please try again later.</p>

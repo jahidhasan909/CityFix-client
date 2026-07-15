@@ -38,7 +38,7 @@ const NoticeView: React.FC<NoticeClientProps> = ({ notices }) => {
     return (
         <div className="space-y-6 p-4 md:p-6  dark:bg-slate-950 min-h-screen">
             
-            {/* HEADER SECTION */}
+           
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs">
                 <div>
                     <h1 className="text-xl md:text-2xl font-bold text-slate-900 dark:text-white">Notice Board</h1>
@@ -55,7 +55,7 @@ const NoticeView: React.FC<NoticeClientProps> = ({ notices }) => {
                             className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 shadow-xs hover:shadow-md transition-all flex flex-col justify-between h-full space-y-4"
                         >
                             <div className="space-y-3 flex-1">
-                                {/* Notice Image */}
+                                
                                 {notice.image && (
                                     <div className="w-full h-44 rounded-xl overflow-hidden bg-slate-100 dark:bg-slate-800 border border-slate-200/60 dark:border-slate-700/60">
                                         {/* eslint-disable-next-line */}
@@ -77,7 +77,7 @@ const NoticeView: React.FC<NoticeClientProps> = ({ notices }) => {
                             </div>
 
                             <div className="space-y-3 pt-3 border-t border-slate-100 dark:border-slate-800">
-                                {/* Date & Time Meta */}
+                               
                                 <div className="flex items-center gap-4 text-[11px] font-semibold text-slate-500 dark:text-slate-400">
                                     <span className="flex items-center gap-1">
                                         <Calendar className="w-3.5 h-3.5 text-[#1b4332]" />
@@ -89,7 +89,7 @@ const NoticeView: React.FC<NoticeClientProps> = ({ notices }) => {
                                     </span>
                                 </div>
 
-                                {/* Action Button */}
+                               
                                 <Button 
                                     variant="outline" 
                                     className="w-full h-9 text-xs font-semibold rounded-xl border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 flex items-center justify-center gap-1.5"
@@ -109,7 +109,7 @@ const NoticeView: React.FC<NoticeClientProps> = ({ notices }) => {
                 </div>
             )}
 
-            {/* VIEW DETAILS MODAL */}
+           
             <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
                 <DialogContent className="max-w-lg w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-xl p-6 overflow-y-auto max-h-[90vh]">
                     {selectedNotice && (
@@ -130,7 +130,7 @@ const NoticeView: React.FC<NoticeClientProps> = ({ notices }) => {
                                 </DialogDescription>
                             </DialogHeader>
 
-                            {/* Modal Detailed Image */}
+                            
                             {selectedNotice.image && (
                                 <div className="w-full h-56 rounded-xl overflow-hidden bg-slate-100 dark:bg-slate-800 border border-slate-200/60 dark:border-slate-700/60">
                                     {/* eslint-disable-next-line */}
@@ -142,7 +142,7 @@ const NoticeView: React.FC<NoticeClientProps> = ({ notices }) => {
                                 </div>
                             )}
 
-                            {/* Full Description Text */}
+                            
                             <div className="text-sm text-slate-600 dark:text-slate-300 whitespace-pre-line leading-relaxed bg-slate-50/50 dark:bg-slate-800/30 p-4 rounded-xl border border-slate-100 dark:border-slate-800/60">
                                 {selectedNotice.description}
                             </div>

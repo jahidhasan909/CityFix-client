@@ -1,5 +1,6 @@
 import CampaignClientView from '@/Components/DashboardComponents/Shared/CampaingView';
 import React from 'react';
+import toast from 'react-hot-toast';
 
 
 interface CampaignManagementProps {
@@ -22,7 +23,7 @@ async function getCampaigns(page: string) {
 
         return await res.json();
     } catch (error) {
-        console.error("Error fetching campaigns:", error);
+        toast.error("Error fetching campaigns:");
         return { data: [], page: 1, totalPage: 1 };
     }
 }

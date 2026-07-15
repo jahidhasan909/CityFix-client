@@ -1,5 +1,6 @@
 import NoticeClientView from '@/Components/DashboardComponents/AdminComponents/NoticeView';
 import React from 'react';
+import toast from 'react-hot-toast';
 
 
 
@@ -26,7 +27,7 @@ async function getNotices(): Promise<NoticeProps[]> {
         
         return await res.json();
     } catch (error) {
-        console.error("Error fetching notices:", error);
+        toast.error("Error fetching notices:");
         return [];
     }
 }

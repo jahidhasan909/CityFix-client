@@ -14,6 +14,7 @@ import { Button } from "@/Components/ui/button";
 import { Input } from "@/Components/ui/input";
 import { Label } from "@/Components/ui/label";
 import { Textarea } from "@/Components/ui/textarea";
+import Loading from '@/app/loading';
 
 // Zod Validation Schema matching your report details
 const formSchema = z.object({
@@ -86,7 +87,7 @@ const EditReportForm: React.FC<EditReportFormProps> = ({ id }) => {
 
   const selectedDistrict = watch("district");
 
-  // Load districts and upazilas
+  
   useEffect(() => {
     const loadLocationData = async () => {
       try {
@@ -101,7 +102,7 @@ const EditReportForm: React.FC<EditReportFormProps> = ({ id }) => {
         setDistricts(districtData?.[2]?.data || []);
         setUpazilas(upazilaData?.[2]?.data || []);
       } catch (error) {
-        console.error("Failed to load location data", error);
+       
         toast.error("Failed to load location data");
       }
     };
@@ -207,17 +208,13 @@ const EditReportForm: React.FC<EditReportFormProps> = ({ id }) => {
   };
 
   if (isPending || loading) {
-    return (
-      <div className="flex items-center justify-center min-h-[300px] text-muted-foreground text-sm font-medium">
-        <Loader2 className="h-5 w-5 animate-spin mr-2 text-rose-500" /> Loading report details...
-      </div>
-    );
+    return <Loading></Loading>
   }
 
   return (
     <form className="flex flex-col gap-6 w-full max-w-4xl mx-auto p-4 sm:p-6" onSubmit={handleSubmit(onFormSubmit)}>
       
-      {/* Citizen Meta Info */}
+     
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 p-4 rounded-xl border border-border bg-muted/30">
         <div className="flex flex-col gap-1.5">
           <Label className="text-xs font-semibold text-foreground/80">Citizen Name</Label>
@@ -230,7 +227,7 @@ const EditReportForm: React.FC<EditReportFormProps> = ({ id }) => {
         </div>
       </div>
 
-      {/* Title and Category */}
+     
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <div className="flex flex-col gap-1.5">
           <Label htmlFor="title" className="text-xs font-semibold text-foreground/80">Report Title</Label>
@@ -270,7 +267,7 @@ const EditReportForm: React.FC<EditReportFormProps> = ({ id }) => {
         </div>
       </div>
 
-      {/* Location (District & Upazila) */}
+      
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <div className="flex flex-col gap-1.5">
           <Label htmlFor="district" className="text-xs font-semibold text-foreground/80">District</Label>
@@ -328,7 +325,7 @@ const EditReportForm: React.FC<EditReportFormProps> = ({ id }) => {
         </div>
       </div>
 
-      {/* Description Area */}
+      
       <div className="flex flex-col gap-1.5">
         <Label htmlFor="description" className="text-xs font-semibold text-foreground/80">
           Description (Detailed Incident Analysis)
@@ -345,7 +342,7 @@ const EditReportForm: React.FC<EditReportFormProps> = ({ id }) => {
         {errors.description && <span className="text-xs text-destructive mt-1">{errors.description.message}</span>}
       </div>
 
-      {/* Action Buttons */}
+      
       <div className="flex flex-col sm:flex-row gap-3 pt-6 border-t border-border mt-4">
         <Button
           type="submit"

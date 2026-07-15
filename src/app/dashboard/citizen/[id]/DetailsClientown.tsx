@@ -6,6 +6,7 @@ import { HiOutlineCalendar, HiOutlineClock, HiChatBubbleLeftRight, HiXMark } fro
 
 import { authClient } from '@/lib/auth-client';
 import { PublicComment, Report } from '@/app/reports/[id]/page';
+import Loading from '@/app/loading';
 
 interface DetailsClientProps {
     report: Report;
@@ -64,12 +65,7 @@ const DetailsClientown: React.FC<DetailsClientProps> = ({ report, initialComment
     };
 
     if (isPending) {
-        return (
-            <div className="min-h-[60vh] flex items-center justify-center">
-                <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-emerald-500"></div>
-                <span className="ml-3 text-sm font-semibold text-slate-500">Loading Session...</span>
-            </div>
-        );
+        return <Loading></Loading>
     }
 
     return (

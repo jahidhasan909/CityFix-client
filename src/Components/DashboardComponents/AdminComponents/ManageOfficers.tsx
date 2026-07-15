@@ -54,17 +54,17 @@ const OfficerManagementPage: React.FC<OfficerManagementPageProps> = ({ Users }) 
         setOfficersList(getOfficerUsers(Users));
     }
 
-    // Pagination
+    
     const page = (Users as UsersFetchData)?.page || 1;
     const totalPages = (Users as UsersFetchData)?.totalPage || 1;
     const pages = Array.from({ length: totalPages }, (_, i) => i + 1);
 
-    // (Suspend / Unsuspend)
+    
     const handleStatusUpdate = async (userId: string, newStatus: 'active' | 'suspended') => {
         const targetUser = officersList.find(user => user._id === userId);
         if (!targetUser) return;
 
-        // ফিক্সড: ব্যাকএন্ডের সঠিক রাউট এন্ডপয়েন্ট সেট করা হলো
+       
         const endpoint = newStatus === 'suspended' ? 'suspend' : 'unsuspend'; 
         const successMessage = newStatus === 'suspended' ? 'Officer suspended successfully!' : 'Officer unsuspended successfully!';
 

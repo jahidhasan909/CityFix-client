@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer, Tooltip } from 'recharts';
 import { Users, CheckCircle, DollarSign, ShieldAlert, ArrowUpRight, Loader2 } from 'lucide-react';
+import Loading from '@/app/loading';
 
 
 interface FundingItem {
@@ -56,7 +57,7 @@ interface CombinedFundingObj {
   chartData?: FundingItem[];
 }
 
-// Default Fallback Funding Data
+
 const DEFAULT_FUNDING_DATA: FundingItem[] = [
   { name: 'S', amount: 4000 },
   { name: 'M', amount: 5000 },
@@ -92,7 +93,7 @@ const AdminHomeClient: React.FC = () => {
       try {
         setLoading(true);
 
-        // Concurrent Safe Fetching
+        
         const [fundingRes, reportsRes, userRes] = await Promise.all([
           fetch(`${baseUrl}/api/funding`).then((res): Promise<DBFundingResponse[] | CombinedFundingObj> => {
             if (!res.ok) throw new Error('Failed to fetch funding');
@@ -191,34 +192,29 @@ const AdminHomeClient: React.FC = () => {
   }, [baseUrl]);
 
   if (loading) {
-    return (
-      <div className="flex flex-col items-center justify-center min-h-screen bg-slate-50 dark:bg-slate-950">
-        <Loader2 className="w-8 h-8 text-emerald-600 animate-spin" />
-        <p className="text-sm text-slate-500 mt-2 font-medium font-sans">Loading Admin Dashboard...</p>
-      </div>
-    );
+    return <Loading></Loading>
   }
 
   return (
     <div className="space-y-6 p-4 md:p-6  dark:bg-slate-950 min-h-screen">
       
-      {/* ERROR NOTICE */}
+      
       {error && (
         <div className="p-3 text-xs bg-amber-50 dark:bg-amber-950/20 text-amber-600 dark:text-amber-400 border border-amber-200 dark:border-amber-900/50 rounded-xl">
           {error}
         </div>
       )}
 
-      {/* HEADER SECTION */}
+      
       <div>
         <h1 className="text-2xl font-bold text-slate-900 dark:text-white">Dashboard</h1>
         <p className="text-xs text-slate-500 mt-0.5">Plan, prioritize, and accomplish your tasks with ease.</p>
       </div>
 
-      {/* THREE STATS CARDS */}
+     
       <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
         
-        {/* Total Citizen Card */}
+       
         <div className="bg-[#f05a28] text-white p-5 rounded-2xl shadow-xs relative overflow-hidden flex flex-col justify-between min-h-[140px]">
           <div className="flex justify-between items-start">
             <span className="text-sm font-medium opacity-80">Total Citizens</span>
@@ -234,7 +230,7 @@ const AdminHomeClient: React.FC = () => {
           </div>
         </div>
 
-        {/* Solved Reports Card */}
+     
         <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-5 rounded-2xl shadow-xs flex flex-col justify-between min-h-[140px]">
           <div className="flex justify-between items-start">
             <span className="text-sm font-medium text-slate-500 dark:text-slate-400">Total Solved Reports</span>
@@ -252,7 +248,7 @@ const AdminHomeClient: React.FC = () => {
           </div>
         </div>
 
-        {/* Total Funding Card */}
+       
         <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-5 rounded-2xl shadow-xs flex flex-col justify-between min-h-[140px]">
           <div className="flex justify-between items-start">
             <span className="text-sm font-medium text-slate-500 dark:text-slate-400">Total Funding</span>
@@ -272,10 +268,10 @@ const AdminHomeClient: React.FC = () => {
 
       </div>
 
-      {/* LOWER GRID */}
+      
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         
-        {/* Project/Funding Analytics Chart Card */}
+        
         <div className="lg:col-span-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-5 rounded-2xl shadow-xs flex flex-col justify-between">
           <div>
             <h3 className="font-bold text-slate-900 dark:text-white text-base">Funding Analytics</h3>
@@ -302,7 +298,7 @@ const AdminHomeClient: React.FC = () => {
           </div>
         </div>
 
-        {/* Team/Officers Statistics */}
+        
         <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-5 rounded-2xl shadow-xs flex flex-col space-y-5">
           <div>
             <h3 className="font-bold text-slate-900 dark:text-white text-base">Officers Directory</h3>
@@ -310,7 +306,7 @@ const AdminHomeClient: React.FC = () => {
           </div>
 
           <div className="space-y-4 flex-1">
-            {/* Active Officers List */}
+           
             <div>
               <span className="text-xs font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/40 px-2 py-0.5 rounded-md">
                 Active ({activeOfficers.length})
@@ -332,7 +328,7 @@ const AdminHomeClient: React.FC = () => {
               </div>
             </div>
 
-            {/* Suspended Officers List */}
+          
             <div>
               <span className="text-xs font-bold text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-950/40 px-2 py-0.5 rounded-md flex items-center gap-1 w-fit">
                 <ShieldAlert className="w-3 h-3" /> Suspended ({suspendedOfficers.length})

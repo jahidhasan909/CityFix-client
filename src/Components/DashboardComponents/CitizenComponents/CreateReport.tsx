@@ -12,6 +12,7 @@ import toast from "react-hot-toast";
 import { motion } from "framer-motion";
 import { UploadImagebb } from "@/lib/action/UploadImgbb";
 import { Check, Loader2 } from "lucide-react";
+import Loading from "@/app/loading";
 
 interface ReportFormData {
     title: string;
@@ -87,11 +88,7 @@ export default function CreateReportRequest() {
     const { data: userData, isPending } = authClient.useSession();
 
     if (isPending) {
-        return (
-            <div className="min-h-screen flex items-center justify-center bg-[#f8fafc] dark:bg-slate-950">
-                <Loader2 className="w-8 h-8 animate-spin text-[#f05a28]" />
-            </div>
-        );
+        return <Loading></Loading>
     }
 
     const user = userData?.user;
@@ -166,10 +163,10 @@ export default function CreateReportRequest() {
     return (
         <div className=" dark:bg-slate-950 min-h-screen py-12 px-4 transition-colors duration-300">
             <div className="relative max-w-3xl mx-auto">
-                {/* Form Card */}
+                
                 <div className="relative overflow-hidden z-10 w-full rounded-[2rem] bg-white dark:bg-slate-900 p-6 sm:p-10 shadow-sm border border-slate-200/60 dark:border-slate-800/80">
                     
-                    {/* Opacity Controlled Background Pattern Overlay */}
+                  
                     <div
                         className="absolute inset-0 -z-10 bg-cover bg-center opacity-[0.04] dark:opacity-[0.02] pointer-events-none mix-blend-overlay w-full rounded-[2rem]"
                         style={{
@@ -177,7 +174,7 @@ export default function CreateReportRequest() {
                         }}
                     />
 
-                    {/* Header */}
+                    
                     <div className="mb-8 border-b border-slate-100 dark:border-slate-800/60 pb-5">
                         <h1 className="text-2xl sm:text-3xl font-black tracking-tight text-slate-900 dark:text-white">
                             Create a New Incident Report
@@ -189,7 +186,7 @@ export default function CreateReportRequest() {
 
                     <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
                         
-                        {/* Readonly User Metadata Info */}
+                        
                         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 p-4 rounded-2xl border border-slate-100 dark:border-slate-800/40 bg-slate-50/50 dark:bg-slate-950/40">
                             <div className="flex flex-col gap-1.5">
                                 <Label className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider pl-1">Citizen Name</Label>
@@ -202,7 +199,7 @@ export default function CreateReportRequest() {
                             </div>
                         </div>
 
-                        {/* Title and Category */}
+                        
                         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                             <div className="flex flex-col gap-1.5">
                                 <Label htmlFor="title" className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider pl-1">Report Title</Label>
@@ -245,7 +242,7 @@ export default function CreateReportRequest() {
                             </div>
                         </div>
 
-                        {/* District & Upazila */}
+                        
                         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                             <div className="flex flex-col gap-1.5">
                                 <Label htmlFor="district" className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider pl-1">District</Label>
@@ -305,7 +302,7 @@ export default function CreateReportRequest() {
                             </div>
                         </div>
 
-                        {/* Evidence Images */}
+                        
                         <div className="flex flex-col gap-1.5">
                             <Label htmlFor="images" className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider pl-1">
                                 Attach Evidence Images (Exactly 3 files required)
@@ -330,7 +327,7 @@ export default function CreateReportRequest() {
                             )}
                         </div>
 
-                        {/* Description */}
+                        
                         <div className="flex flex-col gap-1.5">
                             <Label htmlFor="description" className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider pl-1">
                                 Description (Detailed Incident Analysis)
@@ -347,7 +344,7 @@ export default function CreateReportRequest() {
                             {errors.description && <span className="text-xs text-red-500 font-medium pl-1 mt-1">{errors.description.message}</span>}
                         </div>
 
-                        {/* Animated Border Submit Button */}
+                      
                         <div className="mt-4 flex w-full relative overflow-hidden rounded-xl p-[1px]">
                             <motion.span
                                 animate={{ rotate: 360 }}

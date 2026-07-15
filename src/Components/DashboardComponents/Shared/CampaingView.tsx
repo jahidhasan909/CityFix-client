@@ -51,7 +51,7 @@ const CampaignClientView: React.FC<CampaignClientViewProps> = ({ campaignsData }
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [loading, setLoading] = useState(false);
 
-    // Delete Modal State
+    
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
     const [campaignToDelete, setCampaignToDelete] = useState<string | null>(null);
     const [deleteLoading, setDeleteLoading] = useState(false);
@@ -113,13 +113,13 @@ const CampaignClientView: React.FC<CampaignClientViewProps> = ({ campaignsData }
         }
     };
 
-    // Trigger Delete Modal
+    
     const openDeleteConfirmation = (id: string) => {
         setCampaignToDelete(id);
         setIsDeleteModalOpen(true);
     };
 
-    // Confirm and Action Delete
+    
     const handleDeleteCampaign = async () => {
         if (!campaignToDelete) return;
 
@@ -232,7 +232,7 @@ const CampaignClientView: React.FC<CampaignClientViewProps> = ({ campaignsData }
                 </Dialog>
             </div>
 
-            {/* LOWER SECTION: PAGINATION TABLE */}
+            
             <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden shadow-xs">
                 {allCampaigns.length > 0 ? (
                     <>
@@ -309,7 +309,7 @@ const CampaignClientView: React.FC<CampaignClientViewProps> = ({ campaignsData }
                             </Table>
                         </div>
 
-                        {/* TABLE PAGINATION CONTROLS */}
+                     
                         {totalPages > 1 && (
                             <div className="flex items-center justify-between border-t border-slate-200 dark:border-slate-800 p-4">
                                 <div className="text-xs md:text-sm text-slate-500 dark:text-slate-400">
@@ -359,7 +359,7 @@ const CampaignClientView: React.FC<CampaignClientViewProps> = ({ campaignsData }
                 )}
             </div>
 
-            {/* GLOBAL CONFIRM DELETE MODAL */}
+           
             <Dialog open={isDeleteModalOpen} onOpenChange={setIsDeleteModalOpen}>
                 <DialogContent className="max-w-sm w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-xl p-6">
                     <DialogHeader>
