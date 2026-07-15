@@ -22,6 +22,7 @@ import {
     DropdownMenuGroup,
 } from "@/Components/ui/dropdown-menu";
 import { UserData } from '@/types/geo';
+import Loading from '@/app/loading';
 
 interface User {
     id: string;
@@ -50,11 +51,7 @@ const Navbar: React.FC = () => {
     }, [user?.email, baseurl]);
 
     if (isPending) {
-        return (
-            <div className="flex h-16 items-center justify-center text-slate-500 font-medium">
-                Loading...
-            </div>
-        );
+        return <Loading></Loading>
     }
 
     if (pathname.includes('dashboard') || pathname.includes('login') || pathname.includes('registration')) {
