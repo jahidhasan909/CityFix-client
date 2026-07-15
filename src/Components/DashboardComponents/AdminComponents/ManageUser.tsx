@@ -15,6 +15,7 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger,
 } from "@/Components/ui/dropdown-menu";
+import { authClient } from '@/lib/auth-client';
 
 interface UserProps {
     _id: string;
@@ -44,7 +45,7 @@ const AllUsersManagementPage: React.FC<AllUsersManagementPageProps> = ({ Users }
         const arr = Array.isArray(rawUsers) ? rawUsers : (rawUsers?.data || rawUsers?.users || []);
         return arr.filter((user: UserProps) => user.role === 'citizen');
     };
-    
+
     const [usersList, setUsersList] = useState<UserProps[]>(getCitizenUsers(Users));
     const [statusFilter, setStatusFilter] = useState<string>('all');
     const [prevUsers, setPrevUsers] = useState<UserProps[] | UsersFetchData>(Users);
@@ -54,24 +55,25 @@ const AllUsersManagementPage: React.FC<AllUsersManagementPageProps> = ({ Users }
         setUsersList(getCitizenUsers(Users));
     }
 
-    
+
     const page = (Users as UsersFetchData)?.page || 1;
     const totalPages = (Users as UsersFetchData)?.totalPage || 1;
     const pages = Array.from({ length: totalPages }, (_, i) => i + 1);
 
-    
+
     const handleStatusUpdate = async (userId: string, newStatus: string) => {
         const targetUser = usersList.find(user => user._id === userId);
         if (!targetUser) return;
 
         const endpoint = newStatus === 'blocked' ? 'makeblock' : 'unblocked';
         const successMessage = newStatus === 'blocked' ? 'User blocked successfully!' : 'User unblocked successfully!';
-
+        const { data: tokenData } = await authClient.token()
         try {
             const response = await fetch(`${baseurl}/api/usercollaction/${endpoint}?email=${targetUser.email}`, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',
+                    authorization: `Bearer ${tokenData?.token}`,
                 }
             });
 
@@ -90,18 +92,19 @@ const AllUsersManagementPage: React.FC<AllUsersManagementPageProps> = ({ Users }
         }
     };
 
-    
+
     const handleRoleUpdate = async (userId: string, newRole: string) => {
         const targetUser = usersList.find(user => user._id === userId);
         if (!targetUser) return;
 
         const endpoint = newRole === 'officer' ? 'makeofficer' : 'makeadmin';
-
+        const { data: tokenData } = await authClient.token()
         try {
             const response = await fetch(`${baseurl}/api/usercollaction/${endpoint}?email=${targetUser.email}`, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',
+                    authorization: `Bearer ${tokenData?.token}`,
                 }
             });
 
@@ -109,7 +112,7 @@ const AllUsersManagementPage: React.FC<AllUsersManagementPageProps> = ({ Users }
 
             if (response.ok) {
                 toast.success(`User updated to ${newRole} successfully!`);
-                
+
                 setUsersList(prev => prev.filter(user => user._id !== userId));
             } else {
                 toast.error(`Failed to update role: ${data.error || 'Unknown error'}`);

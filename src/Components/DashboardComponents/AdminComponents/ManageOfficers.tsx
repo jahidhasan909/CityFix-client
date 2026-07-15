@@ -15,6 +15,7 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger,
 } from "@/Components/ui/dropdown-menu";
+import { authClient } from '@/lib/auth-client';
 
 interface UserProps {
     _id: string;
@@ -22,7 +23,7 @@ interface UserProps {
     email: string;
     image?: string;
     role: 'citizen' | 'officer' | 'admin' | string;
-    status: 'active' | 'suspended' | string; 
+    status: 'active' | 'suspended' | string;
 }
 
 interface UsersFetchData {
@@ -54,25 +55,26 @@ const OfficerManagementPage: React.FC<OfficerManagementPageProps> = ({ Users }) 
         setOfficersList(getOfficerUsers(Users));
     }
 
-    
+
     const page = (Users as UsersFetchData)?.page || 1;
     const totalPages = (Users as UsersFetchData)?.totalPage || 1;
     const pages = Array.from({ length: totalPages }, (_, i) => i + 1);
 
-    
+
     const handleStatusUpdate = async (userId: string, newStatus: 'active' | 'suspended') => {
         const targetUser = officersList.find(user => user._id === userId);
         if (!targetUser) return;
 
-       
-        const endpoint = newStatus === 'suspended' ? 'suspend' : 'unsuspend'; 
-        const successMessage = newStatus === 'suspended' ? 'Officer suspended successfully!' : 'Officer unsuspended successfully!';
 
+        const endpoint = newStatus === 'suspended' ? 'suspend' : 'unsuspend';
+        const successMessage = newStatus === 'suspended' ? 'Officer suspended successfully!' : 'Officer unsuspended successfully!';
+        const { data: tokenData } = await authClient.token()
         try {
             const response = await fetch(`${baseurl}/api/usercollaction/${endpoint}?email=${targetUser.email}`, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',
+                    authorization: `Bearer ${tokenData?.token}`,
                 }
             });
 
@@ -174,7 +176,7 @@ const OfficerManagementPage: React.FC<OfficerManagementPageProps> = ({ Users }) 
                                             <TableCell className="text-center">
                                                 <DropdownMenu>
                                                     {/*  asChild */}
-                                                    <DropdownMenuTrigger > 
+                                                    <DropdownMenuTrigger >
                                                         <Button size="icon" variant="ghost" className="rounded-full hover:cursor-pointer">
                                                             <MoreVertical className="w-4 h-4" />
                                                         </Button>
