@@ -1,10 +1,19 @@
 import NoticeView from '@/Components/DashboardComponents/CitizenComponents/NoticeView';
 import React from 'react';
-import toast from 'react-hot-toast';
 
 
+export const dynamic = 'force-dynamic';
 
-async function fetchNotices() {
+interface NoticeProps {
+    _id?: string;
+    title: string;
+    description: string;
+    date: string;
+    time: string;
+    image?: string;
+}
+
+async function fetchNotices(): Promise<NoticeProps[]> {
     const baseurl = process.env.NEXT_PUBLIC_BASE_URL || '';
     
     try {
@@ -19,18 +28,18 @@ async function fetchNotices() {
 
         return await res.json();
     } catch (error) {
-        toast.error("Error standard notice data fetching:");
+        
+        console.error("Error standard notice data fetching:", error);
         return [];
     }
 }
 
 const Noticepage = async () => {
-  
     const noticesData = await fetchNotices();
 
     return (
         <div className="dark:bg-slate-950 min-h-screen">
-           
+            
             <NoticeView notices={noticesData} />
         </div>
     );
