@@ -65,13 +65,13 @@ const Navbar: React.FC = () => {
     const linkClass = (path: string): string =>
         pathname === path
             ? "text-[#f05a28] font-bold transition-colors"
-            : "text-slate-700 hover:text-[#f05a28] dark:text-slate-200 dark:hover:text-[#f05a28] font-medium transition-colors";
+            : "text-slate-400 hover:text-[#f05a28] dark:text-slate-200 dark:hover:text-[#f05a28] font-medium transition-colors";
 
     return (
         <nav className="fixed top-0 z-50 w-full">
            
           
-            <div className="px-4 container border border-slate-200/80 my-4 bg-white/80  shadow-md rounded-2xl backdrop-blur-md mx-auto sm:px-6 lg:px-8">
+            <div className="px-4 container border border-slate-200/80 my-4 bg-white/60  shadow-md rounded-4xl backdrop-blur-md mx-auto sm:px-6 lg:px-8">
                 <div className="flex justify-between h-16 items-center">
 
                     {/* Logo */}
@@ -80,7 +80,7 @@ const Navbar: React.FC = () => {
                             width={34}
                             height={33}
                             alt='logo'
-                            className='object-cover h-[30px] md:h-[35px] w-auto'
+                            className='object-cover h-[29px] md:h-[34px] w-auto'
                             src='https://i.ibb.co.com/Q54kMTN/Chat-GPT-Image-Jul-12-2026-at-04-36-38-AM-removebg-preview.png'
                         />
                         <span className="text-sm  lg:text-xl font-bold text-slate-900 dark:text-white tracking-tight">
@@ -101,13 +101,13 @@ const Navbar: React.FC = () => {
                         {/* Theme toggle  */}
                         <ThemeToggle />
                         {!user ? (
-                            <Link href='/login' className="group relative inline-flex overflow-hidden rounded-md p-[2px]">
+                            <Link href='/login' className="group relative inline-flex overflow-hidden rounded-2xl  p-[2px]">
                                 <motion.span
                                     animate={{ rotate: 360 }}
                                     transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
-                                    className="absolute inset-[-1000%] bg-[conic-gradient(from_90deg_at_50%_50%,#E2E8F0_0%,#E11D48_50%,#E2E8F0_100%)]"
+                                    className="absolute inset-[-1000%] bg-[conic-gradient(from_90deg_at_50%_50%,#E2E8F0_0%,#f05a28_50%,#E2E8F0_100%)]"
                                 />
-                                <Button className="relative z-10 rounded-md bg-[#f05a28] px-6 font-bold text-white shadow-sm transition-all hover:bg-[#e04f20] cursor-pointer">
+                                <Button className="relative z-10 rounded-2xl bg-[#f05a28] px-7 font-bold text-white py-4 shadow-sm transition-all hover:bg-[#e04f20] cursor-pointer">
                                     Login
                                 </Button>
                             </Link>

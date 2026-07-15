@@ -98,28 +98,48 @@ const AllReports: React.FC<MyReportsPaginationProps> = ({ Reports: reports, user
         router.push(`?${params.toString()}`);
     };
 
-    //  (In Progress / Canceled)
+   // (In Progress / Cancelled 
+  
     const handleStatusUpdate = async (reportId: string, newStatus: string) => {
-        try {
+        
+        let apiEndpoint = '';
+        if (newStatus === 'inprogress') {
+            apiEndpoint = `${baseurl}/api/reports/inprogress/${reportId}`;
+        } else if (newStatus === 'canceled' || newStatus === 'cancelled') {
+            apiEndpoint = `${baseurl}/api/reports/cancelled/${reportId}`;
+        } else if (newStatus === 'resolved') {
+            apiEndpoint = `${baseurl}/api/reports/resolved/${reportId}`;
+        } else {
+            toast.error('Invalid status routing');
+            return;
+        }
 
-            const res = await fetch(`${baseurl}/api/owncitizen/pegination/reports/${reportId}`, {
+        try {
+            const res = await fetch(apiEndpoint, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ status: newStatus }),
+                }
             });
 
             if (res.ok) {
-                toast.success(`Report status updated to ${newStatus}`);
+                // ডাটাবেজের ভ্যালু হিসেবে 'canceled' ই রাখছি যাতে ফ্রন্টএন্ড ফিল্টারিং না ভাঙে
+                const updatedStatusValue = newStatus === 'cancelled' ? 'canceled' : newStatus;
+                
+                toast.success(`Report status updated to ${
+                    updatedStatusValue === 'inprogress' ? 'In Progress' : 
+                    updatedStatusValue === 'resolved' ? 'Resolved' : 'Canceled'
+                }`);
+                
+                // রিয়াল-টাইম স্টেট আপডেট
                 setRequestData(prev =>
-                    prev.map(req => req._id === reportId ? { ...req, status: newStatus as ReportRequest['status'] } : req)
+                    prev.map(req => req._id === reportId ? { ...req, status: updatedStatusValue as ReportRequest['status'] } : req)
                 );
-
             } else {
-                toast.error('Failed to update status');
+                toast.error('Failed to update status on server');
             }
         } catch (error) {
+            console.error("Status update error:", error);
             toast.error('Error updating status');
         }
     };
@@ -389,14 +409,12 @@ const DonorActionDropdown: React.FC<DonorActionDropdownProps> = ({ request, onDe
                 </DropdownMenuItem>
 
                 <DropdownMenuItem
+                    disabled={request?.status === 'resolved'}
                     className="cursor-pointer text-xs font-medium text-emerald-600 focus:text-emerald-600 focus:bg-emerald-50 dark:focus:bg-emerald-950/20 flex items-center gap-2"
-
+                    onClick={() => onStatusUpdate(request._id, 'resolved')}
                 >
-                    {/* Resolved */}
-                    <Link href={`/dashboard/citizen/reports/resolved/${request._id}`} className="w-full flex gap-3">
-                        <CheckCircle className="h-3.5 w-3.5" />
-                        <span>Resolved</span>
-                    </Link>
+                    <CheckCircle className="h-3.5 w-3.5" />
+                    <span>Resolved</span>
                 </DropdownMenuItem>
 
                 <DropdownMenuItem

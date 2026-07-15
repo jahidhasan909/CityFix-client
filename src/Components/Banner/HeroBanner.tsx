@@ -1,6 +1,9 @@
 "use client";
 
 import React from 'react';
+import AnimatedParagraph from './PAnimation';
+import { IoIosPerson } from "react-icons/io";
+import { Tent, TentTree } from 'lucide-react';
 
 interface BuildingConfig {
   id: number;
@@ -8,6 +11,15 @@ interface BuildingConfig {
   w: number;
   h: number;
   type: 'grid' | 'stripes' | 'dots' | 'slanted' | 'spire' | 'horizontal';
+}
+
+interface CloudConfig {
+  id: number;
+  x: number;
+  y: number;
+  scale: number;
+  duration: number;
+  delay: number;
 }
 
 const HeroBanner: React.FC = () => {
@@ -51,6 +63,19 @@ const HeroBanner: React.FC = () => {
     { x: 1470, scale: 0.8 },
     { x: 1645, scale: 0.7 },
     { x: 1735, scale: 0.9 },
+  ];
+
+  const clouds: CloudConfig[] = [
+    { id: 1, x: 0, y: 30, scale: 1, duration: 80, delay: -10 },
+    { id: 2, x: 300, y: 75, scale: 0.85, duration: 110, delay: -45 },
+    { id: 3, x: 600, y: 40, scale: 0.7, duration: 140, delay: -90 },
+    { id: 4, x: 950, y: 85, scale: 0.9, duration: 95, delay: -25 },
+    { id: 5, x: 1300, y: 25, scale: 0.75, duration: 125, delay: -60 },
+    { id: 6, x: 150, y: 95, scale: 0.65, duration: 150, delay: -110 },
+    { id: 7, x: 450, y: 20, scale: 0.8, duration: 105, delay: -35 }, 
+    { id: 8, x: 800, y: 60, scale: 0.95, duration: 85, delay: -15 },
+    { id: 9, x: 1150, y: 45, scale: 0.7, duration: 135, delay: -75 },
+    { id: 10, x: 1600, y: 70, scale: 0.85, duration: 115, delay: -50 }
   ];
 
   const y_base = 380;
@@ -174,23 +199,23 @@ const HeroBanner: React.FC = () => {
   };
 
   return (
-    <div className="relative min-h-[90vh] w-full flex flex-col justify-between overflow-hidden bg-gradient-to-b from-[#eef7ea] via-[#ffffff] to-[#fef3ec] dark:bg-gradient-to-b dark:from-black dark:via-black dark:to-black pb-0">
+    <div className="relative min-h-[92vh] w-full flex flex-col justify-between overflow-hidden bg-gradient-to-b from-[#eef7ea] via-[#ffffff] to-[#fef3ec] dark:bg-gradient-to-b dark:from-black dark:via-black dark:to-black pb-0">
 
       {/* Animations */}
       <style dangerouslySetInnerHTML={{
         __html: `
         @keyframes textFloating {
           0%, 100% {
-            transform: translateY(0px) scale(1);
-            opacity: 0.025;
+            transform: translateY(0px);
+            opacity: 0.15;
           }
           50% {
-            transform: translateY(-15px) scale(1.02);
-            opacity: 0.045;
+            transform: translateY(-4px);
+            opacity: 0.25;
           }
         }
         .bg-text-animate {
-          animation: textFloating 8s ease-in-out infinite;
+          animation: textFloating 6s ease-in-out infinite;
         }
 
         @keyframes neonBreath {
@@ -232,63 +257,41 @@ const HeroBanner: React.FC = () => {
           animation: sunPulse 3.5s ease-in-out infinite;
         }
 
-        @keyframes driftCloud1 {
-          0% { transform: translateX(-200px); }
-          100% { transform: translateX(2120px); }
-        }
-        .cloud-1 {
-          animation: driftCloud1 85s linear infinite;
-          animation-delay: -10s;
-        }
-
-        @keyframes driftCloud2 {
-          0% { transform: translateX(-200px); }
-          100% { transform: translateX(2120px); }
-        }
-        .cloud-2 {
-          animation: driftCloud2 125s linear infinite;
-          animation-delay: -60s;
-        }
-
-        @keyframes driftCloud3 {
-          0% { transform: translateX(-200px); }
-          100% { transform: translateX(2120px); }
-        }
-        .cloud-3 {
-          animation: driftCloud3 165s linear infinite;
-          animation-delay: -115s;
+        @keyframes dynamicCloudDrift {
+          0% { transform: translateX(-300px); }
+          100% { transform: translateX(2100px); }
         }
       ` }} />
 
-      {/* Large */}
-      <div className="absolute inset-0 z-0 flex flex-col justify-center items-center pointer-events-none select-none overflow-hidden ">
-        <h2 className="bg-text-animate font-sans font-black tracking-widest text-[12vw] sm:text-[14vw] md:text-[16vw] uppercase text-[#f05a28] leading-none text-center">
-          future
-        </h2>
-      </div>
-
       
-      {/*  Content  */}
-      <div className="relative z-20 max-w-4xl mx-auto text-center px-6 flex flex-col items-center pt-20 sm:pt-28 md:pt-36 pb-40 sm:pb-52 lg:pb-60">
-        <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-[#0f172a] tracking-tight leading-tight dark:text-white  max-w-3xl font-sans drop-shadow-sm">
+      <div className="relative z-20 max-w-4xl mx-auto text-center px-6 flex flex-col items-center pt-28  md:pt-33 pb-40 sm:pb-52 lg:pb-60">
+        
+      
+        <div className="relative w-full flex justify-center mb-3 pointer-events-none select-none">
+          <span className="bg-text-animate font-sans font-extrabold tracking-[0.9em] text-[10px] sm:text-xs uppercase text-[#f05a28]/60 dark:text-[#f05a28]/40 pl-[0.9em]">
+            — future —
+          </span>
+        </div>
+
+        {/* Core Headline */}
+        <h1 className="relative text-4xl md:text-5xl font-extrabold text-[#0f172a] tracking-tight leading-tight dark:text-white max-w-3xl font-sans drop-shadow-sm z-10">
           {"Together, Let's Build a Better "}<span className='text-[#f05a28]'>Bangladesh</span>.
         </h1>
 
-        <p className="text-[#475569] text-sm sm:text-base md:text-lg max-w-2xl mt-6 leading-relaxed">
-          Connect with trusted local professionals, support skilled workers, and help create a safer, smarter, and more connected Bangladesh—one service at a time.
-        </p>
+        <AnimatedParagraph />
 
-        <div className="flex flex-row items-center justify-center gap-4 mt-8">
-          <button className="bg-[#f05a28] hover:bg-[#d9481b] text-white font-semibold px-6 py-3 rounded-full shadow-md shadow-orange-500/10 hover:shadow-orange-500/25 transition-all text-sm md:text-base flex items-center gap-2 cursor-pointer">
-            Join as a Citizen
+        {/* CTA Buttons */}
+        <div className="flex flex-row items-center justify-center gap-4 mt-8 z-10">
+          <button className="bg-[#f05a28] hover:bg-[#d9481b] text-white font-semibold px-5 py-3 rounded-full shadow-md shadow-orange-500/10 hover:shadow-orange-500/25 transition-all text-sm md:text-base flex items-center gap-2 cursor-pointer">
+            Join as a Citizen <span className='mt-0.5'><IoIosPerson /></span>
           </button>
-          <button className="bg-white hover:bg-slate-50 text-[#0f172a] font-semibold px-8 py-3 rounded-full border border-slate-200 shadow-sm transition-all text-sm md:text-base cursor-pointer">
-            Discover Campaigns
+          <button className="bg-white hover:bg-slate-50 text-[#0f172a] font-semibold px-6 py-3 rounded-full border border-slate-200 flex  items-center gap-2 shadow-sm transition-all text-sm md:text-base cursor-pointer">
+            Discover Campaigns <span className='mt-0.5'><Tent size={16} /></span>
           </button>
         </div>
       </div>
 
-      {/*Bottom */}
+      {/* Bottom Illustration Area */}
       <div className="absolute bottom-0 left-0 right-0 w-full h-[180px] sm:h-[260px] md:h-[320px] lg:h-[380px] pointer-events-none z-10 overflow-hidden">
         <svg
           viewBox="0 0 1920 400"
@@ -305,19 +308,28 @@ const HeroBanner: React.FC = () => {
             </filter>
           </defs>
 
-          <g fill="none" stroke="#0f172a" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" opacity="0.6">
-            <g className="cloud-1" transform="translate(0, 30)">
-              <path d="M 25 50 a 16 16 0 0 1 24 -12 a 20 20 0 0 1 36 0 a 16 16 0 0 1 24 12 a 12 12 0 0 1 0 24 l -84 0 a 12 12 0 0 1 0 -24 Z" fill="white" fillOpacity="0.85" />
-            </g>
-            <g className="cloud-2" transform="translate(0, 80) scale(0.85)">
-              <path d="M 25 50 a 16 16 0 0 1 24 -12 a 20 20 0 0 1 36 0 a 16 16 0 0 1 24 12 a 12 12 0 0 1 0 24 l -84 0 a 12 12 0 0 1 0 -24 Z" fill="white" fillOpacity="0.85" />
-            </g>
-            <g className="cloud-3" transform="translate(0, 50) scale(0.7)">
-              <path d="M 25 50 a 16 16 0 0 1 24 -12 a 20 20 0 0 1 36 0 a 16 16 0 0 1 24 12 a 12 12 0 0 1 0 24 l -84 0 a 12 12 0 0 1 0 -24 Z" fill="white" fillOpacity="0.85" />
-            </g>
+          {/* Cloud Layer */}
+          <g fill="none" stroke="#0f172a" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" opacity="0.55">
+            {clouds.map((cloud) => (
+              <g 
+                key={`cloud-group-${cloud.id}`} 
+                style={{
+                  animation: `dynamicCloudDrift ${cloud.duration}s linear infinite`,
+                  animationDelay: `${cloud.delay}s`
+                }}
+              >
+                <g transform={`translate(${cloud.x}, ${cloud.y}) scale(${cloud.scale})`}>
+                  <path 
+                    d="M 25 50 a 16 16 0 0 1 24 -12 a 20 20 0 0 1 36 0 a 16 16 0 0 1 24 12 a 12 12 0 0 1 0 24 l -84 0 a 12 12 0 0 1 0 -24 Z" 
+                    fill="white" 
+                    fillOpacity="0.85" 
+                  />
+                </g>
+              </g>
+            ))}
           </g>
 
-
+          {/* Sun Element */}
           <g transform="translate(0, 0)">
             <circle cx="220" cy="70" r="22" fill="#f05a28" className="sun-core" />
             <g className="sun-group">
@@ -333,6 +345,7 @@ const HeroBanner: React.FC = () => {
             </g>
           </g>
 
+          {/* Neon Glow Layer */}
           <g className="neon-glow" filter="url(#neon-blur)" stroke="#f59e0b" strokeWidth="3" fill="none" strokeLinejoin="round" strokeLinecap="round">
             {buildings.map((b) => {
               const front_w = b.w * 0.73;
@@ -360,7 +373,7 @@ const HeroBanner: React.FC = () => {
             })}
           </g>
 
-
+          {/* Core Buildings Vector Graphic */}
           <g stroke="#0f172a" strokeWidth="1.8" strokeLinejoin="round" strokeLinecap="round">
             {buildings.map((b) => {
               const front_w = b.w * 0.73;
@@ -397,7 +410,7 @@ const HeroBanner: React.FC = () => {
             })}
           </g>
 
-
+          {/* Front Trees Vector Layer */}
           <g stroke="#0f172a" strokeWidth="1.5">
             {trees.map((t, idx) => (
               <g key={`tree-${idx}`} transform={`translate(${t.x}, ${y_base}) scale(${t.scale})`}>

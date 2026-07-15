@@ -2,10 +2,9 @@
 
 import React, { useState } from 'react';
 import toast from 'react-hot-toast';
-import { PlusCircle, Calendar, Clock, FileText, Edit2, Trash2 } from 'lucide-react';
+import { PlusCircle, Calendar, Clock, FileText, Trash2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
-// Shadcn UI Components
 import { Button } from "@/Components/ui/button";
 import {
     Dialog,
@@ -38,14 +37,14 @@ const NoticeClientView: React.FC<NoticeClientViewProps> = ({ initialNotices }) =
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [loading, setLoading] = useState(false);
     
-    // Form States
+  
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [date, setDate] = useState('');
     const [time, setTime] = useState('');
     const [image, setImage] = useState('');
 
-    // Handle Form Submit
+   
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!title || !description || !date || !time) {
@@ -86,13 +85,25 @@ const NoticeClientView: React.FC<NoticeClientViewProps> = ({ initialNotices }) =
         }
     };
 
-    // Placeholder functions for future implementation
-    const handleEditNotice = (id: string) => {
-        toast.success(`Edit clicked for ID: ${id} (API Integration Pending)`);
-    };
+    
+    const handleDeleteNotice = async (id: string) => {
+        if (!window.confirm("Are you sure you want to delete this notice?")) return;
 
-    const handleDeleteNotice = (id: string) => {
-        toast.error(`Delete clicked for ID: ${id} (API Integration Pending)`);
+        try {
+            const res = await fetch(`${baseurl}/api/notice/${id}`, {
+                method: 'DELETE',
+            });
+
+            if (res.ok) {
+                toast.success('Notice deleted successfully!');
+                router.refresh(); 
+            } else {
+                toast.error('Failed to delete notice');
+            }
+        } catch (error) {
+            console.error("Delete error:", error);
+            toast.error('Something went wrong while deleting!');
+        }
     };
 
     return (
@@ -183,7 +194,7 @@ const NoticeClientView: React.FC<NoticeClientViewProps> = ({ initialNotices }) =
                 </Dialog>
             </div>
 
-            {/* LOWER SECTION: NOTICES LIST */}
+            
             <div>
                 <h2 className="text-lg font-bold text-slate-800 dark:text-white mb-4 flex items-center gap-2">
                     <FileText className="w-5 h-5 text-red-600" /> All Notices ({initialNotices.length})
@@ -211,7 +222,7 @@ const NoticeClientView: React.FC<NoticeClientViewProps> = ({ initialNotices }) =
                                 </div>
 
                                 <div className="space-y-3 pt-3 border-t border-slate-100 dark:border-slate-800">
-                                    {/* Date and Time info */}
+                                   
                                     <div className="flex items-center gap-4 text-[11px] font-semibold text-slate-500 dark:text-slate-400">
                                         <span className="flex items-center gap-1">
                                             <Calendar className="w-3.5 h-3.5 text-red-500" />
@@ -223,25 +234,16 @@ const NoticeClientView: React.FC<NoticeClientViewProps> = ({ initialNotices }) =
                                         </span>
                                     </div>
 
-                                    {/* Action Buttons Area */}
-                                    <div className="grid grid-cols-2 gap-2 pt-1">
+                                    
+                                    <div className="pt-1">
                                         <Button 
                                             variant="outline" 
                                             size="sm" 
-                                            className="text-xs font-semibold rounded-xl border-slate-200 dark:border-slate-700 flex items-center justify-center gap-1.5"
-                                            onClick={() => notice._id && handleEditNotice(notice._id)}
-                                        >
-                                            <Edit2 className="w-3.5 h-3.5 text-blue-600" />
-                                            Edit
-                                        </Button>
-                                        <Button 
-                                            variant="outline" 
-                                            size="sm" 
-                                            className="text-xs font-semibold rounded-xl border-red-100 dark:border-red-950/40 hover:bg-red-50 dark:hover:bg-red-950/20 text-destructive flex items-center justify-center gap-1.5"
+                                            className="w-full text-xs font-semibold rounded-xl border-red-100 dark:border-red-950/40 hover:bg-red-50 dark:hover:bg-red-950/20 text-destructive flex items-center justify-center gap-1.5"
                                             onClick={() => notice._id && handleDeleteNotice(notice._id)}
                                         >
                                             <Trash2 className="w-3.5 h-3.5" />
-                                            Delete
+                                            Delete Notice
                                         </Button>
                                     </div>
                                 </div>
