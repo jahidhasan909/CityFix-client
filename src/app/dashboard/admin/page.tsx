@@ -4,11 +4,8 @@ import React from 'react';
 
 const AdminHomepage = async () => {
     
-    
-    
     return (
         <>
-           
             <AdminHomeClient />
         </>
     );

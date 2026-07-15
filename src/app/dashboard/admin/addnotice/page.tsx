@@ -1,8 +1,5 @@
 import NoticeClientView from '@/Components/DashboardComponents/AdminComponents/NoticeView';
 import React from 'react';
-import toast from 'react-hot-toast';
-
-
 
 interface NoticeProps {
     _id?: string;
@@ -18,7 +15,6 @@ async function getNotices(): Promise<NoticeProps[]> {
     const baseurl = process.env.NEXT_PUBLIC_BASE_URL || '';
     
     try {
-        
         const res = await fetch(`${baseurl}/api/notice`, { cache: 'no-store' });
         
         if (!res.ok) {
@@ -27,18 +23,17 @@ async function getNotices(): Promise<NoticeProps[]> {
         
         return await res.json();
     } catch (error) {
-        toast.error("Error fetching notices:");
+        
+        console.error("Error fetching notices:", error);
         return [];
     }
 }
 
 const AddNoticepage = async () => {
-    
     const notices = await getNotices();
 
     return (
         <div className="dark:bg-slate-950 min-h-screen">
-            
             <NoticeClientView initialNotices={notices} />
         </div>
     );
