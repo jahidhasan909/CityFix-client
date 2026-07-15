@@ -38,7 +38,7 @@ export default function AnimatedParagraph() {
       variants={containerVariants}
       initial="hidden"
       animate="visible"
-      className="mt-6 max-w-2xl text-sm md:text-base leading-relaxed text-[#475569]"
+      className="mt-6 max-w-2xl text-xs lg:text-base leading-relaxed text-[#475569]"
     >
       {words.map((word, index) => (
         <motion.span

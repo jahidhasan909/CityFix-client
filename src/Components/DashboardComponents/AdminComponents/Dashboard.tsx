@@ -4,9 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer, Tooltip } from 'recharts';
 import { Users, CheckCircle, DollarSign, ShieldAlert, ArrowUpRight, Loader2 } from 'lucide-react';
 
-// ==========================================
-// STRICT TYPES & INTERFACES (NO 'any' ALLOWED)
-// ==========================================
+
 interface FundingItem {
   name: string;
   amount: number;
@@ -30,7 +28,7 @@ interface Officer {
   img: string;
 }
 
-// API Response Schemas for Strong Typing
+
 interface DBUserResponse {
   _id?: string;
   name?: string;
@@ -181,7 +179,7 @@ const AdminHomeClient: React.FC = () => {
 
         setError(null);
       } catch (err) {
-        const errorMessage = err instanceof Error ? err.message : "ডাটা লোড করতে সমস্যা হয়েছে।";
+        const errorMessage = err instanceof Error ? err.message : "";
         console.error("Admin Dashboard Fetch Error:", err);
         setError(errorMessage);
       } finally {
@@ -202,7 +200,7 @@ const AdminHomeClient: React.FC = () => {
   }
 
   return (
-    <div className="space-y-6 p-4 md:p-6 bg-slate-50 dark:bg-slate-950 min-h-screen">
+    <div className="space-y-6 p-4 md:p-6  dark:bg-slate-950 min-h-screen">
       
       {/* ERROR NOTICE */}
       {error && (
@@ -221,7 +219,7 @@ const AdminHomeClient: React.FC = () => {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
         
         {/* Total Citizen Card */}
-        <div className="bg-[#1b4332] text-white p-5 rounded-2xl shadow-xs relative overflow-hidden flex flex-col justify-between min-h-[140px]">
+        <div className="bg-[#f05a28] text-white p-5 rounded-2xl shadow-xs relative overflow-hidden flex flex-col justify-between min-h-[140px]">
           <div className="flex justify-between items-start">
             <span className="text-sm font-medium opacity-80">Total Citizens</span>
             <div className="bg-white/20 p-2 rounded-full">
@@ -295,7 +293,7 @@ const AdminHomeClient: React.FC = () => {
                 />
                 <Bar 
                   dataKey="amount" 
-                  fill="#1b4332" 
+                  fill="#f05a28" 
                   radius={[6, 6, 0, 0]} 
                   maxBarSize={32}
                 />

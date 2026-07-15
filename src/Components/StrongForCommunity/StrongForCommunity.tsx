@@ -21,19 +21,19 @@ const StrongBuildSection = () => {
          
           <div className="lg:col-span-5 space-y-3  lg:sticky lg:top-12">
             <div className=" space-y-1">
-              <h2 className="text-3xl dark:text-white md:text-5xl font-extrabold tracking-tight leading-tight text-[#0F172A]">
+              <h2 className="text-2xl dark:text-white md:text-3xl font-extrabold tracking-tight leading-tight text-[#0F172A]">
                United for Change
               </h2>
-              <p className="text-xs md:text-sm text-[#64748B] leading-relaxed font-medium">
+              <p className="text-xs md:text-base text-[#64748B] leading-relaxed font-medium">
                 Inspiring change through community action.
               </p>
             </div>
 
-            {/* Premium Dribbble Styled Image/Asset Wrapper */}
+         
             <div className="w-full aspect-[4/3] rounded-[28px] overflow-hidden bg-[#FFFFFF] border border-[#F3D2C7] p-4 relative group shadow-xl shadow-[#d9481b]/5">
               <div className="w-full h-full rounded-[20px] border border-[#F3D2C7] flex flex-col justify-between p-6 overflow-hidden relative">
                 
-                {/* Bangladesh Flag Image Background */}
+                
                 <Image 
                   src="https://i.ibb.co.com/yFywG2Vb/male-silhouette-figure-waving-bangladesh-flag-3d-rendering-601748-32418.avif" 
                   alt="Bangladesh Flag Ecosystem"
@@ -86,7 +86,7 @@ const StrongBuildSection = () => {
               </div>
             </div>
 
-            {/* CARD 2: Stronger Together */}
+          
             <div className="w-full bg-[#FFFFFF] border border-[#F3D2C7] rounded-2xl p-6 md:p-7 flex flex-col md:flex-row gap-4 items-start transition-all duration-300 hover:border-[#d9481b]/50 hover:bg-[#FFF8F5]/50 group shadow-sm">
               <div className="p-2.5 rounded-xl bg-[#d9481b]/10 border border-[#F3D2C7] text-[#d9481b] group-hover:bg-[#d9481b] group-hover:text-white transition-all">
                 <Users2 className="w-4 h-4 md:w-5 h-5" />
@@ -101,7 +101,7 @@ const StrongBuildSection = () => {
               </div>
             </div>
 
-            {/* CARD 3: Building Better Communities */}
+          
             <div className="w-full bg-[#FFFFFF] border border-[#F3D2C7] rounded-2xl p-6 md:p-7 flex flex-col md:flex-row gap-4 items-start transition-all duration-300 hover:border-[#d9481b]/50 hover:bg-[#FFF8F5]/50 group shadow-sm">
               <div className="p-2.5 rounded-xl bg-[#d9481b]/10 border border-[#F3D2C7] text-[#d9481b] group-hover:bg-[#d9481b] group-hover:text-white transition-all">
                 <Building2 className="w-4 h-4 md:w-5 h-5" />
@@ -116,7 +116,7 @@ const StrongBuildSection = () => {
               </div>
             </div>
 
-            {/* CARD 4: Be the Change */}
+            
             <div className="w-full bg-[#FFFFFF] border border-[#F3D2C7] rounded-2xl p-6 md:p-7 flex flex-col md:flex-row gap-4 items-start transition-all duration-300 hover:border-[#d9481b]/50 hover:bg-[#FFF8F5]/50 group shadow-sm">
               <div className="p-2.5 rounded-xl bg-[#d9481b]/10 border border-[#F3D2C7] text-[#d9481b] group-hover:bg-[#d9481b] group-hover:text-white transition-all">
                 <Heart className="w-4 h-4 md:w-5 h-5" />

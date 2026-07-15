@@ -4,7 +4,7 @@ import React from 'react';
 
 const Registrationpage = () => {
     return (
-        <div className=' justify-center flex mt-20'>
+        <div >
            <RegistrationForm></RegistrationForm>
          
         </div>

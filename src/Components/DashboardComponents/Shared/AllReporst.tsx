@@ -4,7 +4,7 @@ import { authClient } from '@/lib/auth-client';
 import Link from 'next/link';
 import React, { useState } from 'react';
 import toast from 'react-hot-toast';
-import { MoreVertical, Eye, Edit2, Trash2, ChevronLeft, ChevronRight, Loader2, CheckCircle, XCircle } from 'lucide-react';
+import { MoreVertical, Eye, Edit2, Trash2, ChevronLeft, ChevronRight, Loader2, CheckCircle, XCircle, MessageSquare } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
 
 import {
@@ -98,7 +98,7 @@ const AllReports: React.FC<MyReportsPaginationProps> = ({ Reports: reports, user
         router.push(`?${params.toString()}`);
     };
 
-   // (In Progress / Cancelled 
+  
   
     const handleStatusUpdate = async (reportId: string, newStatus: string) => {
         
@@ -176,15 +176,15 @@ const AllReports: React.FC<MyReportsPaginationProps> = ({ Reports: reports, user
     });
 
     return (
-        <div className='bg-white/10'>
+        <div className=''>
             <div className="py-12 px-4 lg:py-8 max-w-7xl mx-auto space-y-6 md:space-y-8 min-h-screen pb-20 relative">
 
-                <header className="py-10 px-10 rounded-2xl bg-gradient-to-r from-[#db0000]/20 to-red-50 dark:from-red-950/20 dark:to-slate-900 border border-red-100 dark:border-red-900/30 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                <header className="py-7 px-10 rounded-2xl bg-gradient-to-r  dark:from-red-950/20 dark:to-slate-900 border border-gray-100 dark:border-red-900/30 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                     <div>
                         <h1 className="text-xl md:text-3xl font-bold text-slate-800 dark:text-white">
-                            Welcome back, <span className="text-red-600 font-extrabold">{user?.name || "Citizen"}</span> !
+                             <span className="text-red-600 font-extrabold">{user?.name || "Citizen"}</span> !
                         </h1>
-                        <p className="lg:text-[1rem] text-xs text-slate-500 dark:text-slate-400 mt-1">View and manage all citizen reports and requests.</p>
+                        <p className="lg:text-[1rem] text-xs text-slate-500 dark:text-slate-400 mt-1">View and manage all citizen reports</p>
                     </div>
 
                     <div className="flex items-center gap-2 self-end sm:self-auto">
@@ -242,25 +242,17 @@ const AllReports: React.FC<MyReportsPaginationProps> = ({ Reports: reports, user
                                                 `}>{request?.status === 'inprogress' ? 'In Progress' : request?.status}</span>
                                             </TableCell>
 
-                                            <TableCell>
-                                                {request.feedbacks && request.feedbacks.length > 0 ? (
-                                                    <Link href={`/dashboard/citizen/feedback/${request._id}`} className="flex items-center -space-x-2 overflow-hidden hover:opacity-80 transition-opacity">
-                                                        {request.feedbacks.slice(0, 3).map((fbUser) => (
-                                                            <Avatar key={fbUser._id} className="inline-block h-7 w-7 rounded-full ring-2 ring-white dark:ring-slate-990">
-                                                                <AvatarImage src={fbUser.avatarUrl} alt={fbUser.name} />
-                                                                <AvatarFallback className="text-[10px] bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-300">
-                                                                    {fbUser.name.slice(0, 2).toUpperCase()}
-                                                                </AvatarFallback>
-                                                            </Avatar>
-                                                        ))}
+                                                <TableCell>
+                                                    <Link href={`/dashboard/citizen/feedback/${request._id}`}>
+                                                        <Button variant="outline" size="sm" className="text-xs gap-1.5 font-bold border-slate-200 hover:bg-slate-100 dark:border-slate-700 dark:hover:bg-slate-800 hover:cursor-pointer">
+                                                            <MessageSquare className="h-3.5 w-3.5 text-slate-500" />
+                                                            <span>View Comments</span>
+                                                        </Button>
                                                     </Link>
-                                                ) : (
-                                                    <span className="text-xs text-slate-400 italic">No Reviews</span>
-                                                )}
-                                            </TableCell>
+                                                </TableCell>
 
-                                            <TableCell className="text-center">
-                                                <DonorActionDropdown request={request} onDelete={triggerDelete} onStatusUpdate={handleStatusUpdate} />
+                                            <TableCell className="text-cente">
+                                                <DonorActionDropdown  request={request} onDelete={triggerDelete} onStatusUpdate={handleStatusUpdate} />
                                             </TableCell>
                                         </TableRow>
                                     ))}
@@ -388,7 +380,7 @@ const DonorActionDropdown: React.FC<DonorActionDropdownProps> = ({ request, onDe
     return (
         <DropdownMenu>
             <DropdownMenuTrigger >
-                <Button variant="ghost" className="h-8 w-8 p-0 focus-visible:ring-0">
+                <Button variant="ghost" className="h-8 w-8 p-0 focus-visible:ring-0 hover:cursor-pointer">
                     <span className="sr-only">Open menu</span>
                     <MoreVertical className="h-4 w-4" />
                 </Button>

@@ -273,25 +273,25 @@ const HeroBanner: React.FC = () => {
           </span>
         </div>
 
-        {/* Core Headline */}
-        <h1 className="relative text-4xl md:text-5xl font-extrabold text-[#0f172a] tracking-tight leading-tight dark:text-white max-w-3xl font-sans drop-shadow-sm z-10">
+       
+        <h1 className="relative text-2xl md:text-5xl font-extrabold text-[#0f172a] tracking-tight leading-tight dark:text-white max-w-3xl font-sans drop-shadow-sm z-10">
           {"Together, Let's Build a Better "}<span className='text-[#f05a28]'>Bangladesh</span>.
         </h1>
 
         <AnimatedParagraph />
 
-        {/* CTA Buttons */}
-        <div className="flex flex-row items-center justify-center gap-4 mt-8 z-10">
-          <button className="bg-[#f05a28] hover:bg-[#d9481b] text-white font-semibold px-5 py-3 rounded-full shadow-md shadow-orange-500/10 hover:shadow-orange-500/25 transition-all text-sm md:text-base flex items-center gap-2 cursor-pointer">
+        
+        <div className="flex flex-col lg:flex-row items-center justify-center gap-4 mt-8 z-10">
+          <button className="bg-[#f05a28] hover:bg-[#d9481b] text-white font-semibold px-3 lg:px-5 py-3 rounded-full shadow-md shadow-orange-500/10 hover:shadow-orange-500/25 transition-all text-sm md:text-base flex items-center gap-2 cursor-pointer">
             Join as a Citizen <span className='mt-0.5'><IoIosPerson /></span>
           </button>
-          <button className="bg-white hover:bg-slate-50 text-[#0f172a] font-semibold px-6 py-3 rounded-full border border-slate-200 flex  items-center gap-2 shadow-sm transition-all text-sm md:text-base cursor-pointer">
+          <button className="bg-white hover:bg-slate-50 text-[#0f172a] font-semibold px-3 lg:px-6 py-3 rounded-full border border-slate-200 flex  items-center gap-2 shadow-sm transition-all text-sm md:text-base cursor-pointer">
             Discover Campaigns <span className='mt-0.5'><Tent size={16} /></span>
           </button>
         </div>
       </div>
 
-      {/* Bottom Illustration Area */}
+     
       <div className="absolute bottom-0 left-0 right-0 w-full h-[180px] sm:h-[260px] md:h-[320px] lg:h-[380px] pointer-events-none z-10 overflow-hidden">
         <svg
           viewBox="0 0 1920 400"
@@ -308,7 +308,7 @@ const HeroBanner: React.FC = () => {
             </filter>
           </defs>
 
-          {/* Cloud Layer */}
+          
           <g fill="none" stroke="#0f172a" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" opacity="0.55">
             {clouds.map((cloud) => (
               <g 
@@ -329,7 +329,7 @@ const HeroBanner: React.FC = () => {
             ))}
           </g>
 
-          {/* Sun Element */}
+          {/* Sun  */}
           <g transform="translate(0, 0)">
             <circle cx="220" cy="70" r="22" fill="#f05a28" className="sun-core" />
             <g className="sun-group">
@@ -345,7 +345,7 @@ const HeroBanner: React.FC = () => {
             </g>
           </g>
 
-          {/* Neon Glow Layer */}
+          
           <g className="neon-glow" filter="url(#neon-blur)" stroke="#f59e0b" strokeWidth="3" fill="none" strokeLinejoin="round" strokeLinecap="round">
             {buildings.map((b) => {
               const front_w = b.w * 0.73;

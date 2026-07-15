@@ -49,11 +49,11 @@ const Funding: React.FC<FundingProps> = ({ isOpen, onOpenChange }) => {
 
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[360px] bg-white dark:bg-slate-900 p-6 rounded-2xl border dark:border-slate-850">
+      <DialogContent className="sm:max-w-[360px] bg-white border-gray-100 dark:bg-slate-900 p-6 rounded-2xl border dark:border-slate-850">
         <DialogHeader className="text-center my-2">
           <DialogTitle className="text-xl font-bold text-slate-900 dark:text-white">Contribute Today</DialogTitle>
           <DialogDescription className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-            Your contribution helps save lives.
+            Your one contribution change bangladesh.
           </DialogDescription>
         </DialogHeader>
 
@@ -71,7 +71,7 @@ const Funding: React.FC<FundingProps> = ({ isOpen, onOpenChange }) => {
 
         <div className="mt-2">
           <Button
-            className="w-full font-bold bg-red-600 hover:bg-red-700 text-white h-11 transition-all rounded-xl"
+            className="w-full font-bold bg-[#f05a28] hover:bg-orange-700 hover:cursor-pointer text-white h-11 transition-all rounded-xl"
             onClick={handleDonate}
             disabled={loading}
           >

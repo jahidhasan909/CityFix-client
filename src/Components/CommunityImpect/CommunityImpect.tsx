@@ -57,7 +57,7 @@ const ImpactCard: React.FC<ImpactCardProps> = ({ title, count, description, icon
 };
 
 const CommunityImpact = () => {
-    // ১. ডাটা স্টেট
+
     const [impactData, setImpactData] = useState({
         totalCitizens: "0",
         totalFunding: "$0",
@@ -66,7 +66,7 @@ const CommunityImpact = () => {
     const [isLoading, setIsLoading] = useState(true);
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || '';
 
-    // ২. এপিআই কল ও ডাটা ফিল্টারিং (অফিসার ড্যাশবোর্ডের লজিক অনুযায়ী)
+    
     useEffect(() => {
         const fetchImpactData = async () => {
             try {
@@ -78,7 +78,7 @@ const CommunityImpact = () => {
                     fetch(`${baseUrl}/api/usercollaction`).then(res => res.ok ? res.json() : [])
                 ]);
 
-                // ক) সিটিজেন ডাটা প্রসেসিং (Role: citizen)
+                
                 let citizenCount = 0;
                 if (Array.isArray(userRes)) {
                     citizenCount = userRes.filter(user => user.role?.toLowerCase() === 'citizen').length;
@@ -86,7 +86,7 @@ const CommunityImpact = () => {
                     citizenCount = (userRes.active || 0) + (userRes.blocked || 0);
                 }
 
-                // খ) ফান্ডিং ডাটা প্রসেসিং (টোটাল সাম)
+               
                 let totalSum = 0;
                 if (Array.isArray(fundingRes)) {
                     totalSum = fundingRes.reduce((acc, curr) => acc + (Number(curr.amount) || 0), 0);
@@ -94,7 +94,6 @@ const CommunityImpact = () => {
                     totalSum = fundingRes.total ?? fundingRes.totalAmount ?? 0;
                 }
 
-                // গ) রিপোর্টস ডাটা প্রসেসিং (Status: resolved)
                 let solvedCount = 0;
                 if (Array.isArray(reportsRes)) {
                     solvedCount = reportsRes.filter(report => report.status?.toLowerCase() === 'resolved' || report.status?.toLowerCase() === 'solved').length;
@@ -123,16 +122,16 @@ const CommunityImpact = () => {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
                 
                 {/* SECTION TITLE */}
-                <div className="text-center max-w-2xl mx-auto space-y-2">
-                    <h2 className="text-2xl md:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">
+                <div className="text-center mx-auto space-y-2">
+                    <h2 className="text-2xl md:text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">
                         Community Impact
                     </h2>
-                    <p className="text-xs md:text-sm text-slate-500 dark:text-slate-400 max-w-md mx-auto leading-relaxed">
-                        Our impact is measured by every issue solved, every contribution made, and every citizen who joins the mission.
+                    <p className="text-sm md:text-base text-slate-500 dark:text-slate-400  mx-auto leading-relaxed">
+                        Our impact is measured by every issue solved, every contribution made, <br /> and every citizen  who joins the mission.
                     </p>
                 </div>
 
-                {/* THREE IMPACT CARDS GRID */}
+               
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
                     
                     {/* Total Citizen */}

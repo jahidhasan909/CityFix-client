@@ -2,18 +2,16 @@
 
 import React, { useEffect, useState } from "react";
 import { useForm, Controller } from "react-hook-form";
-import {  Button } from "@/Components/ui/button"; 
-import {  Input} from "@/Components/ui/input"; 
-import {  Label } from "@/Components/ui/label"; 
+import { Button } from "@/Components/ui/button"; 
+import { Input } from "@/Components/ui/input"; 
+import { Label } from "@/Components/ui/label"; 
 import { Textarea } from "@/Components/ui/textarea"; 
 import { authClient } from "@/lib/auth-client";
 
 import toast from "react-hot-toast";
 import { motion } from "framer-motion";
-// import BlockedUser from "@/Components/Shared/Blockuser";
 import { UploadImagebb } from "@/lib/action/UploadImgbb";
-import { Check } from "lucide-react";
-
+import { Check, Loader2 } from "lucide-react";
 
 interface ReportFormData {
     title: string;
@@ -60,7 +58,6 @@ export default function CreateReportRequest() {
 
     const selectedDistrict = watch("district");
 
- 
     useEffect(() => {
         const loadData = async () => {
             try {
@@ -87,28 +84,25 @@ export default function CreateReportRequest() {
         (u) => u.district_id === selectedDistrict
     );
 
-   
     const { data: userData, isPending } = authClient.useSession();
 
     if (isPending) {
-        return <div>loadin....</div>;
+        return (
+            <div className="min-h-screen flex items-center justify-center bg-[#f8fafc] dark:bg-slate-950">
+                <Loader2 className="w-8 h-8 animate-spin text-[#f05a28]" />
+            </div>
+        );
     }
 
     const user = userData?.user;
 
     if (!user) {
-        return <div className="text-center py-10 text-foreground">Please log in to submit a report.</div>;
+        return <div className="text-center py-20 text-slate-500 font-medium">Please log in to submit a report.</div>;
     }
-
-    // if (user.status === "block" || user.status === "blocked") {
-    //     return <div className=""><BlockedUser /></div>;
-    // }
 
     const baseurl = process.env.NEXT_PUBLIC_BASE_URL;
 
-    
     const onSubmit = async (data: ReportFormData) => {
-        // count img
         if (!data.images || data.images.length !== 3) {
             toast.error("You must upload exactly 3 images!");
             return;
@@ -121,10 +115,8 @@ export default function CreateReportRequest() {
             const upazilaName = upazilas.find((u) => u.id === data.upazila)?.name || "";
             const locationString = `${upazilaName}, ${districtName}`;
 
-            // 3 img up
             const uploadPromises = Array.from(data.images).map((file) => UploadImagebb(file));
             const uploadedImagesRes = await Promise.all(uploadPromises);
-            
             
             const imageUrls = uploadedImagesRes.map((img) => img?.url).filter(Boolean);
 
@@ -133,7 +125,6 @@ export default function CreateReportRequest() {
                 return;
             }
 
-            
             const reportPayload = {
                 title: data.title,
                 description: data.description,
@@ -173,57 +164,61 @@ export default function CreateReportRequest() {
     };
 
     return (
-        <div className="bg-background min-h-screen py-10 px-4 text-foreground font-sans">
-            <div className="relative max-w-4xl mx-auto">
-                <div className="relative z-10 w-full rounded-[2rem] bg-card p-8 shadow-xl border border-border md:p-12">
+        <div className=" dark:bg-slate-950 min-h-screen py-12 px-4 transition-colors duration-300">
+            <div className="relative max-w-3xl mx-auto">
+                {/* Form Card */}
+                <div className="relative overflow-hidden z-10 w-full rounded-[2rem] bg-white dark:bg-slate-900 p-6 sm:p-10 shadow-sm border border-slate-200/60 dark:border-slate-800/80">
                     
-                    <div className="mb-8 border-b border-border pb-5">
-                        <h1 className="text-xl lg:text-3xl font-bold tracking-tight text-foreground">
+                    {/* Opacity Controlled Background Pattern Overlay */}
+                    <div
+                        className="absolute inset-0 -z-10 bg-cover bg-center opacity-[0.04] dark:opacity-[0.02] pointer-events-none mix-blend-overlay w-full rounded-[2rem]"
+                        style={{
+                            backgroundImage: "url('https://i.ibb.co.com/JjtCjy4m/Screenshot-2026-06-19-at-11-15-06-PM.png')"
+                        }}
+                    />
+
+                    {/* Header */}
+                    <div className="mb-8 border-b border-slate-100 dark:border-slate-800/60 pb-5">
+                        <h1 className="text-2xl sm:text-3xl font-black tracking-tight text-slate-900 dark:text-white">
                             Create a New Incident Report
                         </h1>
-                        <p className="mt-2 text-xs lg:text-[1rem] text-muted-foreground">
+                        <p className="mt-2 text-xs sm:text-sm font-medium text-slate-500 dark:text-slate-400">
                             Provide precise operational details and upload exactly 3 evidence photos to file your report.
                         </p>
                     </div>
 
-                    <form className="flex flex-col gap-6 w-full" onSubmit={handleSubmit(onSubmit)}>
+                    <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
                         
-                        {/* Background Overlay */}
-                        <div
-                            className="absolute inset-0 z-0 bg-cover bg-center opacity-5 pointer-events-none mix-blend-multiply w-full rounded-[2rem]"
-                            style={{
-                                backgroundImage: "url('https://i.ibb.co.com/JjtCjy4m/Screenshot-2026-06-19-at-11-15-06-PM.png')"
-                            }}
-                        />
-
-                    
-                        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 p-4 rounded-xl border border-border bg-muted/30 z-10">
+                        {/* Readonly User Metadata Info */}
+                        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 p-4 rounded-2xl border border-slate-100 dark:border-slate-800/40 bg-slate-50/50 dark:bg-slate-950/40">
                             <div className="flex flex-col gap-1.5">
-                                <Label className="text-xs font-semibold text-foreground/80">Citizen Name</Label>
-                                <Input value={user?.name || ""} disabled className="cursor-not-allowed bg-muted" />
+                                <Label className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider pl-1">Citizen Name</Label>
+                                <Input value={user?.name || ""} disabled className="cursor-not-allowed bg-slate-100/50 dark:bg-slate-900/50 text-slate-500 dark:text-slate-400 border-slate-200/40 dark:border-slate-800/40 rounded-xl" />
                             </div>
 
                             <div className="flex flex-col gap-1.5">
-                                <Label className="text-xs font-semibold text-foreground/80">Citizen Email</Label>
-                                <Input value={user?.email || ""} disabled className="cursor-not-allowed bg-muted" />
+                                <Label className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider pl-1">Citizen Email</Label>
+                                <Input value={user?.email || ""} disabled className="cursor-not-allowed bg-slate-100/50 dark:bg-slate-900/50 text-slate-500 dark:text-slate-400 border-slate-200/40 dark:border-slate-800/40 rounded-xl" />
                             </div>
                         </div>
 
-                    
-                        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 z-10">
+                        {/* Title and Category */}
+                        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                             <div className="flex flex-col gap-1.5">
-                                <Label htmlFor="title" className="text-xs font-semibold text-foreground/80">Report Title</Label>
+                                <Label htmlFor="title" className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider pl-1">Report Title</Label>
                                 <Input 
                                     id="title" 
                                     placeholder="Enter report title" 
-                                    className={errors.title ? "border-destructive focus-visible:ring-destructive" : "bg-background"}
+                                    className={`w-full bg-slate-50/50 dark:bg-slate-800/60 border text-slate-850 dark:text-white text-xs font-medium rounded-xl px-4 py-5 outline-none focus-visible:ring-0 focus-visible:border-[#f05a28] dark:focus-visible:border-[#f05a28] transition-all ${
+                                        errors.title ? "border-red-500" : "border-slate-200/60 dark:border-slate-700/50"
+                                    }`}
                                     {...register("title", { required: "Title is required" })} 
                                 />
-                                {errors.title && <span className="text-xs text-destructive mt-1">{errors.title.message}</span>}
+                                {errors.title && <span className="text-xs text-red-500 font-medium pl-1 mt-1">{errors.title.message}</span>}
                             </div>
 
                             <div className="flex flex-col gap-1.5">
-                                <Label htmlFor="category" className="text-xs font-semibold text-foreground/80">Category</Label>
+                                <Label htmlFor="category" className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider pl-1">Category</Label>
                                 <Controller
                                     name="category"
                                     control={control}
@@ -232,30 +227,28 @@ export default function CreateReportRequest() {
                                         <select
                                             {...field}
                                             id="category"
-                                            className={`flex h-10 w-full rounded-md border bg-background px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring ${
-                                                errors.category ? "border-destructive" : "border-input"
+                                            className={`w-full h-10.5 bg-slate-50/50 dark:bg-slate-800/60 border text-slate-850 dark:text-white text-xs font-medium rounded-xl px-4 outline-none focus:border-[#f05a28] dark:focus:border-[#f05a28] transition-all cursor-pointer ${
+                                                errors.category ? "border-red-500" : "border-slate-200/60 dark:border-slate-700/50"
                                             }`}
                                         >
-                                            <option value="">Select category</option>
-                                            <option value="Road Damage & Potholes">Road Damage & Potholes</option>
-                                            <option value="Traffic & Road Safety">Traffic & Road Safety</option>
-                                            <option value="Electricity Issues">Electricity Issues</option>
-                                            <option value="Public Safety">Public Safety</option>
-                                            <option value="Public Health & Sanitation">Public Health & Sanitation</option>
-                                            <option value="Other">Other Emergency</option>
+                                            <option value="" className="bg-white dark:bg-slate-900">Select category</option>
+                                            <option value="Road Damage & Potholes" className="bg-white dark:bg-slate-900">Road Damage & Potholes</option>
+                                            <option value="Traffic & Road Safety" className="bg-white dark:bg-slate-900">Traffic & Road Safety</option>
+                                            <option value="Electricity Issues" className="bg-white dark:bg-slate-900">Electricity Issues</option>
+                                            <option value="Public Safety" className="bg-white dark:bg-slate-900">Public Safety</option>
+                                            <option value="Public Health & Sanitation" className="bg-white dark:bg-slate-900">Public Health & Sanitation</option>
+                                            <option value="Other" className="bg-white dark:bg-slate-900">Other Emergency</option>
                                         </select>
                                     )}
-
-                                    
-                       />
-                                {errors.category && <span className="text-xs text-destructive mt-1">{errors.category.message}</span>}
+                                />
+                                {errors.category && <span className="text-xs text-red-500 font-medium pl-1 mt-1">{errors.category.message}</span>}
                             </div>
                         </div>
 
-               
-                        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 z-10">
+                        {/* District & Upazila */}
+                        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                             <div className="flex flex-col gap-1.5">
-                                <Label htmlFor="district" className="text-xs font-semibold text-foreground/80">District</Label>
+                                <Label htmlFor="district" className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider pl-1">District</Label>
                                 <Controller
                                     name="district"
                                     control={control}
@@ -264,28 +257,28 @@ export default function CreateReportRequest() {
                                         <select
                                             {...field}
                                             id="district"
-                                            className={`flex h-10 w-full rounded-md border bg-background px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring ${
-                                                errors.district ? "border-destructive" : "border-input"
+                                            className={`w-full h-10.5 bg-slate-50/50 dark:bg-slate-800/60 border text-slate-850 dark:text-white text-xs font-medium rounded-xl px-4 outline-none focus:border-[#f05a28] dark:focus:border-[#f05a28] transition-all cursor-pointer ${
+                                                errors.district ? "border-red-500" : "border-slate-200/60 dark:border-slate-700/50"
                                             }`}
                                             onChange={(e) => {
                                                 field.onChange(e.target.value);
                                                 setValue("upazila", "");
                                             }}
                                         >
-                                            <option value="">Select district</option>
+                                            <option value="" className="bg-white dark:bg-slate-900">Select district</option>
                                             {districts.map((district) => (
-                                                <option key={district.id} value={district.id}>
+                                                <option key={district.id} value={district.id} className="bg-white dark:bg-slate-900">
                                                     {district.name}
                                                 </option>
                                             ))}
                                         </select>
                                     )}
                                 />
-                                {errors.district && <span className="text-xs text-destructive mt-1">{errors.district.message}</span>}
+                                {errors.district && <span className="text-xs text-red-500 font-medium pl-1 mt-1">{errors.district.message}</span>}
                             </div>
 
                             <div className="flex flex-col gap-1.5">
-                                <Label htmlFor="upazila" className="text-xs font-semibold text-foreground/80">Upazila</Label>
+                                <Label htmlFor="upazila" className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider pl-1">Upazila</Label>
                                 <Controller
                                     name="upazila"
                                     control={control}
@@ -295,25 +288,26 @@ export default function CreateReportRequest() {
                                             {...field}
                                             id="upazila"
                                             disabled={!selectedDistrict}
-                                            className={`flex h-10 w-full rounded-md border bg-background px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 ${
-                                                errors.upazila ? "border-destructive" : "border-input"
+                                            className={`w-full h-10.5 bg-slate-50/50 dark:bg-slate-800/60 border text-slate-850 dark:text-white text-xs font-medium rounded-xl px-4 outline-none focus:border-[#f05a28] dark:focus:border-[#f05a28] transition-all disabled:cursor-not-allowed disabled:opacity-50 cursor-pointer ${
+                                                errors.upazila ? "border-red-500" : "border-slate-200/60 dark:border-slate-700/50"
                                             }`}
                                         >
-                                            <option value="">Select upazila</option>
+                                            <option value="" className="bg-white dark:bg-slate-900">Select upazila</option>
                                             {filteredUpazilas.map((upazila) => (
-                                                <option key={upazila.id} value={upazila.id}>
+                                                <option key={upazila.id} value={upazila.id} className="bg-white dark:bg-slate-900">
                                                     {upazila.name}
                                                 </option>
                                             ))}
                                         </select>
                                     )}
                                 />
-                                {errors.upazila && <span className="text-xs text-destructive mt-1">{errors.upazila.message}</span>}
+                                {errors.upazila && <span className="text-xs text-red-500 font-medium pl-1 mt-1">{errors.upazila.message}</span>}
                             </div>
                         </div>
 
-                        <div className="flex flex-col gap-1.5 z-10">
-                            <Label htmlFor="images" className="text-xs font-semibold text-foreground/80">
+                        {/* Evidence Images */}
+                        <div className="flex flex-col gap-1.5">
+                            <Label htmlFor="images" className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider pl-1">
                                 Attach Evidence Images (Exactly 3 files required)
                             </Label>
                             <Input
@@ -321,22 +315,24 @@ export default function CreateReportRequest() {
                                 type="file"
                                 accept="image/*"
                                 multiple
-                                className={`cursor-pointer bg-background ${errors.images ? "border-destructive focus-visible:ring-destructive" : ""}`}
+                                className={`w-full bg-slate-50/50 dark:bg-slate-800/60 border text-slate-800 dark:text-white text-xs font-medium rounded-xl px-4 py-2.5 outline-none focus-visible:ring-0 focus-visible:border-[#f05a28] dark:focus-visible:border-[#f05a28] transition-all cursor-pointer file:text-xs file:font-bold file:text-[#f05a28] file:bg-[#f05a28]/10 file:rounded-lg file:border-none file:px-3 file:py-1 file:mr-3 ${
+                                    errors.images ? "border-red-500" : "border-slate-200/60 dark:border-slate-700/50"
+                                }`}
                                 {...register("images", { 
                                     required: "You must attach evidence images",
                                     validate: (files) => files.length === 3 || "You must select exactly 3 images"
                                 })}
                             />
                             {errors.images ? (
-                                <span className="text-xs text-destructive mt-1">{errors.images.message}</span>
+                                <span className="text-xs text-red-500 font-medium pl-1 mt-1">{errors.images.message}</span>
                             ) : (
-                                <span className="text-xs text-muted-foreground mt-1">Hold Ctrl (or Cmd) to select exactly 3 photos.</span>
+                                <span className="text-[11px] text-slate-400 dark:text-slate-500 font-medium pl-1 mt-1">Hold Ctrl (or Cmd) to select exactly 3 photos.</span>
                             )}
                         </div>
 
-                       
-                        <div className="flex flex-col gap-1.5 z-10">
-                            <Label htmlFor="description" className="text-xs font-semibold text-foreground/80">
+                        {/* Description */}
+                        <div className="flex flex-col gap-1.5">
+                            <Label htmlFor="description" className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider pl-1">
                                 Description (Detailed Incident Analysis)
                             </Label>
                             <Textarea
@@ -344,27 +340,36 @@ export default function CreateReportRequest() {
                                 id="description"
                                 rows={4}
                                 placeholder="Provide full structural parameters and facts regarding this situation..."
-                                className={`w-full p-3 rounded-xl border bg-background text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-rose-500/20 focus:border-rose-500 transition-all resize-none ${
-                                    errors.description ? "border-destructive" : "border-input"
+                                className={`w-full bg-slate-50/50 dark:bg-slate-800/60 border text-slate-800 dark:text-white text-xs font-medium rounded-xl p-4 outline-none focus-visible:ring-0 focus:border-[#f05a28] dark:focus:border-[#f05a28] transition-all resize-none ${
+                                    errors.description ? "border-red-500" : "border-slate-200/60 dark:border-slate-700/50"
                                 }`}
                             />
-                            {errors.description && <span className="text-xs text-destructive mt-1">{errors.description.message}</span>}
+                            {errors.description && <span className="text-xs text-red-500 font-medium pl-1 mt-1">{errors.description.message}</span>}
                         </div>
 
-                       
-                        <div className="mt-4 flex w-full relative overflow-hidden rounded-lg p-[1px] z-10">
+                        {/* Animated Border Submit Button */}
+                        <div className="mt-4 flex w-full relative overflow-hidden rounded-xl p-[1px]">
                             <motion.span
                                 animate={{ rotate: 360 }}
                                 transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
-                                className="absolute inset-[-1000%] bg-[conic-gradient(from_90deg_at_50%_50%,#E2E8F0_0%,#E11D48_50%,#E2E8F0_100%)]"
+                                className="absolute inset-[-1000%] bg-[conic-gradient(from_90deg_at_50%_50%,#E2E8F0_0%,#f05a28_50%,#E2E8F0_100%)]"
                             />
                             <Button
                                 type="submit"
                                 disabled={isLoading}
-                                className="w-full relative overflow-hidden h-12 bg-rose-600 text-white font-semibold shadow-lg rounded-lg hover:bg-rose-700 disabled:opacity-70 transition-all flex items-center justify-center border-none"
+                                className="w-full relative overflow-hidden h-12 bg-white hover:bg-slate-50 dark:bg-slate-900 dark:hover:bg-slate-850 text-[#f05a28] font-bold shadow-md rounded-xl disabled:opacity-75 transition-all flex items-center justify-center border-none hover:cursor-pointer"
                             >
-                                <Check className="mr-2 h-4 w-4" />
-                                {isLoading ? "Submitting Report..." : "Submit Incident Report"}
+                                {isLoading ? (
+                                    <>
+                                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                        Submitting Report...
+                                    </>
+                                ) : (
+                                    <>
+                                        <Check className="mr-2 h-4 w-4" />
+                                        Submit Incident Report
+                                    </>
+                                )}
                             </Button>
                         </div>
                     </form>

@@ -36,7 +36,7 @@ const NoticeView: React.FC<NoticeClientProps> = ({ notices }) => {
     };
 
     return (
-        <div className="space-y-6 p-4 md:p-6 bg-slate-50 dark:bg-slate-950 min-h-screen">
+        <div className="space-y-6 p-4 md:p-6  dark:bg-slate-950 min-h-screen">
             
             {/* HEADER SECTION */}
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs">

@@ -39,11 +39,11 @@ export default function Momentsofhope() {
           <div className="text-center mb-12">
             
 
-            <h2 className="text-2xl lg:text-4xl font-extrabold mt-4 text-slate-900 dark:text-white tracking-tight">
+            <h2 className="text-2xl lg:text-3xl font-extrabold mt-4 text-slate-900 dark:text-white tracking-tight">
               Community Gallery
             </h2>
 
-            <p className="text-slate-500 text-xs lg:text-sm mt-3 dark:text-slate-400 max-w-xl mx-auto leading-relaxed">
+            <p className="text-slate-500 text-xs lg:text-base mt-3 dark:text-slate-400 max-w-xl mx-auto leading-relaxed">
              Real stories of community impact. Explore snapshots from our citizen-led activities and local campaigns.
             </p>
           </div>

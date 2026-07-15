@@ -192,11 +192,11 @@ const ReportsList: React.FC<ReportsListProps> = ({ reports }) => {
                             
                             <div 
                                 key={report._id}
-                                className="relative bg-[#f05a28]/10 dark:bg-slate-850 rounded-[2rem] pt-4 pb-4 px-3 shadow-[0_12px_30px_-10px_rgba(240,90,40,0.08)] dark:shadow-none flex flex-col justify-between group transition-all duration-300 hover:-translate-y-1.5"
+                                className="relative bg-[#f05a28]/20 dark:bg-slate-850 rounded-[2rem] pt-4 pb-4 px-3 shadow-[0_12px_30px_-10px_rgba(240,90,40,0.08)] dark:shadow-none flex flex-col justify-between group transition-all duration-300 hover:-translate-y-1.5"
                             >
                                
                               
-                                <div className="bg-white dark:bg-slate-900 rounded-b-[1.5rem] rounded-t-[1.8rem] overflow-hidden shadow-none border-none flex-1 flex flex-col justify-between -mt-1">
+                                <div className="bg-white/58 dark:bg-slate-900 rounded-b-[1.5rem] rounded-t-[1.8rem] overflow-hidden shadow-none border-none flex-1 flex flex-col justify-between -mt-1">
                                     <div>
                                         {/* Image (No margin, perfectly rounded-t) */}
                                         <div className="relative w-full h-40 overflow-hidden bg-slate-50 dark:bg-slate-850">
@@ -241,7 +241,7 @@ const ReportsList: React.FC<ReportsListProps> = ({ reports }) => {
                                 <div className="mt-3.5 px-1">
                                     <Link href={`/reports/${report._id}`} className='block'>
                                         <Button
-                                            className="w-full py-2 px-4 bg-white dark:bg-slate-800 hover:bg-white/90 dark:hover:bg-slate-700 text-[#f05a28] dark:text-white text-[11px] font-extrabold rounded-xl shadow-[0_2px_8px_rgba(0,0,0,0.02)] hover:shadow-md transition-all duration-200 active:scale-[0.98] hover:cursor-pointer"
+                                            className="w-full py-2 px-4 bg-white/70 dark:bg-slate-800 dark:hover:bg-slate-700 text-[#f05a28] dark:text-white text-[11px] font-extrabold rounded-xl shadow-[0_2px_8px_rgba(0,0,0,0.02)] hover:bg-[#f05a28] hover:text-white hover:shadow-md transition-all duration-200 active:scale-[0.98] hover:cursor-pointer"
                                         >
                                             Share Your Opinion
                                         </Button>

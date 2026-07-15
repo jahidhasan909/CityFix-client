@@ -5,7 +5,6 @@ import toast from 'react-hot-toast';
 import { PlusCircle, Calendar, Clock, FileText, ChevronLeft, ChevronRight, Users, Trash2 } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
 
-
 import { Button } from "@/Components/ui/button";
 import {
     Dialog,
@@ -52,7 +51,11 @@ const CampaignClientView: React.FC<CampaignClientViewProps> = ({ campaignsData }
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [loading, setLoading] = useState(false);
 
-    // Form States
+    // Delete Modal State
+    const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+    const [campaignToDelete, setCampaignToDelete] = useState<string | null>(null);
+    const [deleteLoading, setDeleteLoading] = useState(false);
+
     const [title, setTitle] = useState('');
     const [image, setImage] = useState('');
     const [description, setDescription] = useState('');
@@ -63,7 +66,6 @@ const CampaignClientView: React.FC<CampaignClientViewProps> = ({ campaignsData }
     const totalPages = campaignsData?.totalPage || 1;
     const allCampaigns = campaignsData?.data || [];
 
-    // Handle Pagination Page Change
     const handlePageChange = (newPage: number) => {
         if (newPage < 1 || newPage > totalPages) return;
         const params = new URLSearchParams(searchParams.toString());
@@ -71,7 +73,6 @@ const CampaignClientView: React.FC<CampaignClientViewProps> = ({ campaignsData }
         router.push(`?${params.toString()}`);
     };
 
-    // Handle Form Submit (Add Campaign)
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!title || !image || !description || !date || !time) {
@@ -95,7 +96,6 @@ const CampaignClientView: React.FC<CampaignClientViewProps> = ({ campaignsData }
                 toast.success('Campaign added successfully!');
                 setIsModalOpen(false);
 
-                // Form Reset
                 setTitle('');
                 setImage('');
                 setDescription('');
@@ -113,23 +113,26 @@ const CampaignClientView: React.FC<CampaignClientViewProps> = ({ campaignsData }
         }
     };
 
-
-    const handleViewAttendees = (id: string) => {
-        toast.success(`Opening Attendees list for Campaign ID: ${id}`);
-
+    // Trigger Delete Modal
+    const openDeleteConfirmation = (id: string) => {
+        setCampaignToDelete(id);
+        setIsDeleteModalOpen(true);
     };
 
-    const handleDeleteCampaign = async (id: string) => {
+    // Confirm and Action Delete
+    const handleDeleteCampaign = async () => {
+        if (!campaignToDelete) return;
 
-        if (!window.confirm("Are you sure you want to delete this campaign?")) return;
-
+        setDeleteLoading(true);
         try {
-            const res = await fetch(`${baseurl}/api/campaing/${id}`, {
+            const res = await fetch(`${baseurl}/api/campaing/${campaignToDelete}`, {
                 method: 'DELETE',
             });
 
             if (res.ok) {
                 toast.success('Campaign deleted successfully!');
+                setIsDeleteModalOpen(false);
+                setCampaignToDelete(null);
                 router.refresh();
             } else {
                 toast.error('Failed to delete campaign');
@@ -137,12 +140,13 @@ const CampaignClientView: React.FC<CampaignClientViewProps> = ({ campaignsData }
         } catch (error) {
             console.error("Delete error:", error);
             toast.error('Something went wrong while deleting!');
+        } finally {
+            setDeleteLoading(false);
         }
     };
 
     return (
         <div className="max-w-7xl mx-auto p-4 md:p-8 space-y-6 min-h-screen">
-
 
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs">
                 <div>
@@ -152,7 +156,7 @@ const CampaignClientView: React.FC<CampaignClientViewProps> = ({ campaignsData }
 
                 <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
                     <DialogTrigger>
-                        <Button className="bg-red-600 hover:bg-red-700 text-white font-semibold gap-2 self-start sm:self-auto rounded-xl shadow-md">
+                        <Button className="bg-[#f05a28] hover:bg-[#f05a28a6] hover:cursor-pointer text-white font-semibold gap-2 self-start sm:self-auto rounded-xl shadow-md">
                             <PlusCircle className="w-4 h-4" />
                             Create Campaign
                         </Button>
@@ -219,7 +223,7 @@ const CampaignClientView: React.FC<CampaignClientViewProps> = ({ campaignsData }
 
                             <div className="flex justify-end gap-2 pt-4">
                                 <Button type="button" variant="outline" onClick={() => setIsModalOpen(false)} className="rounded-xl">Cancel</Button>
-                                <Button type="submit" disabled={loading} className="bg-red-600 hover:bg-red-700 text-white rounded-xl min-w-[100px]">
+                                <Button type="submit" disabled={loading} className="bg-[#f05a28] hover:bg-[#f05a28bb] hover:cursor-pointer text-white rounded-xl min-w-[100px]">
                                     {loading ? 'Creating...' : 'Create'}
                                 </Button>
                             </div>
@@ -249,7 +253,6 @@ const CampaignClientView: React.FC<CampaignClientViewProps> = ({ campaignsData }
                                         <TableRow key={campaign._id} className="hover:bg-slate-50/50 dark:hover:bg-slate-800/50 transition-colors">
                                             <TableCell>
                                                 <div className="w-12 h-12 rounded-lg overflow-hidden bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
-                                                    {/* eslint-disable-next-line @next/next/no-img-element */}
                                                     <img
                                                         src={campaign.image}
                                                         alt={campaign.title}
@@ -277,13 +280,12 @@ const CampaignClientView: React.FC<CampaignClientViewProps> = ({ campaignsData }
                                                 </span>
                                             </TableCell>
                                             <TableCell>
-                                                {/* Action Buttons */}
                                                 <div className="flex items-center justify-center gap-2">
                                                     <Link href={`/dashboard/admin/${campaign._id}`}>
                                                         <Button
                                                             variant="outline"
                                                             size="sm"
-                                                            className="h-8 text-xs font-semibold rounded-lg flex items-center gap-1 border-slate-200 dark:border-slate-700"
+                                                            className="h-8 text-xs hover:cursor-pointer font-semibold rounded-lg flex items-center gap-1 border-slate-200 dark:border-slate-700"
                                                         >
                                                             <Users className="w-3.5 h-3.5 text-blue-600" />
                                                             Attendees
@@ -293,8 +295,8 @@ const CampaignClientView: React.FC<CampaignClientViewProps> = ({ campaignsData }
                                                     <Button
                                                         variant="outline"
                                                         size="sm"
-                                                        className="h-8 text-xs font-semibold rounded-lg flex items-center gap-1 border-red-100 dark:border-red-950/40 text-destructive hover:bg-red-50 dark:hover:bg-red-950/20"
-                                                        onClick={() => campaign._id && handleDeleteCampaign(campaign._id)}
+                                                        className="h-8 text-xs font-semibold rounded-lg flex items-center gap-1 border-red-100 dark:border-red-950/40 text-destructive hover:bg-red-50 dark:hover:bg-red-950/20 hover:cursor-pointer"
+                                                        onClick={() => campaign._id && openDeleteConfirmation(campaign._id)}
                                                     >
                                                         <Trash2 className="w-3.5 h-3.5" />
                                                         Delete
@@ -356,6 +358,41 @@ const CampaignClientView: React.FC<CampaignClientViewProps> = ({ campaignsData }
                     </div>
                 )}
             </div>
+
+            {/* GLOBAL CONFIRM DELETE MODAL */}
+            <Dialog open={isDeleteModalOpen} onOpenChange={setIsDeleteModalOpen}>
+                <DialogContent className="max-w-sm w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-xl p-6">
+                    <DialogHeader>
+                        <DialogTitle className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                            <Trash2 className="w-5 h-5 text-destructive" />
+                            Confirm Deletion
+                        </DialogTitle>
+                        <DialogDescription className="text-xs text-slate-500 pt-2">
+                            Are you absolutely sure you want to delete this campaign? This action cannot be undone.
+                        </DialogDescription>
+                    </DialogHeader>
+                    <div className="flex justify-end gap-2 pt-4">
+                        <Button 
+                            type="button" 
+                            variant="outline" 
+                            onClick={() => setIsDeleteModalOpen(false)} 
+                            disabled={deleteLoading}
+                            className="rounded-xl hover:cursor-pointer"
+                        >
+                            Cancel
+                        </Button>
+                        <Button 
+                            type="button" 
+                            variant="destructive" 
+                            onClick={handleDeleteCampaign}
+                            disabled={deleteLoading}
+                            className="rounded-xl min-w-[80px] hover:cursor-pointer"
+                        >
+                            {deleteLoading ? 'Deleting...' : 'Delete'}
+                        </Button>
+                    </div>
+                </DialogContent>
+            </Dialog>
         </div>
     );
 };

@@ -20,7 +20,7 @@ const DetailsClient: React.FC<DetailsClientProps> = ({ report, initialComments }
     const [commentDesc, setCommentDesc] = useState('');
     const [isSubmitting, setIsSubmitting] = useState(false);
 
-    // ১. লোকাল ব্রাউজারে ইউজার অলরেডি ক্লিক করেছে কি না তার স্টেট (Lazy Loading to fix Cascading Render Error)
+ 
     const [hasLiked, setHasLiked] = useState<boolean>(() => {
         if (typeof window !== 'undefined') {
             return localStorage.getItem(`reaction_${report._id}`) === 'liked';
@@ -35,14 +35,13 @@ const DetailsClient: React.FC<DetailsClientProps> = ({ report, initialComments }
         return false;
     });
 
-    // লাইক ও আনলাইক কাউন্ট স্টেট
     const [likeCount, setLikeCount] = useState<number>(0);
     const [unlikeCount, setUnlikeCount] = useState<number>(0);
 
     const activeImage = selectedImage || report.image?.[0] || '';
     const remainingImages = report.image || [];
 
-    // ২. ডেটাবেজ থেকে মোট কাউন্ট নিয়ে আসা (শুধু অ্যাসিঙ্ক অপারেশন)
+    
     useEffect(() => {
         if (!report._id) return;
 
@@ -69,7 +68,6 @@ const DetailsClient: React.FC<DetailsClientProps> = ({ report, initialComments }
         fetchCounts();
     }, [report._id]);
 
-    // ৩. লাইক হ্যান্ডলার
     const handleLike = async () => {
         if (hasLiked) {
             toast.error("You already liked this report!");
@@ -100,7 +98,7 @@ const DetailsClient: React.FC<DetailsClientProps> = ({ report, initialComments }
         }
     };
 
-    // ৪. আনলাইক হ্যান্ডলার
+   
     const handleUnlike = async () => {
         if (hasUnliked) {
             toast.error("You already unliked this report!");
@@ -131,7 +129,7 @@ const DetailsClient: React.FC<DetailsClientProps> = ({ report, initialComments }
         }
     };
 
-    // ৫. কমেন্ট সাবমিট
+
     const handleCommentSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!commentDesc.trim()) return;

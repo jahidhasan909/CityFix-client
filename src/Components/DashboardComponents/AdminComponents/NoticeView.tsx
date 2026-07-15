@@ -37,15 +37,18 @@ const NoticeClientView: React.FC<NoticeClientViewProps> = ({ initialNotices }) =
     
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [loading, setLoading] = useState(false);
+
     
-  
+    const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+    const [noticeToDelete, setNoticeToDelete] = useState<string | null>(null);
+    const [deleteLoading, setDeleteLoading] = useState(false);
+    
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [date, setDate] = useState('');
     const [time, setTime] = useState('');
     const [image, setImage] = useState('');
 
-   
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!title || !description || !date || !time) {
@@ -89,16 +92,25 @@ const NoticeClientView: React.FC<NoticeClientViewProps> = ({ initialNotices }) =
     };
 
     
-    const handleDeleteNotice = async (id: string) => {
-        if (!window.confirm("Are you sure you want to delete this notice?")) return;
+    const openDeleteConfirmation = (id: string) => {
+        setNoticeToDelete(id);
+        setIsDeleteModalOpen(true);
+    };
 
+   
+    const handleDeleteNotice = async () => {
+        if (!noticeToDelete) return;
+
+        setDeleteLoading(true);
         try {
-            const res = await fetch(`${baseurl}/api/notice/${id}`, {
+            const res = await fetch(`${baseurl}/api/notice/${noticeToDelete}`, {
                 method: 'DELETE',
             });
 
             if (res.ok) {
                 toast.success('Notice deleted successfully!');
+                setIsDeleteModalOpen(false);
+                setNoticeToDelete(null);
                 router.refresh(); 
             } else {
                 toast.error('Failed to delete notice');
@@ -106,6 +118,8 @@ const NoticeClientView: React.FC<NoticeClientViewProps> = ({ initialNotices }) =
         } catch (error) {
             console.error("Delete error:", error);
             toast.error('Something went wrong while deleting!');
+        } finally {
+            setDeleteLoading(false);
         }
     };
 
@@ -121,7 +135,7 @@ const NoticeClientView: React.FC<NoticeClientViewProps> = ({ initialNotices }) =
 
                 <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
                     <DialogTrigger >
-                        <Button className="bg-red-600 hover:bg-red-700 text-white font-semibold gap-2 self-start sm:self-auto rounded-xl shadow-md">
+                        <Button className="bg-[#f05a28] hover:cursor-pointer hover:bg-[#f05a28af] text-white font-semibold gap-2 self-start sm:self-auto rounded-xl shadow-md">
                             <PlusCircle className="w-4 h-4" />
                             Add New Notice
                         </Button>
@@ -187,8 +201,8 @@ const NoticeClientView: React.FC<NoticeClientViewProps> = ({ initialNotices }) =
                             </div>
 
                             <div className="flex justify-end gap-2 pt-4">
-                                <Button type="button" variant="outline" onClick={() => setIsModalOpen(false)} className="rounded-xl">Cancel</Button>
-                                <Button type="submit" disabled={loading} className="bg-red-600 hover:bg-red-700 text-white rounded-xl min-w-[100px]">
+                                <Button type="button" variant="outline"  onClick={() => setIsModalOpen(false)} className="rounded-xl hover:cursor-pointer">Cancel</Button>
+                                <Button type="submit" disabled={loading} className="bg-[#f05a28] hover:bg-[#f05a28ad] hover:cursor-pointer text-white rounded-xl min-w-[100px]">
                                     {loading ? 'Publishing...' : 'Publish'}
                                 </Button>
                             </div>
@@ -211,7 +225,7 @@ const NoticeClientView: React.FC<NoticeClientViewProps> = ({ initialNotices }) =
                                 <div className="space-y-3 flex-1">
                                     {notice.image && (
                                         <div className="w-full h-40 rounded-xl overflow-hidden bg-slate-100 dark:bg-slate-800 relative">
-                                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                                            {/* eslint-disable-next-line  */}
                                             <img 
                                                 src={notice.image} 
                                                 alt={notice.title} 
@@ -242,8 +256,8 @@ const NoticeClientView: React.FC<NoticeClientViewProps> = ({ initialNotices }) =
                                         <Button 
                                             variant="outline" 
                                             size="sm" 
-                                            className="w-full text-xs font-semibold rounded-xl border-red-100 dark:border-red-950/40 hover:bg-red-50 dark:hover:bg-red-950/20 text-destructive flex items-center justify-center gap-1.5"
-                                            onClick={() => notice._id && handleDeleteNotice(notice._id)}
+                                            className="w-full text-xs font-semibold rounded-xl border-red-100 dark:border-red-950/40 hover:bg-red-50 dark:hover:bg-red-950/20 text-destructive flex items-center justify-center gap-1.5 hover:cursor-pointer"
+                                            onClick={() => notice._id && openDeleteConfirmation(notice._id)}
                                         >
                                             <Trash2 className="w-3.5 h-3.5" />
                                             Delete Notice
@@ -261,6 +275,41 @@ const NoticeClientView: React.FC<NoticeClientViewProps> = ({ initialNotices }) =
                     </div>
                 )}
             </div>
+
+            {/* GLOBAL CONFIRM DELETE MODAL */}
+            <Dialog open={isDeleteModalOpen} onOpenChange={setIsDeleteModalOpen}>
+                <DialogContent className="max-w-sm w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-xl p-6">
+                    <DialogHeader>
+                        <DialogTitle className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                            <Trash2 className="w-5 h-5 text-destructive" />
+                            Confirm Deletion
+                        </DialogTitle>
+                        <DialogDescription className="text-xs text-slate-500 pt-2">
+                            Are you absolutely sure you want to delete this notice? This action cannot be undone.
+                        </DialogDescription>
+                    </DialogHeader>
+                    <div className="flex justify-end gap-2 pt-4">
+                        <Button 
+                            type="button" 
+                            variant="outline" 
+                            onClick={() => setIsDeleteModalOpen(false)} 
+                            disabled={deleteLoading}
+                            className="rounded-xl hover:cursor-pointer"
+                        >
+                            Cancel
+                        </Button>
+                        <Button 
+                            type="button" 
+                            variant="destructive" 
+                            onClick={handleDeleteNotice}
+                            disabled={deleteLoading}
+                            className="rounded-xl min-w-[80px] hover:cursor-pointer bg-[#f05a28] text-white"
+                        >
+                            {deleteLoading ? 'Deleting...' : 'Delete'}
+                        </Button>
+                    </div>
+                </DialogContent>
+            </Dialog>
         </div>
     );
 };

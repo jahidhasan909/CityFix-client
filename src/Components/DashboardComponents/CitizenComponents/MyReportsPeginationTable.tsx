@@ -132,7 +132,7 @@ const MyReportsPagination: React.FC<MyReportsPaginationProps> = ({ Reports: repo
         if (!selectedRequestToDelete) return;
 
         try {
-            // আপনার প্রোভাইড করা API এন্ডপয়েন্ট অনুযায়ী পাথ চেঞ্জ করা হয়েছে
+           
             const res = await fetch(`${baseurl}/api/own/reports/${selectedRequestToDelete}`, {
                 method: 'DELETE',
             });
@@ -141,7 +141,7 @@ const MyReportsPagination: React.FC<MyReportsPaginationProps> = ({ Reports: repo
             if (res.ok && deleteData) {
                 toast.success('Report deleted successfully!');
                 setRequestData(prev => prev.filter(req => req._id !== selectedRequestToDelete));
-                router.refresh(); // পেজের সার্ভার ডাটা ও স্টেট সিঙ্ক করার জন্য
+                router.refresh();
             } else {
                 toast.error('Failed to delete report.');
             }
@@ -162,12 +162,12 @@ const MyReportsPagination: React.FC<MyReportsPaginationProps> = ({ Reports: repo
         <div className='bg-white/10'>
             <div className="py-12 px-4 lg:py-8 max-w-7xl mx-auto space-y-6 md:space-y-8 min-h-screen pb-20 relative">
                 
-                <header className="py-10 px-10 rounded-2xl bg-gradient-to-r from-[#db0000]/20 to-red-50 dark:from-red-950/20 dark:to-slate-900 border border-red-100 dark:border-red-900/30 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                <header className="py-7 px-10 rounded-2xl bg-gradient-to-r  dark:from-red-950/20 dark:to-slate-900 border border-gray-100 dark:border-red-900/30 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                     <div>
-                        <h1 className="text-xl md:text-3xl font-bold text-slate-800 dark:text-white">
-                            Welcome back, <span className="text-red-600 font-extrabold">{user?.name || "Citizen"}</span> !
+                        <h1 className="text-xl md:text-2xl font-bold text-slate-800 dark:text-white">
+                            Welcome back, <span className="text-[#f05a28] font-extrabold">{user?.name || "Citizen"}</span> !
                         </h1>
-                        <p className="lg:text-[1rem] text-xs text-slate-500 dark:text-slate-400 mt-1">View and manage all citizen reports and requests.</p>
+                        <p className="lg:text-[1rem] text-xs text-slate-500 dark:text-slate-400 mt-1">View and manage all reports.</p>
                     </div>
 
                     <div className="flex items-center gap-2 self-end sm:self-auto">
@@ -230,7 +230,7 @@ const MyReportsPagination: React.FC<MyReportsPaginationProps> = ({ Reports: repo
                                                 
                                                 <TableCell>
                                                     <Link href={`/dashboard/citizen/feedback/${request._id}`}>
-                                                        <Button variant="outline" size="sm" className="text-xs gap-1.5 font-bold border-slate-200 hover:bg-slate-100 dark:border-slate-700 dark:hover:bg-slate-800">
+                                                        <Button variant="outline" size="sm" className="text-xs gap-1.5 font-bold border-slate-200 hover:bg-slate-100 dark:border-slate-700 dark:hover:bg-slate-800 hover:cursor-pointer">
                                                             <MessageSquare className="h-3.5 w-3.5 text-slate-500" />
                                                             <span>View Comments ({count})</span>
                                                         </Button>
@@ -362,13 +362,13 @@ const DonorActionDropdown: React.FC<DonorActionDropdownProps> = ({ request, onDe
     return (
         <DropdownMenu>
             <DropdownMenuTrigger >
-                <Button variant="ghost" className="h-8 w-8 p-0 focus-visible:ring-0">
+                <Button variant="ghost" className="h-8 w-8 p-0 focus-visible:ring-0 hover:cursor-pointer">
                     <span className="sr-only">Open menu</span>
                     <MoreVertical className="h-4 w-4" />
                 </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-40 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
-                <DropdownMenuItem className="cursor-pointer text-xs font-medium" >
+            <DropdownMenuContent align="end" className="w-40 bg-white  dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
+                <DropdownMenuItem className="cursor-pointer hover:bg-gray-200 text-xs font-medium" >
                     <Link href={`/dashboard/citizen/${request._id}`} className="flex items-center gap-2 w-full">
                         <Eye className="h-3.5 w-3.5" />
                         <span>View Details</span>
@@ -376,12 +376,12 @@ const DonorActionDropdown: React.FC<DonorActionDropdownProps> = ({ request, onDe
                 </DropdownMenuItem>
                 
                 {isResolved ? (
-                    <DropdownMenuItem disabled className="text-xs font-medium text-slate-400 dark:text-slate-600 flex items-center gap-2 opacity-50 cursor-not-allowed">
+                    <DropdownMenuItem disabled className="text-xs font-medium text-slate-400 dark:text-slate-600 flex items-center gap-2 hover:bg-gray-200 opacity-50 cursor-not-allowed">
                         <Edit2 className="h-3.5 w-3.5" />
                         <span>Edit (Disabled)</span>
                     </DropdownMenuItem>
                 ) : (
-                    <DropdownMenuItem className="cursor-pointer text-xs font-medium" >
+                    <DropdownMenuItem className="cursor-pointer text-xs hover:bg-gray-200 font-medium" >
                         <Link href={`/dashboard/citizen/edit/${request._id}`} className="flex items-center gap-2 w-full">
                             <Edit2 className="h-3.5 w-3.5" />
                             <span>Edit Request</span>
@@ -390,7 +390,7 @@ const DonorActionDropdown: React.FC<DonorActionDropdownProps> = ({ request, onDe
                 )}
 
                 <DropdownMenuItem 
-                    className="cursor-pointer text-xs font-medium text-destructive focus:text-destructive focus:bg-destructive/10 flex items-center gap-2"
+                    className="cursor-pointer text-xs font-medium text-destructive focus:text-destructive hover:bg-gray-200 focus:bg-destructive/10 flex items-center gap-2"
                     onClick={() => onDelete(request._id)}
                 >
                     <Trash2 className="h-3.5 w-3.5" />

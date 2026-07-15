@@ -91,15 +91,15 @@ const FaqSection = () => {
                 
                 <div className="text-center space-y-3 mb-16">
                     
-                    <h2 className="text-2xl md:text-4xl font-extrabold text-slate-950 dark:text-white tracking-tight">
-                        Frequently Asked Questions
+                    <h2 className="text-2xl md:text-3xl font-extrabold text-slate-950 dark:text-white tracking-tight">
+                    Everything You Need to Know
                     </h2>
-                    <p className="text-xs md:text-sm text-slate-500 dark:text-slate-400 max-w-md mx-auto leading-relaxed">
+                    <p className="text-xs md:text-base text-slate-500 dark:text-slate-400 max-w-md mx-auto leading-relaxed">
                         Got questions? We have got answers. Everything you need to know about the CityFix ecosystem.
                     </p>
                 </div>
 
-                {/* ACCORDION CONTAINER */}
+                
                 <div className="bg-slate-50/60 dark:bg-slate-900/40 border border-slate-200/60 dark:border-slate-800/70 rounded-[2rem] p-6 md:p-8 backdrop-blur-xs shadow-xs">
                     {faqs.map((faq, index) => (
                         <FaqItem

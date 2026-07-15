@@ -10,6 +10,7 @@ import {
   ShieldCheck, 
   ArrowRight 
 } from 'lucide-react';
+import Link from 'next/link';
 
 const FeaturesSection = () => {
   return (
@@ -18,11 +19,11 @@ const FeaturesSection = () => {
         
        
         <div className="space-y-3 text-center">
-          <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight text-slate-950 dark:text-white">
+          <h2 className="text-2xl md:text-3xl font-extrabold tracking-tight text-slate-950 dark:text-white">
             Why Choose CityFix
           </h2>
           <p className="text-sm md:text-base text-slate-500 dark:text-slate-400 leading-relaxed ">
-           Discover the features that make CityFix the trusted platform for reporting issues, <br /> finding skilled professionals, and strengthening communities across Bangladesh.
+           Discover the features that make CityFix the trusted platform for reporting issues, finding skilled <br /> professionals,  and strengthening communities across Bangladesh.
           </p>
         </div>
 
@@ -42,9 +43,9 @@ const FeaturesSection = () => {
             </div>
   
             <div className="absolute bottom-0 right-0 bg-[#f8fafc] dark:bg-slate-950 pl-4 pt-4 rounded-tl-[24px]">
-              <button className="flex items-center gap-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-5 py-2.5 rounded-xl text-xs font-bold shadow-xs hover:border-emerald-500 transition-colors">
+              <Link href={'/reports'}><button className="flex items-center gap-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-5 py-2.5 rounded-xl text-xs font-bold shadow-xs hover:border-emerald-500 transition-colors">
                 File Report <ArrowRight className="w-3.5 h-3.5" />
-              </button>
+              </button></Link>
             </div>
           </div>
 

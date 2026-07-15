@@ -66,30 +66,30 @@ const Fundingpage: React.FC = () => {
 
   return (
     <div className='bg-white/10 min-h-screen dark:bg-slate-950/20'>
-      <div className="max-w-[1400px] w-11/12 px-2 mx-auto py-28 md:py-40 space-y-6 md:space-y-8 pb-24 relative">
+      <div className="max-w-[1400px] w-11/12 px-2 mx-auto py-20 md:py-29 space-y-6 md:space-y-8 pb-24 relative">
         
         <div className='text-center'>
-          <h1 className='text-2xl lg:text-4xl font-bold text-slate-900 dark:text-white'>Community Funding History</h1>
+          <h1 className='text-2xl lg:text-3xl font-bold text-slate-900 dark:text-white'>Community Funding History</h1>
           <p className='text-xs md:text-[1rem] text-gray-500 dark:text-gray-300 mt-2'>
-            View recent community donations and contribute to support our mission.
+            View recent community contribute to support our mission.
           </p>
           
         </div>
 
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between bg-gradient-to-r from-[#db0000]/20 to-red-55 dark:from-slate-900 dark:to-slate-800 p-6 rounded-2xl border border-slate-100 dark:border-slate-700 gap-4 shadow-xs">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between bg-gradient-to-r from-[#f05a28]/50 to-orange-60 dark:from-slate-900 dark:to-slate-800 p-6 rounded-2xl border border-slate-100 dark:border-slate-700 gap-4 shadow-xs">
           <div>
             <h1 className="text-xl md:text-2xl font-bold text-slate-800 dark:text-white">Contribute Now</h1>
           </div>
 
-          <div className="relative inline-block p-[2px] overflow-hidden rounded-xl group">
+          <div className="relative inline-block p-[2px] overflow-hidden rounded-2xl group">
             <motion.span
               animate={{ rotate: 360 }}
               transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
-              className="absolute inset-[-1000%] bg-[conic-gradient(from_90deg_at_50%_50%,#E2E8F0_0%,#E11D48_50%,#E2E8F0_100%)]"
+              className="absolute inset-[-1000%] bg-[conic-gradient(from_90deg_at_50%_50%,#E2E8F0_0%,#f05a28_50%,#E2E8F0_100%)]"
             />
             <Button
               onClick={() => setIsOpen(true)}
-              className="relative font-bold bg-[#db0000] hover:bg-[#db00008b] text-white text-base h-12 px-6 rounded-xl transition-all flex items-center justify-center w-full border-none"
+              className="relative font-bold bg-[#f05a28] hover:bg-[#f05a28b6] hover:cursor-pointer text-white text-base h-11 px-6 rounded-2xl transition-all flex items-center justify-center w-full border-none"
             >
               <RiRefund2Line className="mr-2" />
               Give Fund
@@ -171,7 +171,7 @@ const Fundingpage: React.FC = () => {
               )}
             </div>
 
-            {/* Mobile Card View */}
+          
             <div className="block lg:hidden space-y-4">
               {loading ? (
                 <div className="text-center p-8 text-slate-400">Loading funding history...</div>

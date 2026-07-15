@@ -128,10 +128,10 @@ const AllUsersManagementPage: React.FC<AllUsersManagementPageProps> = ({ Users }
         <div className='dark:bg-slate-950 min-h-screen'>
             <div className="py-10 px-4 max-w-7xl mx-auto space-y-6 relative">
 
-                <header className="p-6 rounded-2xl bg-gradient-to-r from-red-500/10 to-red-50 dark:from-slate-900 dark:to-slate-900 border border-red-100 dark:border-slate-800 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                <header className="p-6 rounded-2xl bg-gradient-to-r  from-bg-slate-50 dark:from-slate-900 dark:to-slate-900 border-gray-100 border dark:border-slate-800 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                     <div>
                         <h1 className="text-xl lg:text-2xl font-bold text-slate-900 dark:text-white">
-                            Citizen Management Panel <span className="text-red-600 font-extrabold">(Admin)</span>
+                            Citizen Management Panel <span className="text-[#f05a28] font-extrabold">(Admin)</span>
                         </h1>
                         <p className="text-xs lg:text-sm text-slate-500 dark:text-slate-400 mt-1">
                             Manage platform citizens, block/unblock, or upgrade their roles to Officer/Admin.
@@ -141,19 +141,19 @@ const AllUsersManagementPage: React.FC<AllUsersManagementPageProps> = ({ Users }
                     <div className="flex bg-slate-100 dark:bg-slate-800 p-1 rounded-xl self-start md:self-auto">
                         <button
                             onClick={() => setStatusFilter('all')}
-                            className={`px-3 py-1.5 text-xs font-semibold rounded-lg transition-all ${statusFilter === 'all' ? 'bg-red-600 text-white' : 'text-slate-600 dark:text-slate-400'}`}
+                            className={`px-3 py-1.5 text-xs font-semibold hover:cursor-pointer rounded-lg transition-all ${statusFilter === 'all' ? 'bg-[#f05a28] text-white' : 'text-slate-600 dark:text-slate-400'}`}
                         >
                             All Citizens ({usersList.length})
                         </button>
                         <button
                             onClick={() => setStatusFilter('active')}
-                            className={`px-3 py-1.5 text-xs font-semibold rounded-lg transition-all ${statusFilter === 'active' ? 'bg-emerald-600 text-white' : 'text-slate-600 dark:text-slate-400'}`}
+                            className={`px-3 py-1.5 text-xs hover:cursor-pointer font-semibold rounded-lg transition-all ${statusFilter === 'active' ? 'bg-emerald-600 text-white' : 'text-slate-600 dark:text-slate-400'}`}
                         >
                             Active ({usersList.filter(u => u.status === 'active').length})
                         </button>
                         <button
                             onClick={() => setStatusFilter('blocked')}
-                            className={`px-3 py-1.5 text-xs font-semibold rounded-lg transition-all ${statusFilter === 'blocked' ? 'bg-amber-600 text-white' : 'text-slate-600 dark:text-slate-400'}`}
+                            className={`px-3 py-1.5 text-xs hover:cursor-pointer font-semibold rounded-lg transition-all ${statusFilter === 'blocked' ? 'bg-amber-600 text-white' : 'text-slate-600 dark:text-slate-400'}`}
                         >
                             Blocked ({usersList.filter(u => u.status === 'blocked').length})
                         </button>
@@ -202,7 +202,7 @@ const AllUsersManagementPage: React.FC<AllUsersManagementPageProps> = ({ Users }
                                             <TableCell className="text-center">
                                                 <DropdownMenu>
                                                     <DropdownMenuTrigger >
-                                                        <Button size="icon" variant="ghost" className="rounded-full">
+                                                        <Button size="icon" variant="ghost" className="rounded-full hover:cursor-pointer">
                                                             <MoreVertical className="w-4 h-4" />
                                                         </Button>
                                                     </DropdownMenuTrigger>
